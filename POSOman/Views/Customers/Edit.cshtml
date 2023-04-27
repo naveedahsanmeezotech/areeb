@@ -354,8 +354,45 @@
 
             });
 
+
+            $('#DeliveryDate').on('change', function () {
+
+
+                var dateString = document.getElementById('DeliveryDate').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate < today) {
+                    alert('Please select a date coming days.');
+                    $(this).val('')
+                }
+                return true;
+
+            });
+
+            $('#OrderDate').on('change', function () {
+
+
+                var dateString = document.getElementById('OrderDate').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate < today) {
+                    alert('Please select a date coming days.');
+                    $(this).val('')
+                }
+                return true;
+
+            });
+
             $('#date_of_birth').on('change', function () {
-           
+                //var selectedDate = new Date($(this).val());
+                //var tomorrow = new Date();
+                //tomorrow.setDate(tomorrow.getDate() + 1);
+                //debugger
+                //if (selectedDate >= tomorrow) {
+                //    alert('Please select a date that is not the next day.');
+                //    $(this).val('');
+                //}
+
                 var dateString = document.getElementById('date_of_birth').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
@@ -365,10 +402,10 @@
                 }
                 return true;
             });
-            $('#DateofDeath').on('change', function () {
+            $('#Dob').on('change', function () {
 
 
-                var dateString = document.getElementById('DateofDeath').value;
+                var dateString = document.getElementById('Dob').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
                 if (myDate > today) {
@@ -378,10 +415,11 @@
                 return true;
             });
 
-            $('#DeceasedDateofBirth').on('change', function () {
+
+            $('#DDob').on('change', function () {
 
 
-                var dateString = document.getElementById('DeceasedDateofBirth').value;
+                var dateString = document.getElementById('DDob').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
                 if (myDate > today) {
