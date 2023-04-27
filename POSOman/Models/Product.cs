@@ -15,7 +15,8 @@ namespace MangoERP.Models
     public partial class Product
     {
         public int Id { get; set; }
-        public string ProductName { get; set; }
+        public string MaterialName { get; set; }
         public string Description { get; set; }
+        public string UnitOfMeasure { get; set; }
     }
 }

@@ -14,11 +14,20 @@ namespace MangoERP.Models
     
     public partial class Grave_Size
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Grave_Size()
+        {
+            this.Customers = new HashSet<Customer>();
+        }
+    
         public int Id { get; set; }
         public string Sizes { get; set; }
         public string Cement { get; set; }
         public string Slab { get; set; }
         public string Blocks { get; set; }
         public Nullable<decimal> Price { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

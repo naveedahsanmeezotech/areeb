@@ -126,8 +126,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaterialName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnitOfMeasure" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
@@ -144,6 +145,16 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Section" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UserAction_Log">
           <Key>
@@ -184,6 +195,18 @@
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="GraveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Grave_Size">
+          <End Role="Grave_Size" Type="Self.Grave_Size" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grave_Size">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="GraveSizeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -279,11 +302,16 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAction_Log" EntityType="Self.UserAction_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users_Log" EntityType="Self.Users_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Customer_Grave" Association="Self.FK_Customer_Grave">
             <End Role="Grave" EntitySet="Grave" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Grave_Size" Association="Self.FK_Customer_Grave_Size">
+            <End Role="Grave_Size" EntitySet="Grave_Size" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -400,8 +428,19 @@
           <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GraveSizeId" Type="Int32" />
+          <NavigationProperty Name="Grave" Relationship="Self.FK_Customer_Grave" FromRole="Customer" ToRole="Grave" />
+          <NavigationProperty Name="Grave_Size" Relationship="Self.FK_Customer_Grave_Size" FromRole="Customer" ToRole="Grave_Size" />
           <NavigationProperty Name="SaleOrders" Relationship="Self.FK_SaleOrder_Customer" FromRole="Customer" ToRole="SaleOrder" />
-          <NavigationProperty Name="Grave" Relationship="db_fypModel.FK_Customer_Grave" FromRole="Customer" ToRole="Grave" />
+        </EntityType>
+        <EntityType Name="Grave">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Section_Id" Type="Int32" />
+          <Property Name="Grave_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Grave_Status_Id" Type="Int32" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_Grave" FromRole="Grave" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Grave_Size">
           <Key>
@@ -413,6 +452,7 @@
           <Property Name="Slab" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Blocks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_Grave_Size" FromRole="Grave_Size" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Grave_Status">
           <Key>
@@ -421,13 +461,15 @@
           <Property Name="Status_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status_Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Product">
+        <EntityType Name="PaymentCard">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Expire" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
@@ -445,6 +487,16 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Section1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="UserAction_Log">
           <Key>
@@ -533,6 +585,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Customer_Grave">
+          <End Role="Grave" Type="Self.Grave" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="GraveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Grave_Size">
+          <End Role="Grave_Size" Type="Self.Grave_Size" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grave_Size">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="GraveSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SaleOrder_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
@@ -564,11 +640,13 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Graves" EntityType="Self.Grave" />
           <EntitySet Name="Grave_Size" EntityType="Self.Grave_Size" />
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="PaymentCards" EntityType="Self.PaymentCard" />
           <EntitySet Name="SaleOrders" EntityType="Self.SaleOrder" />
           <EntitySet Name="Sections" EntityType="Self.Section" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="UserAction_Log" EntityType="Self.UserAction_Log" />
           <EntitySet Name="Users_Log" EntityType="Self.Users_Log" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
@@ -588,6 +666,14 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Users_Log" EntitySet="Users_Log" />
           </AssociationSet>
+          <AssociationSet Name="FK_Customer_Grave" Association="Self.FK_Customer_Grave">
+            <End Role="Grave" EntitySet="Graves" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Grave_Size" Association="Self.FK_Customer_Grave_Size">
+            <End Role="Grave_Size" EntitySet="Grave_Size" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
           <AssociationSet Name="FK_SaleOrder_Customer" Association="Self.FK_SaleOrder_Customer">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SaleOrder" EntitySet="SaleOrders" />
@@ -596,44 +682,16 @@
             <End Role="Users_Log" EntitySet="Users_Log" />
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
           </AssociationSet>
-          <EntitySet Name="Graves" EntityType="db_fypModel.Grave" />
-          <AssociationSet Name="FK_Customer_Grave" Association="db_fypModel.FK_Customer_Grave">
-            <End Role="Grave" EntitySet="Graves" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <EntitySet Name="PaymentCards" EntityType="db_fypModel.PaymentCard" />
+          <EntitySet Name="Products" EntityType="db_fypModel.Product" />
         </EntityContainer>
-        <EntityType Name="Grave">
+        <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Section_Id" Type="Int32" />
-          <Property Name="Grave_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Grave_Status_Id" Type="Int32" />
-          <NavigationProperty Name="Customers" Relationship="db_fypModel.FK_Customer_Grave" FromRole="Grave" ToRole="Customer" />
-        </EntityType>
-        <Association Name="FK_Customer_Grave">
-          <End Type="db_fypModel.Grave" Role="Grave" Multiplicity="0..1" />
-          <End Type="db_fypModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Grave">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="GraveId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="PaymentCard">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Expire" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="MaterialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitOfMeasure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -723,6 +781,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Graves">
+            <EntityTypeMapping TypeName="db_fypModel.Grave">
+              <MappingFragment StoreEntitySet="Grave">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Section_Id" ColumnName="Section_Id" />
+                <ScalarProperty Name="Grave_Name" ColumnName="Grave_Name" />
+                <ScalarProperty Name="Grave_Status_Id" ColumnName="Grave_Status_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Grave_Size">
             <EntityTypeMapping TypeName="db_fypModel.Grave_Size">
               <MappingFragment StoreEntitySet="Grave_Size">
@@ -743,12 +811,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="db_fypModel.Product">
-              <MappingFragment StoreEntitySet="Product">
+          <EntitySetMapping Name="PaymentCards">
+            <EntityTypeMapping TypeName="db_fypModel.PaymentCard">
+              <MappingFragment StoreEntitySet="PaymentCard">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Expire" ColumnName="Expire" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -767,6 +837,17 @@
               <MappingFragment StoreEntitySet="Section">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Section1" ColumnName="Section" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="db_fypModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -803,23 +884,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Graves">
-            <EntityTypeMapping TypeName="db_fypModel.Grave">
-              <MappingFragment StoreEntitySet="Grave">
-                <ScalarProperty Name="Grave_Status_Id" ColumnName="Grave_Status_Id" />
-                <ScalarProperty Name="Grave_Name" ColumnName="Grave_Name" />
-                <ScalarProperty Name="Section_Id" ColumnName="Section_Id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentCards">
-            <EntityTypeMapping TypeName="db_fypModel.PaymentCard">
-              <MappingFragment StoreEntitySet="PaymentCard">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Expire" ColumnName="Expire" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="db_fypModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

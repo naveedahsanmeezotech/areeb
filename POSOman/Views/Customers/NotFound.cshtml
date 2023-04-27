@@ -28,6 +28,12 @@
                                             </select>
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Grave Name</label>
+                                            <br>
+                                            <input class="form-control" value="@TempData["GraveName"]" readonly />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label> Grave Size</label>
                                             <br>
                                             <select class="form-control targetGraveSize" name="GraveSizeId" required>
@@ -37,12 +43,7 @@
                                                 <option id="2" value="3">new born</option>
                                             </select>
                                         </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label>Grave Name</label>
-                                            <br>
-                                            <input class="form-control" value="@TempData["GraveName"]" readonly />
 
-                                        </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>First  Name</label>
                                             <br>
@@ -60,13 +61,13 @@
                                             <label>Delivery Date</label>
                                             <br>
 
-                                            <input class="form-control" type="date" name="DeliveryDate" required  id="DeliveryDate"/>
+                                            <input class="form-control" type="date" name="DeliveryDate"  id="DeliveryDate" />
 
                                         </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2" style="display:none">
                                             <label>Order Date</label>
                                             <br>
-                                            <input class="form-control" type="date" name="OrderDate" required  id="OrderDate"/>
+                                            <input class="form-control" type="date" name="OrderDate" id="OrderDate" />
 
                                         </div>
 
@@ -75,7 +76,7 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Contact</label>
                                             <br>
-                                            <input class="form-control" type="text" name="Contact" id="phone" required />
+                                            <input class="form-control" type="number" name="Contact" id="phone" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
@@ -109,7 +110,7 @@
                                             <label>Date Of Birth</label>
                                             <br>
 
-                                            <input class="form-control" type="date" name="date_of_birth"  id="date_of_birth"required />
+                                            <input class="form-control" type="date" name="date_of_birth" id="date_of_birth" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-6">
@@ -135,7 +136,7 @@
                                             <label>Deceased Cnic </label>
                                             <br>
 
-                                            <input class="form-control" type="text" name="DeceasedCnic" />
+                                            <input class="form-control" type="text" name="DeceasedCnic"  id="DeceasedCnic" onchange="validateInputde()"/>
 
 
                                         </div>
@@ -222,6 +223,19 @@ s
                 cnicInput.setCustomValidity("");
             }
         }
+        function validateInputde() {
+            debugger
+            var cnicInput = document.getElementById("DeceasedCnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
         function saew() {
             var cnicInput = document.getElementById("cnic");
             var cnic = cnicInput.value;
@@ -260,10 +274,17 @@ s
                 var data = $(this).val();
                 debugger
                 if (data == "Booked") {
+
+
                     $("#show").show();
+                    
+                    $("#DeliveryDate").show();
+
                 }
                 else {
                     $("#show").hide();
+
+                    $("#DeliveryDate").hide();
                 }
 
      
@@ -277,12 +298,12 @@ s
                 var dateString = document.getElementById('DeliveryDate').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
-                if (myDate < today) {
+               
+                 if (myDate < today) {
                     alert('Please select a date coming days.');
                     $(this).val('')
                 }
-                return true;
-
+             
             });
            
             $('#OrderDate').on('change', function () {

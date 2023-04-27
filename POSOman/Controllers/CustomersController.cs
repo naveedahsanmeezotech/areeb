@@ -183,7 +183,7 @@ namespace MangoERP.Controllers
                 po.date_of_birth = customer.date_of_birth;
                 po.Creation_Date =DateTime.Now;
                 po.DeliveryDate = customer.DeliveryDate;
-                po.OrderDate = customer.OrderDate;
+                po.OrderDate = DateTime.Now;
                 po.DeceasedPerson = customer.DeceasedPerson;
                 po.DeceasedCnic = customer.DeceasedCnic;
                 po.ReasonOfDeath = customer.ReasonOfDeath;
