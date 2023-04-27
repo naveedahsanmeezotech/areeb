@@ -1,0 +1,5 @@
+.hidden-div{display: none;}
+ @media print{
+   .hidden-div{display:block; page-break-before: avoid;}
+   .AutoGrowTextArea{display: none;}
+}

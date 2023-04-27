@@ -1,0 +1,12 @@
+@media print {
+   @page
+  {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+    #btns {
+        display: none !important;
+    }
+
+   
+}

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MangoERP.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                            <table class="table" id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                          First Name
+                                        </th>
+                                        <th>
+                                           Last Name
+                                        </th>
+
+                                        <th>
+                                           Creation Date
+                                        </th>
+                                        <th>
+                                            Delivery Date
+                                        </th>
+                                        <th>
+                                            Order Date
+                                        </th>
+
+                                        <th>
+                                          CNIC
+                                        </th>
+                                        <th>
+                                          Date of Birth
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.first_name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.last_name)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Creation_Date)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DeliveryDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OrderDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.cnic)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.date_of_birth)
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("Details", "Details", new { id = item.customer_ID })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+</table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>    
+     
+@section Scripts
+    {
+    <script type="text/javascript">
+
+
+
+                                        $(document).ready(function () {
+                                            $('#table1').DataTable();
+                                           
+                                        });
+    </script>
+}
+           

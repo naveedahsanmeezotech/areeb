@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Paymen";
+}
+
+<h2>Payment</h2>
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                            <form action="~/Graves/Payment" method="post">
+                               
+                                <div class="form-group mb-1 col-sm-12 col-md-2">
+                                    <label>Card Number</label>
+                                    <br>
+                                    <input class="form-control" name="CardNumber"  placeholder="400000000001" required />
+
+                                </div><input class="form-control" type="hidden" name="id" value="@ViewBag.id" />
+
+                                <input type="submit" value="Save" class="btn btn-default" />
+
+                            </form>
+</div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+           

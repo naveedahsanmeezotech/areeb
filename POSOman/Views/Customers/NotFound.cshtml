@@ -1,0 +1,351 @@
+﻿@model MangoERP.Models.Customer
+
+
+
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                            @using (Html.BeginForm("AssignGrave", "Customers", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-body">
+                                    <h4 class="form-section"><i class="icon-eye6"></i>Customer </h4>
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Type</label>
+                                            <br>
+                                            <select class="form-control target" name="typedetail" required>
+                                                <option>Select Option</option>
+                                                <option id="1" value="Booked">Booked</option>
+                                                <option id="2" value="Reserved">Reserved</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Grave Size</label>
+                                            <br>
+                                            <select class="form-control targetGraveSize" name="GraveSizeId" required>
+                                                <option>Select Option</option>
+                                                <option id="1" value="1">Adult</option>
+                                                <option id="2" value="2">Child</option>
+                                                <option id="2" value="3">new born</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Grave Name</label>
+                                            <br>
+                                            <input class="form-control" value="@TempData["GraveName"]" readonly />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>First  Name</label>
+                                            <br>
+
+                                            <input class="form-control" name="first_name" required />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Last Name</label>
+                                            <br>
+                                            <input class="form-control" name="last_name" required />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Delivery Date</label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DeliveryDate" required  id="DeliveryDate"/>
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Order Date</label>
+                                            <br>
+                                            <input class="form-control" type="date" name="OrderDate" required  id="OrderDate"/>
+
+                                        </div>
+
+
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Contact</label>
+                                            <br>
+                                            <input class="form-control" type="text" name="Contact" id="phone" required />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Email</label>
+                                            <br>
+
+                                            <input class="form-control" type="email" name="Email" required />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Country</label>
+                                            <br>
+                                            <input class="form-control" name="Country" value="Pakistan" required />
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>City</label>
+                                            <br>
+                                            <input class="form-control" name="City" value="Karachi" required />
+
+                                        </div>
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Cnic</label>
+                                            <br>
+                                            <input class="form-control" id="cnic" type="text" name="cnic" required onchange="validateInput()" />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Date Of Birth</label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="date_of_birth"  id="date_of_birth"required />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-6">
+                                            <label>Address</label>
+                                            <br>
+
+                                            <input class="form-control" type="text" name="Address" required />
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row" id="show">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased Person </label>
+                                            <br>
+
+                                            <input class="form-control" type="text" name="DeceasedPerson" />
+
+
+                                        </div>
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased Cnic </label>
+                                            <br>
+
+                                            <input class="form-control" type="text" name="DeceasedCnic" />
+
+
+                                        </div>
+                                        <div class="form-group" style="display:none">
+                                            <div class="col-md-10">
+                                                <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Reason Of Death </label>
+                                            <br>
+
+                                            <input class="form-control" type="text" name="ReasonOfDeath" />
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Date of Death </label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" />
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased  Date of Birth </label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth" />
+
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                                        <label>Action</label>
+                                        <br>
+
+                                        <input type="submit" value="Save" class="btn btn-default" />
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+s
+
+
+
+@section Scripts
+    {
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function validateCNIC(cnic) {
+            var regex = /^(\d{5})-?(\d{7})-?(\d{1})$/i;
+            return regex.test(cnic);
+        }
+
+        function validateInput() {
+            var cnicInput = document.getElementById("cnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
+        function saew() {
+            var cnicInput = document.getElementById("cnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
+        $(document).ready(function () {
+
+
+            $("#phone").on("change", function () {
+                if ($("#phone").val() == "") {
+                    phoneerror = "Please enter phone number";
+                } else if (!($.isNumeric($("#phone").val())) && $("#phone").val() != "") {
+                    phoneerror = "this field cannot contain letters";
+                }
+                debugger 
+                var data = $("#phone").val();
+                var ddata = data.length;
+                if (ddata != 11) {
+                    phoneerror = "Must be 11 Digits";
+                    $("#phone").val("");
+                } else {
+                    phoneerror = "";
+                }
+
+              
+            });
+
+            $(".target").on("change", function () {
+                var data = $(this).val();
+                debugger
+                if (data == "Booked") {
+                    $("#show").show();
+                }
+                else {
+                    $("#show").hide();
+                }
+
+     
+            });
+
+            
+
+            $('#DeliveryDate').on('change', function () {
+
+
+                var dateString = document.getElementById('DeliveryDate').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate < today) {
+                    alert('Please select a date coming days.');
+                    $(this).val('')
+                }
+                return true;
+
+            });
+           
+            $('#OrderDate').on('change', function () {
+
+
+                var dateString = document.getElementById('OrderDate').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate < today) {
+                    alert('Please select a date coming days.');
+                    $(this).val('')
+                }
+                return true;
+
+            });
+
+            $('#date_of_birth').on('change', function () {
+                //var selectedDate = new Date($(this).val());
+                //var tomorrow = new Date();
+                //tomorrow.setDate(tomorrow.getDate() + 1);
+                //debugger
+                //if (selectedDate >= tomorrow) {
+                //    alert('Please select a date that is not the next day.');
+                //    $(this).val('');
+                //}
+
+                var dateString = document.getElementById('date_of_birth').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+            $('#DateofDeath').on('change', function () {
+               
+
+                var dateString = document.getElementById('DateofDeath').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+
+
+            $('#DeceasedDateofBirth').on('change', function () {
+
+
+                var dateString = document.getElementById('DeceasedDateofBirth').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+
+           
+        });
+    </script>
+}

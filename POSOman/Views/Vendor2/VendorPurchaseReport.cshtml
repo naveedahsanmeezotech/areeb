@@ -1,0 +1,172 @@
+﻿@model IEnumerable<MangoERP.Models.GetVendorPurchasesDateWise_Result>
+
+@{
+    ViewBag.Title = "Index";
+}<style>
+    @@media print {
+        html, body {
+            height: 90vh;
+        }
+    }
+</style>
+<div class="content-body" id="content">
+    <!-- DOM - jQuery events table -->
+    <section id="dom">
+        <div class="row">
+            <div class="col-12">
+                <h2>VENDOR PURCHASES</h2> <br />   
+                <div class="form-row">
+                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                        <label>From Date</label>
+                        <input id="fromDate" type="date" class="form-control pickadate" placeholder="From Date" />
+
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                        <label>To Date</label>
+                        <input id="toDate" type="date" class="form-control pickadate" placeholder="To Date" />
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                        <label>Vendor</label>
+                        <input type="hidden" id="hdnAccountID" name="hdnAccountID">
+                        <div class="input-group">
+                            @Html.DropDownList("AccountID", new SelectList(ViewBag.vendor, "Value", "Name"), "Select Vendor", htmlAttributes: new { @class = "select2 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-2" hidden>
+                        <label>Branch</label>
+                        <div class="input-group">
+                            @Html.DropDownList("Branch", new SelectList(ViewBag.Branch, "Value", "Name"), "Branch", htmlAttributes: new { @class = "select2 form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                        <label></label>
+                        <br>
+                        <button type="button" class="btn btn-primary" id="btnSearch">Search</button>
+                    </div>
+                </div>
+
+
+                <div id="SearchResult">
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="~/Content/vendors/css/extensions/sweetalert.css">
+    <script src="~/Scripts/vendor/js/extensions/sweetalert.min.js" type="text/javascript"></script>
+
+    <script>
+        $("#AccountID").change(function () {
+            var customerID = $('#AccountID').val();
+            $('#hdnAccountID').val(customerID);
+        });
+
+        $("#AccountID").select2();
+        $("#btnSearch").on("click", function () {
+            var accountID = $('#hdnAccountID').val();
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var BranchID = $('#Branch').val();
+            var Branch = $("#Branch option:selected").text();
+            var html = "<h3 style=margin-top:208px; margin-bottom:76px; align=center>Vendor Purchase Report</h3><br/>";
+            if (BranchID != "")
+            { html += "<h4>Branch:  " + Branch + "</h4>"; }
+            var vendorName = $("#AccountID option:selected").text();
+            if (accountID > 0)
+            { html += "<h4>Vendor :  " + vendorName + "</h4>"; }
+            if (fromDate != "" && toDate != "")
+            { html += "<h4>From:    " + fromDate + "            TO:    " + toDate + " </h4>"; }
+            //if (accountID == 0)
+            //{
+            //    swal("Select","Please Select Vendor!","error");
+            //}
+            //else if (fromDate == "") {
+            //    swal("Select", "Please Select Date From!", "error");
+            //}
+            //else if (toDate == "") {
+            //    swal("Select", "Please Select Date To!", "error");
+            //}
+            //else if (accountID > 0 && fromDate != "" && toDate != "")
+            {
+                $.ajax({
+                    url: "@Url.Action("VendorPurchases", "Vendor")",
+                    data: {
+                        isSearch: true,
+                        accountID: accountID,
+                    fromDate  : $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
+                    BranchID: BranchID
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            $("#SearchResult").html(data);
+                            var totalPurchase = $("#totalPurchase").val();
+                            var totalReturn = $("#totalReturn").val();
+                            html += "<h4>Total Purchases: " + totalPurchase + "</h4>";
+                            html += "<h4>Total Return: " + totalReturn + "</h4>";
+                            //$.fn.dataTable.moment('D/M/YYYY', 'en-US');
+                            $('#tblSO').dataTable({
+                                aoColumnDefs: [
+                                    { "aTargets": [6], "bSortable": true },
+                                { "aTargets": [5], "bSortable": true },
+                                { "aTargets": [0], "bSortable": true },
+                                { "aTargets": [3], "bSortable": true },
+                                { "aTargets": [4], "bSortable": true },
+                                { "aTargets": [1], "bSortable": true },
+                                { "aTargets": [2], "bSortable": true, "sType": "datetime-moment" },
+                                ],
+                                dom: 'Bfrtip',
+                                buttons: [
+                                    {
+                                        extend: 'print',
+                                        messageTop: function () {
+
+                                            return '<img src="@ViewBag.Picture" class="brand-logo" align = "left" margin="10px"><h1  align="center">@ViewBag.CompanyName</h1><h5 align="center">@ViewBag.CompanyAddress </h5><h5 align="center">Contact: @ViewBag.CompanyCell</h5><hr /><h4 align="center">Vendor Purchase Report</h4>';
+
+
+                                        },
+                                        title :'',
+                                        messageBottom: '<br/><h6 align="center">Developed By : Nascent Innovations</h6>',
+                                        exportOptions: {
+                                            columns: [ 1, 2,  5,6,7]
+                                        }
+                                    },
+                                {
+                                extend: 'excel',
+                            messageTop: function () {
+                                return 'Vendor Purchase Report';
+                            },
+                            messageBottom: 'Developed By: Nascent Innovations',
+                            exportOptions: {
+                                columns: [ 1, 2,  5, 6,7]
+                            }
+                        }
+                                ]
+                            });
+                            //jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                            //    "date-uk-pre": function (a) {
+                            //        var ukDatea = a.split('/');
+                            //        return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+                            //    },
+
+                            //    "date-uk-asc": function (a, b) {
+                            //        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                            //    },
+
+                            //    "date-uk-desc": function (a, b) {
+                            //        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                            //    }
+                            //});
+                        }
+
+
+                }});
+        }
+        });
+
+    </script>
+
+}

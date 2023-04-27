@@ -1,0 +1,395 @@
+﻿@model MangoERP.Models.Customer
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.HiddenFor(model => model.customer_ID)
+
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-body">
+                                    <div class="form-group" style="display:none">
+                                        @Html.LabelFor(model => model.GraveId, "GraveId", htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                                        <div class="col-md-10">
+                                            @*@Html.DropDownList("Grave_Id", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
+                                            <input class="form-control" name="GraveId" value="@ViewBag.GraveId" readonly />
+                                        </div>
+                                    </div>
+
+                                    <h4 class="form-section"><i class="icon-eye6"></i> Update Customer </h4>
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Type</label>
+                                            <br>
+                                            <select class="form-control target"  value="@ViewBag.hidden" name="typedetail" required>
+                                                <option>Select Option</option>
+                                                <option id="1" value="Booked">Booked</option>
+                                                <option id="2" value="Reserved">Reserved</option>
+                                            </select>
+                                            <input value="@ViewBag.hidden" id="selectvalue"  type="hidden"/>
+                                        </div>
+                                     
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Grave Size</label>
+                                            <br>
+                                            <select class="form-control targetGraveSize"   value="@ViewBag.hiddensize" name="GraveSizeId" required>
+                                                <option>Select Option</option>
+                                                <option id="1" value="1">Adult</option>
+                                                <option id="2" value="2">Child</option>
+                                                <option id="2" value="3">new born</option>
+                                            </select>
+                                            <input value="@ViewBag.hiddensize" id="targetGraveSize" type="hidden" />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Grave Name</label>
+                                            <br>
+                                            <input class="form-control" value="@ViewBag.GraveName" readonly />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>First  Name</label>
+                                            <br>
+
+                                             @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Last Name</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control" ,@required=""} })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Delivery Date</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @required = "" , @type = "date"  , @value= "2022-1-2" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Order Date</label>
+                                            <br>
+                                             @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+                                        </div>
+
+
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Contact</label>
+                                            <br>
+                                            @*@Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @Min = "10" , @Max = "13", @required = "" } })*@
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = "",id="phone" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Email</label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "", @type = "email" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Country</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.country, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>City</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+                                        </div>
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Cnic</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.cnic, new { htmlAttributes = new { @class = "form-control", @required = "",@Id="cnic" ,onchange = "validateInput()" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Date Of Birth</label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control",@id= "date_of_birth", @required = "" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-6">
+                                            <label>Address</label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row" id="show">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased Person </label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.DeceasedPerson, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+                                        </div>
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased Cnic </label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.DeceasedCnic, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+                                        </div>
+                                        @*<div class="form-group" style="display:none">
+            <div class="col-md-10">
+                <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
+
+            </div>
+        </div>*@
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Reason Of Death </label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.ReasonOfDeath, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Date of Death </label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.DateofDeath, new { htmlAttributes = new { @class = "form-control" , @id="Dob" } })
+
+
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label> Deceased Date of Birth </label>
+                                            <br>
+
+                                            @Html.EditorFor(model => model.DeceasedDateofBirth, new { htmlAttributes = new { @class = "form-control",@id="DDob" } })
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-1 col-sm-12 col-md-2">
+                                        <label>Action</label>
+                                        <br>
+
+                                        <input type="submit" value="Save" class="btn btn-default" />
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        function validateCNIC(cnic) {
+            var regex = /^(\d{5})-?(\d{7})-?(\d{1})$/i;
+            return regex.test(cnic);
+        }
+
+        function validateInput() {
+            var cnicInput = document.getElementById("cnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
+
+
+
+        $(document).ready(function()  
+        {
+
+            $("#phone").on("change", function () {
+                if ($("#phone").val() == "") {
+                    phoneerror = "Please enter phone number";
+                } else if (!($.isNumeric($("#phone").val())) && $("#phone").val() != "") {
+                    phoneerror = "this field cannot contain letters";
+                }
+                debugger
+                var data = $("#phone").val();
+                var ddata = data.length;
+                if (ddata != 11) {
+                    phoneerror = "Must be 11 Digits";
+                    $("#phone").val("");
+                } else {
+                    phoneerror = "";
+                }
+
+
+            });
+            debugger
+            var dateToday2 = $('#date_of_birth').val();
+            var date2 = new Date(dateToday2).toLocaleDateString();
+
+            $('#date_of_birth').val(date2);
+
+            var dateToday = $('#OrderDate').val();
+            var date = new Date(dateToday).toLocaleDateString();
+
+            $('#OrderDate').val(date);
+
+            var dateToday1 = $('#DeliveryDate').val();
+            var dat1e = new Date(dateToday1).toLocaleDateString();
+
+        //    $('#DeliveryDate').val(dat1e);
+
+            var d = $('#Dob').val();
+            if (d != "") {
+                var da = new Date(d).toLocaleDateString();
+
+                $('#Dob').val(da);
+            }
+            var DDob = $('#DDob').val();
+            if (DDob != "") {
+                var qa = new Date(DDob).toLocaleDateString();
+
+                $('#DDob').val(qa);
+            }
+            
+            var targetGraveSize = $("#targetGraveSize").val();
+        
+            var data = $("#selectvalue").val();
+            
+            $(".targetGraveSize").val(targetGraveSize);
+
+          debugger 
+            if (data == "Booked") {
+
+                $(".target").val("Booked");
+              //  $(".target").val("Booked");
+             //   $('.target').attr('readonly', 'true');
+
+                $("#show").show();
+            } else {
+                $(".target").val("Reserved");
+
+                $("#show").hide();
+            }
+            $(".target").on("change", function(){  
+                var data = $(this).val();
+                if (data == "Booked") {
+                    $("#show").show();
+                } else {
+                    $("#show").hide();
+                }
+
+
+            });
+
+
+
+            $(".target").on("change", function () {
+                var data = $(this).val();
+                debugger
+                if (data == "Booked") {
+                    $("#show").show();
+                }
+                else {
+                    $("#show").hide();
+                }
+
+
+            });
+
+            $('#date_of_birth').on('change', function () {
+           
+                var dateString = document.getElementById('date_of_birth').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+            $('#DateofDeath').on('change', function () {
+
+
+                var dateString = document.getElementById('DateofDeath').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+
+            $('#DeceasedDateofBirth').on('change', function () {
+
+
+                var dateString = document.getElementById('DeceasedDateofBirth').value;
+                var myDate = new Date(dateString);
+                var today = new Date();
+                if (myDate > today) {
+                    alert('Please select a date that is not the next day.');
+                    $(this).val('')
+                }
+                return true;
+            });
+        });
+</script>
+}

@@ -1,0 +1,16 @@
+﻿@media print {
+    /*@@page
+  {
+    margin-top: 0;
+    margin-bottom: 0;
+  }*/
+    #btns {
+        display: none !important;
+    }
+
+    @page {
+        /*size: A4; */
+        margin-top: 208px;
+        margin-bottom: 76px;
+    }
+}

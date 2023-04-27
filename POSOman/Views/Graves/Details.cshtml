@@ -1,0 +1,148 @@
+﻿@model MangoERP.Models.Customer
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                                      <div class="form-body">
+                                    <div class="form-group" style="display:none">
+                                        @Html.LabelFor(model => model.GraveId, "GraveId", htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                                        <div class="col-md-10">
+                                            @*@Html.DropDownList("Grave_Id", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
+                                            <input class="form-control" name="GraveId" value="@ViewBag.GraveId" readonly />
+                                        </div>
+                                    </div>
+
+                                    <h4 class="form-section"><i class="icon-eye6"></i> </h4>
+                                    <div class="row">
+
+
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Name</label>
+                                            <br>
+
+                                            <input class="form-control" value="@ViewBag.Name" />
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Order Date</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id= "OrderDate", @required = "" } })
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased Person</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.DeceasedPerson, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Delivery Date</label>
+                                            <br>
+                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id= "DeliveryDate", @required = "" } })
+
+
+                                        </div>
+                                       
+                                    </div>
+
+
+                                    <div class="row">
+                                      
+                                    </div>
+                                    <div class="row">
+                                      
+                                    </div>
+                                   
+                                </div>
+
+                            <br />
+                        
+                            <table class="table" id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Grave No
+                                        </th>
+                                        <th>
+                                           Size
+                                        </th>
+
+                                        <th>
+                                           Cost Price
+                                        </th>
+                                       
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                    <tr>
+                                        <td>@ViewBag.GraveName</td>
+                                        <td>@ViewBag.Size</td>
+                                       
+                                        <td>@ViewBag.Price</td>
+                                    </tr>
+                                    
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function()
+        {
+            var dateToday = $('#OrderDate').val();
+            var date = new Date(dateToday).toLocaleDateString();
+
+            $('#OrderDate').val(date);
+            var dateToday1 = $('#DeliveryDate').val();
+            var dat1e = new Date(dateToday1).toLocaleDateString();
+
+            $('#DeliveryDate').val(dat1e);
+
+
+            $('.form-control').attr('readonly', 'true');
+            $(".target").on("change", function(){
+                var data = $(this).val();
+                if (data == "Booking") {
+                    $("#show").show();
+                } else {
+                    $("#show").hide();
+                }
+            });
+        });
+    </script>
+}
