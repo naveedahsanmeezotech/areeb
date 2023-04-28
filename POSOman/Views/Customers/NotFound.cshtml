@@ -262,6 +262,7 @@ s
                 var ddata = data.length;
                 if (ddata != 11) {
                     phoneerror = "Must be 11 Digits";
+                    alert(phoneerror);
                     $("#phone").val("");
                 } else {
                     phoneerror = "";
@@ -278,13 +279,13 @@ s
 
                     $("#show").show();
                     
-                    $("#DeliveryDate").show();
+                   // $("#DeliveryDate").show();
 
                 }
                 else {
                     $("#show").hide();
 
-                    $("#DeliveryDate").hide();
+                 //   $("#DeliveryDate").hide();
                 }
 
      
