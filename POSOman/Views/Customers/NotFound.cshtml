@@ -136,7 +136,7 @@
                                             <label>Deceased Cnic </label>
                                             <br>
 
-                                            <input class="form-control" type="text" name="DeceasedCnic"  id="DeceasedCnic" onchange="validateInputde()"/>
+                                            <input class="form-control" type="text" name="DeceasedCnic" id="DeceasedCnic" onchange="validateInputde()" />
 
 
                                         </div>
@@ -153,23 +153,24 @@
                                             <input class="form-control" type="text" name="ReasonOfDeath" />
 
 
-                                        </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label>Date of Death </label>
-                                            <br>
-                                             
-                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath"  onchange="compareDates()" />
-
-
-                                        </div>
+                                        </div>  
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Deceased  Date of Birth </label>
                                             <br>
 
-                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth"  />
+                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth" />
 
 
                                         </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Date of Death </label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" onchange="compareDates()" />
+
+
+                                        </div>
+
                                     </div>
                                     <div class="form-group mb-1 col-sm-12 col-md-2">
                                         <label>Action</label>
@@ -242,7 +243,7 @@ s
             var isValid = validateCNIC(cnic);
             if (!isValid) {
                 alert("Invalid CNIC");
-                $("#cnic").val("");
+                $("#DeceasedCnic").val("");
 
             } else {
                 cnicInput.setCustomValidity("");
