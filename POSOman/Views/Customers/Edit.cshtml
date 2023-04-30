@@ -16,10 +16,8 @@
                             {
                                 @Html.HiddenFor(model => model.customer_ID)
                                 <div class="form-group mb-1 col-sm-12 col-md-2" display:none>
-                                    <label>First  Name</label>
-                                    <br>
 
-                                    @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control", @style="display:none" ,@id="customerid"} })
+                                    @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control", @style = "display:none", @id = "customerid" } })
 
 
                                 </div>
@@ -32,7 +30,7 @@
 
                                         <div class="col-md-10">
                                             @*@Html.DropDownList("Grave_Id", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
+                                                @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
                                             <input class="form-control" name="GraveId" value="@ViewBag.GraveId" readonly />
                                         </div>
                                     </div>
@@ -72,29 +70,26 @@
                                             <label>First  Name</label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
+                                            <input class="form-control" name="first_name" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Last Name</label>
                                             <br>
-                                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
+                                            <input class="form-control" name="last_name" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Delivery Date</label>
                                             <br>
-                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control" } })
 
+                                            <input class="form-control" type="date" name="DeliveryDate" id="DeliveryDate" />
 
                                         </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                        <div class="form-group mb-1 col-sm-12 col-md-2" style="display:none">
                                             <label>Order Date</label>
                                             <br>
-                                            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
+                                            <input class="form-control" type="date" name="OrderDate" id="OrderDate" />
 
                                         </div>
 
@@ -103,57 +98,48 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Contact</label>
                                             <br>
-                                            @*@Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @Min = "10" , @Max = "13", @required = "" } })*@
-                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = "", id = "phone" } })
-
+                                            <input class="form-control" type="number" name="Contact" id="phone" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Email</label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "", @type = "email" } })
-
+                                            <input class="form-control" type="email" name="Email" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Country</label>
                                             <br>
-                                            @Html.EditorFor(model => model.country, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
-
+                                            <input class="form-control" name="Country" value="Pakistan" required />
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>City</label>
                                             <br>
-                                            @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
+                                            <input class="form-control" name="City" value="Karachi" required />
 
                                         </div>
 
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Cnic</label>
                                             <br>
-                                            @Html.EditorFor(model => model.cnic, new { htmlAttributes = new { @class = "form-control", @required = "", @Id = "cnic", onchange = "validateInput()" } })
-
+                                            <input class="form-control" id="cnic" type="text" name="cnic" required onchange="validateInput()" />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Date Of Birth</label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control", @id = "date_of_birth", @required = "" } })
-
+                                            <input class="form-control" type="date" name="date_of_birth" id="date_of_birth" required />
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-6">
                                             <label>Address</label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-
+                                            <input class="form-control" type="text" name="Address" required />
 
                                         </div>
 
@@ -163,9 +149,7 @@
                                             <label>Deceased Person </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.DeceasedPerson, new { htmlAttributes = new { @class = "form-control" } })
-
-
+                                            <input class="form-control" type="text" name="DeceasedPerson" />
 
 
                                         </div>
@@ -174,49 +158,42 @@
                                             <label>Deceased Cnic </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.DeceasedCnic, new { htmlAttributes = new { @class = "form-control" } })
-
-
+                                            <input class="form-control" type="text" name="DeceasedCnic" id="DeceasedCnic" onchange="validateInputde()" />
 
 
                                         </div>
                                         @*<div class="form-group" style="display:none">
-                        <div class="col-md-10">
-                            <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
+                                                <div class="col-md-10">
+                                                    <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
 
-                        </div>
-                    </div>*@
+                                                </div>
+                                            </div>*@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label> Reason Of Death </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.ReasonOfDeath, new { htmlAttributes = new { @class = "form-control" } })
-
-
-
-
-                                        </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label> Date of Death </label>
-                                            <br>
-
-                                            @Html.EditorFor(model => model.DateofDeath, new { htmlAttributes = new { @class = "form-control", @id = "Dob" } })
-
-
+                                            <input class="form-control" type="text" name="ReasonOfDeath" />
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label> Deceased Date of Birth </label>
+                                            <label>Date of Death </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.DeceasedDateofBirth, new { htmlAttributes = new { @class = "form-control", @id = "DDob" } })
+                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" onchange="compareDates()" />
 
 
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased  Date of Birth </label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth" />
 
 
                                         </div>
                                     </div>
+
                                     <div class="form-group mb-1 col-sm-12 col-md-2">
                                         <label>Action</label>
                                         <br>
@@ -245,7 +222,21 @@
 
 @section Scripts
     {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     <script type="text/javascript">
+
+        function compareDates() {
+            const birthday = new Date(document.getElementById('date_of_birth').value);
+            const deathDate = new Date(document.getElementById('DateofDeath').value);
+
+            if (deathDate > birthday) {
+
+            } else {
+                alert('The death date is not greater than the birthday.');
+                $('#DateofDeath').val('');
+            }
+        }
         function validateCNIC(cnic) {
             var regex = /^(\d{5})-?(\d{7})-?(\d{1})$/i;
             return regex.test(cnic);
@@ -263,78 +254,100 @@
                 cnicInput.setCustomValidity("");
             }
         }
+        function validateInputde() {
+            debugger
+            var cnicInput = document.getElementById("DeceasedCnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
+        function saew() {
+            var cnicInput = document.getElementById("cnic");
+            var cnic = cnicInput.value;
+            var isValid = validateCNIC(cnic);
+            if (!isValid) {
+                alert("Invalid CNIC");
+                $("#cnic").val("");
+
+            } else {
+                cnicInput.setCustomValidity("");
+            }
+        }
 
 
 
-        $(document).ready(function()
-        {
+        $(document).ready(function () {
 
 
             var val = $('#customerid').val();
-                $.ajax({
-            type: 'POST',
-            url: '/Customers/EditForm',
-            dataType: 'json',
-            async: false,
-            data: { id: val },
-            success: function (data) {
-                
-                if (data != null && data != 0) {
-                    console.log(data);
-                }
-            },
-            error: function (ex) {
-              
-            }
-          });
-        
+            $.ajax({
+                type: 'POST',
+                url: '/Customers/EditForm',
+                dataType: 'json',
+                async: false,
+                data: { id: val },
+                success: function (result) {
+                    console.log(result);
+                    if (result != null && result != 0) {
+                        $('[name="first_name"]').val(result.first_name);
+                        $('[name="last_name"]').val(result.last_name);
+                        $('[name="Contact"]').val(result.Contact);
+                        $('[name="Email"]').val(result.Email);
+                        $('[name="Address"]').val(result.Address);
+                        $('[name="city"]').val(result.city);
+                        $('[name="country"]').val(result.country);
+                        $('[name="cnic"]').val(result.cnic);
+                        $('[name="DeceasedPerson"]').val(result.DeceasedPerson);
+                        $('[name="DeceasedCnic"]').val(result.DeceasedCnic);
+                        $('[name="ReasonOfDeath"]').val(result.ReasonOfDeath);
 
-            $("#phone").on("change", function () {
-                if ($("#phone").val() == "") {
-                    phoneerror = "Please enter phone number";
-                } else if (!($.isNumeric($("#phone").val())) && $("#phone").val() != "") {
-                    phoneerror = "this field cannot contain letters";
-                }
-                
-                var data = $("#phone").val();
-                var ddata = data.length;
-                if (ddata != 11) {
-                    phoneerror = "Must be 11 Digits";
-                    $("#phone").val("");
-                } else {
-                    phoneerror = "";
-                }
+                        $('[name="date_of_birth"]').val(result.date_of_birth ? moment(result.date_of_birth).format('YYYY-MM-DD') : '');
+                        $('[name="DeliveryDate"]').val(result.DeliveryDate ? moment(result.DeliveryDate).format('YYYY-MM-DD') : '');
+                        $('[name="DateofDeath"]').val(result.DateofDeath ? moment(result.DateofDeath).format('YYYY-MM-DD') : '');
+                        $('[name="DeceasedDateofBirth"]').val(result.DeceasedDateofBirth ? moment(result.DeceasedDateofBirth).format('YYYY-MM-DD') : '');
 
+                   
+                    }
+                },
+                error: function (ex) {
 
+                }
             });
-            debugger
-            var dateToday2 = $('#date_of_birth').val();
-            var date2 = new Date(dateToday2).toLocaleDateString();
 
-            $('#date_of_birth').val(date2);
 
-            var dateToday = $('#OrderDate').val();
-            var date = new Date(dateToday).toLocaleDateString();
+            //var dateToday2 = $('#date_of_birth').val();
+            //var date2 = new Date(dateToday2).toLocaleDateString();
 
-            $('#OrderDate').val(date);
+            //$('#date_of_birth').val(date2);
 
-            var dateToday1 = $('#DeliveryDate').val();
-            var dat1e = new Date(dateToday1).toLocaleDateString();
+            //var dateToday = $('#OrderDate').val();
+            //var date = new Date(dateToday).toLocaleDateString();
 
-        //    $('#DeliveryDate').val(dat1e);
+            //$('#OrderDate').val(date);
 
-            var d = $('#Dob').val();
-            if (d != "") {
-                var da = new Date(d).toLocaleDateString();
+            //var dateToday1 = $('#DeliveryDate').val();
+            //var dat1e = new Date(dateToday1).toLocaleDateString();
 
-                $('#Dob').val(da);
-            }
-            var DDob = $('#DDob').val();
-            if (DDob != "") {
-                var qa = new Date(DDob).toLocaleDateString();
+            ////    $('#DeliveryDate').val(dat1e);
 
-                $('#DDob').val(qa);
-            }
+            //var d = $('#Dob').val();
+            //if (d != "") {
+            //    var da = new Date(d).toLocaleDateString();
+
+            //    $('#Dob').val(da);
+            //}
+            //var DDob = $('#DDob').val();
+            //if (DDob != "") {
+            //    var qa = new Date(DDob).toLocaleDateString();
+
+            //    $('#DDob').val(qa);
+            //}
 
             var targetGraveSize = $("#targetGraveSize").val();
 
@@ -342,12 +355,12 @@
 
             $(".targetGraveSize").val(targetGraveSize);
 
-          debugger
+            debugger
             if (data == "Booked") {
 
                 $(".target").val("Booked");
-              //  $(".target").val("Booked");
-             //   $('.target').attr('readonly', 'true');
+                //  $(".target").val("Booked");
+                //   $('.target').attr('readonly', 'true');
 
                 $("#show").show();
             } else {
@@ -355,7 +368,7 @@
 
                 $("#show").hide();
             }
-            $(".target").on("change", function(){
+            $(".target").on("change", function () {
                 var data = $(this).val();
                 if (data == "Booked") {
                     $("#show").show();
@@ -382,17 +395,20 @@
             });
 
 
+
+
+
             $('#DeliveryDate').on('change', function () {
 
 
                 var dateString = document.getElementById('DeliveryDate').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
+
                 if (myDate < today) {
                     alert('Please select a date coming days.');
                     $(this).val('')
                 }
-                return true;
 
             });
 
@@ -411,14 +427,6 @@
             });
 
             $('#date_of_birth').on('change', function () {
-                //var selectedDate = new Date($(this).val());
-                //var tomorrow = new Date();
-                //tomorrow.setDate(tomorrow.getDate() + 1);
-                //debugger
-                //if (selectedDate >= tomorrow) {
-                //    alert('Please select a date that is not the next day.');
-                //    $(this).val('');
-                //}
 
                 var dateString = document.getElementById('date_of_birth').value;
                 var myDate = new Date(dateString);
@@ -429,10 +437,10 @@
                 }
                 return true;
             });
-            $('#Dob').on('change', function () {
+            $('#DateofDeath').on('change', function () {
 
 
-                var dateString = document.getElementById('Dob').value;
+                var dateString = document.getElementById('DateofDeath').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
                 if (myDate > today) {
@@ -443,10 +451,10 @@
             });
 
 
-            $('#DDob').on('change', function () {
+            $('#DeceasedDateofBirth').on('change', function () {
 
 
-                var dateString = document.getElementById('DDob').value;
+                var dateString = document.getElementById('DeceasedDateofBirth').value;
                 var myDate = new Date(dateString);
                 var today = new Date();
                 if (myDate > today) {

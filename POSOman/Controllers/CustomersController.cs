@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MangoERP.Models;
+using ZXing;
+using static MangoERP.Controllers.GravesController;
 
 namespace MangoERP.Controllers
 {
@@ -288,12 +290,46 @@ namespace MangoERP.Controllers
         [HttpPost]
         public JsonResult EditForm(int? id)
         {
-            if (id == null)
+            try
             {
-                return Json(0);
+                if (id == null)
+                {
+                    return Json(0);
+                }
+                Customer customer = db.Customers.Where(o => o.customer_ID == id).FirstOrDefault();
+                var objec = customer.Contact;
+
+              
+                return Json(new
+                {
+                   first_name = customer.first_name,
+                   last_name = customer.last_name,
+                   Address = customer.Address,
+                   Contact = customer.Contact,
+                   Email = customer.Email,
+                   city = customer.city,
+                   country = customer.country,
+                   cnic = customer.cnic,
+                   date_of_birth = customer.date_of_birth.ToString(),
+                   DeceasedPerson = customer.DeceasedPerson,
+                   DeceasedCnic = customer.DeceasedCnic,
+                   ReasonOfDeath = customer.ReasonOfDeath,
+                    DeliveryDate = customer.DeliveryDate.ToString(),
+                    DateofDeath = customer.DateofDeath.ToString(),
+                    DeceasedDateofBirth = customer.DeceasedDateofBirth.ToString(),
+
+
+
+
+                }, JsonRequestBehavior.AllowGet);
             }
-            Customer customer = db.Customers.Where(o => o.customer_ID == id).FirstOrDefault();
-            return Json(customer);
+            catch (Exception ex)
+            {
+                return Json(new { result = "0" }); ;
+
+                throw;
+            }
+     
         }
 
         
