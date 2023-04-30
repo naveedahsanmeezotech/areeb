@@ -15,7 +15,14 @@
                             @using (Html.BeginForm())
                             {
                                 @Html.HiddenFor(model => model.customer_ID)
+                                <div class="form-group mb-1 col-sm-12 col-md-2" display:none>
+                                    <label>First  Name</label>
+                                    <br>
 
+                                    @Html.EditorFor(model => model.customer_ID, new { htmlAttributes = new { @class = "form-control", @style="display:none" ,@id="customerid"} })
+
+
+                                </div>
                                 @Html.AntiForgeryToken()
 
                                 <div class="form-body">
@@ -25,7 +32,7 @@
 
                                         <div class="col-md-10">
                                             @*@Html.DropDownList("Grave_Id", null, htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
                                             <input class="form-control" name="GraveId" value="@ViewBag.GraveId" readonly />
                                         </div>
                                     </div>
@@ -35,18 +42,18 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Type</label>
                                             <br>
-                                            <select class="form-control target"  value="@ViewBag.hidden" name="typedetail" required>
+                                            <select class="form-control target" value="@ViewBag.hidden" name="typedetail" required>
                                                 <option>Select Option</option>
                                                 <option id="1" value="Booked">Booked</option>
                                                 <option id="2" value="Reserved">Reserved</option>
                                             </select>
-                                            <input value="@ViewBag.hidden" id="selectvalue"  type="hidden"/>
+                                            <input value="@ViewBag.hidden" id="selectvalue" type="hidden" />
                                         </div>
-                                     
+
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label> Grave Size</label>
                                             <br>
-                                            <select class="form-control targetGraveSize"   value="@ViewBag.hiddensize" name="GraveSizeId" required>
+                                            <select class="form-control targetGraveSize" value="@ViewBag.hiddensize" name="GraveSizeId" required>
                                                 <option>Select Option</option>
                                                 <option id="1" value="1">Adult</option>
                                                 <option id="2" value="2">Child</option>
@@ -65,28 +72,28 @@
                                             <label>First  Name</label>
                                             <br>
 
-                                             @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Last Name</label>
                                             <br>
-                                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control" ,@required=""} })
+                                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Delivery Date</label>
                                             <br>
-                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control"  } })
+                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control" } })
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Order Date</label>
                                             <br>
-                                             @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @required = "" } })
 
 
                                         </div>
@@ -97,7 +104,7 @@
                                             <label>Contact</label>
                                             <br>
                                             @*@Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @Min = "10" , @Max = "13", @required = "" } })*@
-                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = "",id="phone" } })
+                                            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @required = "", id = "phone" } })
 
 
                                         </div>
@@ -129,7 +136,7 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Cnic</label>
                                             <br>
-                                            @Html.EditorFor(model => model.cnic, new { htmlAttributes = new { @class = "form-control", @required = "",@Id="cnic" ,onchange = "validateInput()" } })
+                                            @Html.EditorFor(model => model.cnic, new { htmlAttributes = new { @class = "form-control", @required = "", @Id = "cnic", onchange = "validateInput()" } })
 
 
                                         </div>
@@ -137,7 +144,7 @@
                                             <label>Date Of Birth</label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control",@id= "date_of_birth", @required = "" } })
+                                            @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control", @id = "date_of_birth", @required = "" } })
 
 
                                         </div>
@@ -174,11 +181,11 @@
 
                                         </div>
                                         @*<div class="form-group" style="display:none">
-            <div class="col-md-10">
-                <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
+                        <div class="col-md-10">
+                            <input class="form-control" name="GraveId" value="@TempData["GraveId"]" readonly />
 
-            </div>
-        </div>*@
+                        </div>
+                    </div>*@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label> Reason Of Death </label>
                                             <br>
@@ -193,7 +200,7 @@
                                             <label> Date of Death </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.DateofDeath, new { htmlAttributes = new { @class = "form-control" , @id="Dob" } })
+                                            @Html.EditorFor(model => model.DateofDeath, new { htmlAttributes = new { @class = "form-control", @id = "Dob" } })
 
 
 
@@ -203,7 +210,7 @@
                                             <label> Deceased Date of Birth </label>
                                             <br>
 
-                                            @Html.EditorFor(model => model.DeceasedDateofBirth, new { htmlAttributes = new { @class = "form-control",@id="DDob" } })
+                                            @Html.EditorFor(model => model.DeceasedDateofBirth, new { htmlAttributes = new { @class = "form-control", @id = "DDob" } })
 
 
 
@@ -259,8 +266,28 @@
 
 
 
-        $(document).ready(function()  
+        $(document).ready(function()
         {
+
+
+            var val = $('#customerid').val();
+                $.ajax({
+            type: 'POST',
+            url: '/Customers/EditForm',
+            dataType: 'json',
+            async: false,
+            data: { id: val },
+            success: function (data) {
+                
+                if (data != null && data != 0) {
+                    console.log(data);
+                }
+            },
+            error: function (ex) {
+              
+            }
+          });
+        
 
             $("#phone").on("change", function () {
                 if ($("#phone").val() == "") {
@@ -268,7 +295,7 @@
                 } else if (!($.isNumeric($("#phone").val())) && $("#phone").val() != "") {
                     phoneerror = "this field cannot contain letters";
                 }
-                debugger
+                
                 var data = $("#phone").val();
                 var ddata = data.length;
                 if (ddata != 11) {
@@ -308,14 +335,14 @@
 
                 $('#DDob').val(qa);
             }
-            
+
             var targetGraveSize = $("#targetGraveSize").val();
-        
+
             var data = $("#selectvalue").val();
-            
+
             $(".targetGraveSize").val(targetGraveSize);
 
-          debugger 
+          debugger
             if (data == "Booked") {
 
                 $(".target").val("Booked");
@@ -328,7 +355,7 @@
 
                 $("#show").hide();
             }
-            $(".target").on("change", function(){  
+            $(".target").on("change", function(){
                 var data = $(this).val();
                 if (data == "Booked") {
                     $("#show").show();
@@ -429,5 +456,5 @@
                 return true;
             });
         });
-</script>
+    </script>
 }

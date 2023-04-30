@@ -157,8 +157,8 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Date of Death </label>
                                             <br>
-
-                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" />
+                                             
+                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath"  onchange="compareDates()" />
 
 
                                         </div>
@@ -166,7 +166,7 @@
                                             <label>Deceased  Date of Birth </label>
                                             <br>
 
-                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth" />
+                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth"  />
 
 
                                         </div>
@@ -206,6 +206,18 @@ s
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script type="text/javascript">
+
+        function compareDates() {
+            const birthday = new Date(document.getElementById('date_of_birth').value);
+            const deathDate = new Date(document.getElementById('DateofDeath').value);
+
+            if (deathDate > birthday) {
+               
+            } else {
+                alert('The death date is not greater than the birthday.');
+                $('#DateofDeath').val('');
+            }
+        }
         function validateCNIC(cnic) {
             var regex = /^(\d{5})-?(\d{7})-?(\d{1})$/i;
             return regex.test(cnic);
@@ -279,13 +291,11 @@ s
 
                     $("#show").show();
                     
-                   // $("#DeliveryDate").show();
-
+          
                 }
                 else {
                     $("#show").hide();
 
-                 //   $("#DeliveryDate").hide();
                 }
 
      
@@ -322,15 +332,7 @@ s
             });
 
             $('#date_of_birth').on('change', function () {
-                //var selectedDate = new Date($(this).val());
-                //var tomorrow = new Date();
-                //tomorrow.setDate(tomorrow.getDate() + 1);
-                //debugger
-                //if (selectedDate >= tomorrow) {
-                //    alert('Please select a date that is not the next day.');
-                //    $(this).val('');
-                //}
-
+            
                 var dateString = document.getElementById('date_of_birth').value;
                 var myDate = new Date(dateString);
                 var today = new Date();

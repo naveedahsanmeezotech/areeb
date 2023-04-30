@@ -43,7 +43,7 @@ namespace MangoERP.Controllers
                 db.SaleOrders.Add(od);
 
                 db.SaveChanges();
-                return View("SaleOrder", db.Customers.Where(p=>p.Status== "Booked"));
+                return View("SaleOrder", db.Customers.ToList());
             }
             return View();
         }
@@ -70,7 +70,7 @@ namespace MangoERP.Controllers
         }
         public ActionResult SaleOrder()
         {
-            return View(db.Customers.Where(p => p.Status == "Booked").ToList());
+            return View(db.Customers.ToList());
         }
 
         public class Data

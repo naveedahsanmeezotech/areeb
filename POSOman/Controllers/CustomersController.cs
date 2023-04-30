@@ -285,6 +285,19 @@ namespace MangoERP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult EditForm(int? id)
+        {
+            if (id == null)
+            {
+                return Json(0);
+            }
+            Customer customer = db.Customers.Where(o => o.customer_ID == id).FirstOrDefault();
+            return Json(customer);
+        }
+
+        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
