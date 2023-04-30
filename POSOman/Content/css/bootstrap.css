@@ -250,19 +250,11 @@ label {
 
 button {
   border-radius: 0; }
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-/*Added by Zeeshan*/ 
-input[type=number] {
-    -moz-appearance:textfield;
-}
+
 button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color; }
-/*Added by Zeeshan*/ 
+
 input,
 button,
 select,
@@ -271,9 +263,7 @@ textarea {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
-  line-height: inherit;
-  
-}
+  line-height: inherit; }
 
 button,
 input {
