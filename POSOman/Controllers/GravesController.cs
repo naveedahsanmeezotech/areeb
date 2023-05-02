@@ -54,7 +54,7 @@ namespace MangoERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Customer customer = db.Customers.Find(id);
-
+            ViewBag.hidden = db.Customers.Include(p => p.Grave).Where(p => p.customer_ID == id).Select(p => p.Status).FirstOrDefault();
             ViewBag.GraveName = db.Customers.Include(p => p.Grave).Where(p => p.customer_ID == id).Select(p=>p.Grave.Grave_Name).FirstOrDefault();
              ViewBag.Price = db.Customers.Include(p => p.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.Grave_Size.Price).FirstOrDefault();
            ViewBag.Size = db.Customers.Include(p => p.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.Grave_Size.Sizes).FirstOrDefault();
