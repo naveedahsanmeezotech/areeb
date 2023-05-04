@@ -151,7 +151,7 @@ $("#addRow").click(function () {
     else { swal("Error", "Check Entries!", "error"); }
 });
 function clearLabels() {
-    $('#DescriptionTitle').text(''); $('#Description').text('');
+    $('#Description').text(''); $('#Description').text('');
    $('#GroupTitle').text(''); $('#Group').text('');    
 }
 // Clear product fields when added 

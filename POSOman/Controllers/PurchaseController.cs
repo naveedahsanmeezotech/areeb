@@ -10,7 +10,11 @@ namespace MangoERP.Controllers
     public class PurchaseController : Controller
     {
         private dbPOS db = new dbPOS();
-
+        public ActionResult Index()
+        {
+              return View(db.Quotations.Where(p=>p.Status==0).ToList());
+            //return View();
+        }
         // GET: Purchase
         public ActionResult Create()
         {

@@ -14,7 +14,26 @@ namespace MangoERP.Controllers
     {
         // GET: GravesController
         private dbPOS db = new dbPOS();
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create( Grave grave)
+        {
+            if (ModelState.IsValid)
+            {
+                grave.Grave_Status_Id = 1;
 
+                grave.Section_Id = 1;
+                db.Graves.Add(grave);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(grave);
+        }
         // GET: Graves
         public ActionResult Index()
         {

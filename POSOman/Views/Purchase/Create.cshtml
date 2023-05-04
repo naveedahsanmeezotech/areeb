@@ -64,7 +64,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         </div>
                                         </div>
                                     </div>
-                                    <h5 class="form-section"><i class="ft-mail"></i>Products Entry </h5>
+                                    <h5 class="form-section"><i class="ft-mail"></i>Materail Entry </h5>
                                     <label id="DescriptionTitle"></label>
                                     <label id="SubsTitle"></label>
                                     <label id="SubstituteNo" class="badge badge-primary"></label>
@@ -86,7 +86,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         <form id="ProductForm" name="ProductForm">
                                            
                                             <div class="col-sm-2">
-                                                <label>Product</label>
+                                                <label>Materail</label>
                                                 <br />
                                                @Html.DropDownList("ProductId", new SelectList(ViewBag.Product, "Value", "Name"), "Select Product", htmlAttributes: new { @class = "form-control" })
 
@@ -126,7 +126,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                             <thead>
                                                 <tr>
                                                     <th>Select</th>
-                                                   <th>Product</th>
+                                                    <th>Materail</th>
                                                     <th>Description</th>
                                                     <th hidden>Qty</th>
                                                     <th>Un Pr.</th>

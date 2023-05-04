@@ -246,19 +246,19 @@ function insert() {
             async: false,
             data: { 'model': data, 'modelStockLog': stockLog },
             success: function (result) {
-                console.log(result);
-                alert(result);
+               // console.log(result);
+                //alert(result);
 
                 if (result == "success") {
-                    alert(result);
+                    swal(result, "success", "success");
 
                     //deleteTempOrder(tmpOrderID);
                     // in case of Purchase Order Submit
-                    var tOrderID = $('#tOrderID').val();
-                    var isPO = $('#hdnIsPO').val();
-                    //console.log(tOrderID);               
-                    uiUnBlock();
-                    window.location.href = 'Index';
+
+                    window.location.href = '/Purchase/Index';
+                } else {
+                    swal("Error", "Some error occured!", "error");
+
                 }
             },
             error: function (ex) {

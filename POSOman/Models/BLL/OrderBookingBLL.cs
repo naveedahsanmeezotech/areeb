@@ -34,7 +34,8 @@ namespace MangoERP.Models.BLL
                        m.MaterailName = item.MaterailName;
                         m.Qty = item.Qty;
                         m.Price = item.Price;
-                        m.Amount = item.Amount;
+                        m.Amount = item.Price;
+                    m.Description = item.Description;
                         db.QuotationDetails.Add(m);
                         db.SaveChanges();
 
