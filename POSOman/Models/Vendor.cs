@@ -14,10 +14,19 @@ namespace MangoERP.Models
     
     public partial class Vendor
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Vendor()
+        {
+            this.Quotations = new HashSet<Quotation>();
+        }
+    
         public int Vendor_ID { get; set; }
         public string Vendor_Name { get; set; }
         public string Contact_Person { get; set; }
         public string Vendor_Contact { get; set; }
         public string Vendor_Payment_Type { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Quotation> Quotations { get; set; }
     }
 }

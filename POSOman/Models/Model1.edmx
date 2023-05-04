@@ -130,6 +130,32 @@
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="UnitOfMeasure" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Quotation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuotationNo" Type="int" />
+          <Property Name="ReferenceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateIssued" Type="datetime" />
+          <Property Name="ExpireDate" Type="datetime" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuotationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuotationId" Type="int" Nullable="false" />
+          <Property Name="MaterailName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaterailId" Type="int" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
             <PropertyRef Name="Id" />
@@ -264,6 +290,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Quotation_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Quotation" Type="Self.Quotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Quotation">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Quotation">
+          <End Role="Quotation" Type="Self.Quotation" Multiplicity="1" />
+          <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quotation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="QuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SaleOrder_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
@@ -300,6 +362,8 @@
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentCard" EntityType="Self.PaymentCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quotation" EntityType="Self.Quotation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -329,6 +393,18 @@
           <AssociationSet Name="FK_Id_Users_Log" Association="Self.FK_Id_Users_Log">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Users_Log" EntitySet="Users_Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quotation_Vendor" Association="Self.FK_Quotation_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Quotation" EntitySet="Quotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Product" Association="Self.FK_QuotationDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="Self.FK_QuotationDetail_Quotation">
+            <End Role="Quotation" EntitySet="Quotation" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_SaleOrder_Customer" Association="Self.FK_SaleOrder_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -530,6 +606,7 @@
           <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Quotations" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -683,6 +760,20 @@
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
           </AssociationSet>
           <EntitySet Name="Products" EntityType="db_fypModel.Product" />
+          <EntitySet Name="QuotationDetails" EntityType="db_fypModel.QuotationDetail" />
+          <AssociationSet Name="FK_QuotationDetail_Product" Association="db_fypModel.FK_QuotationDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
+          <EntitySet Name="Quotations" EntityType="db_fypModel.Quotation" />
+          <AssociationSet Name="FK_Quotation_Vendor" Association="db_fypModel.FK_Quotation_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Quotation" EntitySet="Quotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="db_fypModel.FK_QuotationDetail_Quotation">
+            <End Role="Quotation" EntitySet="Quotations" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Product">
           <Key>
@@ -692,7 +783,74 @@
           <Property Name="MaterialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UnitOfMeasure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="QuotationDetails" Relationship="db_fypModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
         </EntityType>
+        <EntityType Name="QuotationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationId" Type="Int32" Nullable="false" />
+          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="db_fypModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
+          <NavigationProperty Name="Quotation" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
+        </EntityType>
+        <Association Name="FK_QuotationDetail_Product">
+          <End Type="db_fypModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="db_fypModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Quotation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationNo" Type="Int32" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssued" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Vendor" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
+          <NavigationProperty Name="QuotationDetails" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
+        </EntityType>
+        <Association Name="FK_Quotation_Vendor">
+          <End Type="db_fypModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Quotation">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Quotation">
+          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="1" />
+          <End Type="db_fypModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quotation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="QuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -890,6 +1048,34 @@
                 <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationDetails">
+            <EntityTypeMapping TypeName="db_fypModel.QuotationDetail">
+              <MappingFragment StoreEntitySet="QuotationDetail">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="QuotationId" ColumnName="QuotationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quotations">
+            <EntityTypeMapping TypeName="db_fypModel.Quotation">
+              <MappingFragment StoreEntitySet="Quotation">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
