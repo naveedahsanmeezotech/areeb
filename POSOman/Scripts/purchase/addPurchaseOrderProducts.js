@@ -123,6 +123,8 @@ $("#addRow").click(function () {
     var Description = $("#Description").val(); // 2
    var Qty = $("#Qty").val(); 
     var UnitPrice = $("#UnitPrice").val(); 
+
+    var UnitOfMeasure = $("#UnitOfMeasure").val(); 
     var SubTotal = $("#SubTotalrow").val(); 
     var pid = '<input type="hidden" id="productID" value="' + ProductID + '"/>';    
    
@@ -132,7 +134,7 @@ $("#addRow").click(function () {
             swal("Error", "Product Already Added!", "error");
         }
         else {
-            var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + pid + "" + product + "</td><td id='ProductQty' hidden>" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td></tr>";
+            var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + pid + "" + product + "</td><td id='ProductQty' hidden>" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td></tr>";
             $("#tblProduct tbody").append(markup);
             $tableItemCounter++;
             $addedProductIDs.push(ProductID);
@@ -156,6 +158,7 @@ function clearLabels() {
 }
 // Clear product fields when added 
 function clearFields() {
+    $("#UnitOfMeasure").val("")
     $("#Description").val(""); 
     $("#unitCode").val(""); 
    // $("#Qty").val(""); 

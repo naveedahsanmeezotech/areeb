@@ -12,23 +12,25 @@ namespace MangoERP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class Purchase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public Purchase()
         {
             this.PurchaseDetails = new HashSet<PurchaseDetail>();
-            this.QuotationDetails = new HashSet<QuotationDetail>();
         }
     
         public int Id { get; set; }
-        public string MaterialName { get; set; }
-        public string Description { get; set; }
-        public string UnitOfMeasure { get; set; }
+        public Nullable<int> QuotationNo { get; set; }
+        public string ReferenceNumber { get; set; }
+        public Nullable<System.DateTime> DateIssued { get; set; }
+        public Nullable<System.DateTime> ExpireDate { get; set; }
+        public int VendorId { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
+        public int Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

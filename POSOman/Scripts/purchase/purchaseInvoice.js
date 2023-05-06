@@ -170,6 +170,7 @@ function insert() {
         var qtyCTN = parseInt($row.find("#ProductQty").text());
         var price = $row.find("#ProductCostPrice").text();             
         var ProductDescription = $row.find("#ProductDescription").text();
+        var ProductMeasure = = $row.find("#ProductMeasure").text();  
         var qty = parseInt(qtyCTN);
                 
         if (pId != "" && qty != "" && qty != 0 && price != "" && price != 0) {
@@ -179,6 +180,7 @@ function insert() {
                 Qty: qty,
                 Price: price,
                 Description: ProductDescription,
+                MeasureOfUnit: ProductMeasure
                 });
             var newprice = parseFloat(price);
             stockLog.push({

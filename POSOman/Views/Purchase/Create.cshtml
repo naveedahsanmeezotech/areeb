@@ -84,16 +84,16 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                     <hr />
                                     <div class="row">
                                         <form id="ProductForm" name="ProductForm">
-                                           
+
                                             <div class="col-sm-2">
                                                 <label>Materail</label>
                                                 <br />
-                                               @Html.DropDownList("ProductId", new SelectList(ViewBag.Product, "Value", "Name"), "Select Product", htmlAttributes: new { @class = "form-control" })
+                                                @Html.DropDownList("ProductId", new SelectList(ViewBag.Product, "Value", "Name"), "Select Product", htmlAttributes: new { @class = "form-control" })
 
 
-                                                 </div>
-                                           
-                                            
+                                            </div>
+
+
                                             <div class="col-sm-1" hidden>
                                                 <label>Qty</label>
                                                 <br />
@@ -109,7 +109,11 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                 <br />
                                                 <input type="number" min="0" class="form-control" placeholder="UnPrice" id="UnitPrice" />
                                             </div>
-                                            
+                                            <div class="col-sm-2">
+                                                <label>Unit Of Measure</label>
+                                                <br />
+                                                <input type="text"  class="form-control" placeholder="UnPrice" id="UnitOfMeasure" />
+                                            </div>
                                             <div class="col-sm-2" hidden>
                                                 <label>Sub Total</label>
                                                 <br />
@@ -128,7 +132,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                     <th>Select</th>
                                                     <th>Materail</th>
                                                     <th>Description</th>
-                                                    <th hidden>Qty</th>
+                                                    <th>Unit Of Measure</th>
                                                     <th>Un Pr.</th>
                                                     <th hidden>S Price</th>
                                                 </tr>

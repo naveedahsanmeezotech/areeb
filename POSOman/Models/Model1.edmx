@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -130,6 +130,33 @@
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="UnitOfMeasure" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuotationNo" Type="int" />
+          <Property Name="ReferenceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateIssued" Type="datetime" />
+          <Property Name="ExpireDate" Type="datetime" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseId" Type="int" Nullable="false" />
+          <Property Name="MaterailName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaterailId" Type="int" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="MeasureOfUnit" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Quotation">
           <Key>
             <PropertyRef Name="Id" />
@@ -155,6 +182,7 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="MeasureOfUnit" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
@@ -290,6 +318,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PurchaseDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Purchase">
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Quotation_Vendor">
           <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
           <End Role="Quotation" Type="Self.Quotation" Multiplicity="*" />
@@ -350,6 +402,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKPurchase_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="db_fypModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -362,6 +426,8 @@
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentCard" EntityType="Self.PaymentCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purchase" EntityType="Self.Purchase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseDetail" EntityType="Self.PurchaseDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quotation" EntityType="Self.Quotation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
@@ -394,6 +460,14 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Users_Log" EntitySet="Users_Log" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Product" Association="Self.FK_PurchaseDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="Self.FK_PurchaseDetail_Purchase">
+            <End Role="Purchase" EntitySet="Purchase" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_Quotation_Vendor" Association="Self.FK_Quotation_Vendor">
             <End Role="Vendor" EntitySet="Vendor" />
             <End Role="Quotation" EntitySet="Quotation" />
@@ -414,8 +488,13 @@
             <End Role="Users_Log" EntitySet="Users_Log" />
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
           </AssociationSet>
+          <AssociationSet Name="FKPurchase_Vendor" Association="Self.FKPurchase_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_fypModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -547,6 +626,79 @@
           <Property Name="Expire" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitOfMeasure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Product" FromRole="Product" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationNo" Type="Int32" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssued" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="Vendor" Relationship="Self.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="PurchaseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseId" Type="Int32" Nullable="false" />
+          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MeasureOfUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_PurchaseDetail_Product" FromRole="PurchaseDetail" ToRole="Product" />
+          <NavigationProperty Name="Purchase" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="PurchaseDetail" ToRole="Purchase" />
+        </EntityType>
+        <EntityType Name="Quotation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationNo" Type="Int32" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssued" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Vendor" Relationship="Self.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
+          <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
+        </EntityType>
+        <EntityType Name="QuotationDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationId" Type="Int32" Nullable="false" />
+          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MeasureOfUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
+          <NavigationProperty Name="Quotation" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
+        </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
             <PropertyRef Name="Id" />
@@ -606,7 +758,8 @@
           <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Quotations" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
+          <NavigationProperty Name="Purchases" Relationship="Self.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
+          <NavigationProperty Name="Quotations" Relationship="Self.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -698,6 +851,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PurchaseDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetail_Purchase">
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="1" />
+          <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPurchase_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quotation_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
+          <End Role="Quotation" Type="Self.Quotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Quotation">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Quotation">
+          <End Role="Quotation" Type="Self.Quotation" Multiplicity="1" />
+          <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quotation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="QuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Log_UserAction_Log">
           <End Role="Users_Log" Type="Self.Users_Log" Multiplicity="0..1" />
           <End Role="UserAction_Log" Type="Self.UserAction_Log" Multiplicity="*" />
@@ -721,6 +946,11 @@
           <EntitySet Name="Grave_Size" EntityType="Self.Grave_Size" />
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" />
           <EntitySet Name="PaymentCards" EntityType="Self.PaymentCard" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Purchases" EntityType="Self.Purchase" />
+          <EntitySet Name="PurchaseDetails" EntityType="Self.PurchaseDetail" />
+          <EntitySet Name="Quotations" EntityType="Self.Quotation" />
+          <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetail" />
           <EntitySet Name="SaleOrders" EntityType="Self.SaleOrder" />
           <EntitySet Name="Sections" EntityType="Self.Section" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
@@ -755,102 +985,35 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SaleOrder" EntitySet="SaleOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Product" Association="Self.FK_PurchaseDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Product" Association="Self.FK_QuotationDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="Self.FK_PurchaseDetail_Purchase">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FKPurchase_Vendor" Association="Self.FKPurchase_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quotation_Vendor" Association="Self.FK_Quotation_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Quotation" EntitySet="Quotations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="Self.FK_QuotationDetail_Quotation">
+            <End Role="Quotation" EntitySet="Quotations" />
+            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Log_UserAction_Log" Association="Self.FK_Users_Log_UserAction_Log">
             <End Role="Users_Log" EntitySet="Users_Log" />
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
           </AssociationSet>
-          <EntitySet Name="Products" EntityType="db_fypModel.Product" />
-          <EntitySet Name="QuotationDetails" EntityType="db_fypModel.QuotationDetail" />
-          <AssociationSet Name="FK_QuotationDetail_Product" Association="db_fypModel.FK_QuotationDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-          </AssociationSet>
-          <EntitySet Name="Quotations" EntityType="db_fypModel.Quotation" />
-          <AssociationSet Name="FK_Quotation_Vendor" Association="db_fypModel.FK_Quotation_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Quotation" EntitySet="Quotations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="db_fypModel.FK_QuotationDetail_Quotation">
-            <End Role="Quotation" EntitySet="Quotations" />
-            <End Role="QuotationDetail" EntitySet="QuotationDetails" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaterialName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UnitOfMeasure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="QuotationDetails" Relationship="db_fypModel.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
-        </EntityType>
-        <EntityType Name="QuotationDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuotationId" Type="Int32" Nullable="false" />
-          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MaterailId" Type="Int32" />
-          <Property Name="Qty" Type="Int32" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="db_fypModel.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
-          <NavigationProperty Name="Quotation" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
-        </EntityType>
-        <Association Name="FK_QuotationDetail_Product">
-          <End Type="db_fypModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="db_fypModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuotationDetail">
-              <PropertyRef Name="MaterailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Quotation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuotationNo" Type="Int32" />
-          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateIssued" Type="DateTime" Precision="3" />
-          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="VendorId" Type="Int32" Nullable="false" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Vendor" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
-          <NavigationProperty Name="QuotationDetails" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
-        </EntityType>
-        <Association Name="FK_Quotation_Vendor">
-          <End Type="db_fypModel.Vendor" Role="Vendor" Multiplicity="1" />
-          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="Vendor_ID" />
-            </Principal>
-            <Dependent Role="Quotation">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuotationDetail_Quotation">
-          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="1" />
-          <End Type="db_fypModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Quotation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuotationDetail">
-              <PropertyRef Name="QuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -980,6 +1143,74 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="db_fypModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchases">
+            <EntityTypeMapping TypeName="db_fypModel.Purchase">
+              <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseDetails">
+            <EntityTypeMapping TypeName="db_fypModel.PurchaseDetail">
+              <MappingFragment StoreEntitySet="PurchaseDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MeasureOfUnit" ColumnName="MeasureOfUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quotations">
+            <EntityTypeMapping TypeName="db_fypModel.Quotation">
+              <MappingFragment StoreEntitySet="Quotation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuotationDetails">
+            <EntityTypeMapping TypeName="db_fypModel.QuotationDetail">
+              <MappingFragment StoreEntitySet="QuotationDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QuotationId" ColumnName="QuotationId" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MeasureOfUnit" ColumnName="MeasureOfUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SaleOrders">
             <EntityTypeMapping TypeName="db_fypModel.SaleOrder">
               <MappingFragment StoreEntitySet="SaleOrder">
@@ -1039,44 +1270,6 @@
                 <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
                 <ScalarProperty Name="Vendor_Contact" ColumnName="Vendor_Contact" />
                 <ScalarProperty Name="Vendor_Payment_Type" ColumnName="Vendor_Payment_Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="db_fypModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QuotationDetails">
-            <EntityTypeMapping TypeName="db_fypModel.QuotationDetail">
-              <MappingFragment StoreEntitySet="QuotationDetail">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
-                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
-                <ScalarProperty Name="QuotationId" ColumnName="QuotationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Quotations">
-            <EntityTypeMapping TypeName="db_fypModel.Quotation">
-              <MappingFragment StoreEntitySet="Quotation">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
-                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
-                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,10 +12,10 @@ namespace MangoERP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QuotationDetail
+    public partial class PurchaseDetail
     {
         public int Id { get; set; }
-        public int QuotationId { get; set; }
+        public int PurchaseId { get; set; }
         public string MaterailName { get; set; }
         public Nullable<int> MaterailId { get; set; }
         public Nullable<int> Qty { get; set; }
@@ -25,6 +25,6 @@ namespace MangoERP.Models
         public string MeasureOfUnit { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual Quotation Quotation { get; set; }
+        public virtual Purchase Purchase { get; set; }
     }
 }

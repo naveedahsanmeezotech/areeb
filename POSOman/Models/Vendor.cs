@@ -17,6 +17,7 @@ namespace MangoERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vendor()
         {
+            this.Purchases = new HashSet<Purchase>();
             this.Quotations = new HashSet<Quotation>();
         }
     
@@ -26,6 +27,8 @@ namespace MangoERP.Models
         public string Vendor_Contact { get; set; }
         public string Vendor_Payment_Type { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Purchase> Purchases { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quotation> Quotations { get; set; }
     }
