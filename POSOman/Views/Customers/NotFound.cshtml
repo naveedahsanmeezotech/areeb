@@ -153,23 +153,24 @@
                                             <input class="form-control" type="text" name="ReasonOfDeath" />
 
 
-                                        </div>  
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label>Deceased  Date of Birth </label>
-                                            <br>
-
-                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth" />
-
-
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Date of Death </label>
                                             <br>
 
-                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" onchange="compareDates()" />
+                                            <input class="form-control" type="date" name="DateofDeath" id="DateofDeath" />
 
 
                                         </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>Deceased  Date of Birth </label>
+                                            <br>
+
+                                            <input class="form-control" type="date" name="DeceasedDateofBirth" id="DeceasedDateofBirth"  onchange="compareDates()"  />
+
+
+                                        </div>
+
 
                                     </div>
                                     <div class="form-group mb-1 col-sm-12 col-md-2">
@@ -209,7 +210,7 @@ s
     <script type="text/javascript">
 
         function compareDates() {
-            const birthday = new Date(document.getElementById('date_of_birth').value);
+            const birthday = new Date(document.getElementById('DeceasedDateofBirth').value);
             const deathDate = new Date(document.getElementById('DateofDeath').value);
 
             if (deathDate > birthday) {
@@ -311,11 +312,14 @@ s
                 var myDate = new Date(dateString);
                 var today = new Date();
                
-                 if (myDate < today) {
-                    alert('Please select a date coming days.');
-                    $(this).val('')
+                if (myDate.toDateString() === today.toDateString()) {
+                    //alert('Please select a date coming days.');
+                    //$(this).val('')
                 }
-             
+               else  if (myDate < today ) {
+                    alert('Please select a future date.');
+                    document.getElementById('DeliveryDate').value = ''; // clear the input field
+                }
             });
            
             $('#OrderDate').on('change', function () {

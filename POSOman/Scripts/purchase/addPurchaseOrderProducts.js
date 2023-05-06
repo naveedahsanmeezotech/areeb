@@ -156,7 +156,7 @@ function clearLabels() {
 }
 // Clear product fields when added 
 function clearFields() {
-    $("#Description").text(""); 
+    $("#Description").val(""); 
     $("#unitCode").val(""); 
    // $("#Qty").val(""); 
     $("#UnitPrice").val("");

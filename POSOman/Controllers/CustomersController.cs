@@ -244,7 +244,7 @@ namespace MangoERP.Controllers
 
                     }else
                     {
-                        return RedirectToAction("Index", "Graves", db.Graves.ToList());
+                        return RedirectToAction("Payment", "Graves");
 
                     }
                 }
