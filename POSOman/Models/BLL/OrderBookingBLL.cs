@@ -73,7 +73,7 @@ namespace MangoERP.Models.BLL
                 q.TotalAmount = model.TotalAmount;
 
                 q.ExpireDate = model.ExpireDate;
-                db.Quotations.Add(q);
+                db.Purchases.Add(q);
                 var data = db.SaveChanges();
 
                 foreach (var item in model.PurchaseDetails)
