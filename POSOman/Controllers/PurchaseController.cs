@@ -15,6 +15,11 @@ namespace MangoERP.Controllers
               return View(db.Quotations.Where(p=>p.Status==0).ToList());
             //return View();
         }
+        public ActionResult IndexList()
+        {
+            return View(db.Purchases.Where(p => p.Status == 0).ToList());
+            //return View();
+        }
         // GET: Purchase
         public ActionResult Create()
         {
@@ -94,24 +99,11 @@ namespace MangoERP.Controllers
             //model.BranchID = branchId;
              MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
               object result = order.PurchaseSave(model);
-            return Json("");
+            return Json(result);
         }
         public JsonResult getNewPurchase()
         {
             int? POID = 0;
-            //int branchId = 0;
-
-            //if (Session["BranchID"] != null)
-            //{
-            //    branchId = Convert.ToInt32(Session["BranchID"]);
-            //}
-            //else
-            //{
-            //    var user = User.Identity;
-            //    string currentUserId = User.Identity.GetUserId();
-            //    var currentUser = db.AspNetUsers.FirstOrDefault(x => x.Id == currentUserId);
-            //    branchId = currentUser.BranchID;
-            //}
             var tmp = db.Purchases.OrderByDescending(v => v.Id).FirstOrDefault();
             if (tmp != null)
             {
@@ -130,7 +122,7 @@ namespace MangoERP.Controllers
         {
             var data = db.Quotations.Where(p => p.Id == Id).FirstOrDefault();
             ViewBag.Invoice = data?.QuotationNo;
-            ViewBag.Invoice = data?.QuotationNo;
+            ViewBag.VendorId = data?.VendorId;
             ViewBag.OrderId = Id;
 
             // ViewBag.BranchID = branchId;

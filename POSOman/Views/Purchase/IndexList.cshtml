@@ -1,0 +1,86 @@
+﻿@model IEnumerable<MangoERP.Models.Purchase>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="content-body">
+    <section id="striped-row-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content collpase show">
+                        <div class="card-body">
+                            <table class="table" id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Invoice
+                                        </th>
+                                        <th>
+                                            VendorName
+                                        </th>
+
+                                        <th>
+                                            Date Issued
+                                        </th>
+                                        <th>
+                                            Reference
+                                        </th>
+                                        <th>
+                                            Amount
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.QuotationNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateIssued)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+
+
+
+                                        $(document).ready(function () {
+                                            $('#table1').DataTable();
+
+                                        });
+    </script>
+}

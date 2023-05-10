@@ -32,7 +32,8 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Vendor</label>
                                             <br>
-                                            <input type="text" class="form-control" placeholder="" value="@ViewBag.vendor" id="VendorId"  readonly/>
+                                            <input type="hidden" value="@ViewBag.VendorId" id="VendorId"/>
+                                            <input type="text" class="form-control" placeholder="" value="@ViewBag.vendor" id="VendorName"  readonly/>
 
                                         </div>
                                         <div class="col-md-2">

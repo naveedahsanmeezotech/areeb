@@ -295,7 +295,7 @@ function insert() {
                     //deleteTempOrder(tmpOrderID);
                     // in case of Purchase Order Submit
 
-                    window.location.href = '/Purchase/Index';
+                    window.location.href = '/Purchase/IndexList';
                 } else {
                     swal("Error", "Some error occured!", "error");
 
