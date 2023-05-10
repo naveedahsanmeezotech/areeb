@@ -11,107 +11,22 @@ getPOID();
 $("#Bank").prop("disabled", true);
 //Attach input width
 $(function () {
-    //tmpOrderID = getTmpOrderID();
+    // tmpOrderID = getTmpOrderID();        
     $('#btnSubmit').click(function () {
-        var isValid = true;
-        var accID = $('#AccountID option:selected').val();
-        var InvoiceNo = $('#InvoiceNo').val();
-        var PurchaseDate = $('#PurchaseDate').val();
-        var amountPaid = $("#amountPaid").val();
-        var paymentStatus = $('#PaymentStatus option:selected').val();
-        //    var PaymentStatus = $('#PaymentStatus').val();
-        var PaymentTypeID = $('#PaymentType option:selected').val();
-        var BranchID = $('#BranchID option:selected').val();
-        var Bank = $('#Bank option:selected').val();
-        var ChqNo = $("#chqNumber").val();
+        //else if (InvoiceNo == "") {
+        //isValid = false;
+        //  swal("Invoice No.", "Please Enter Invoice No!", "error");         
+        //      }
+        var accID = $('#VendorId').val();
+        if (accID == "") {
+            isValid = false;
+            swal("Vendor No.", "Please Enter Vendor !", "error");
+        } else {
 
-        var chqDate = $('#chqDate').val();
-        //   console.log("Branch ID on submit click is = "+BranchID);
-        // var BranchID = $('#hdnBranchId').val();
-
-        if (accID == "" || accID == 0 || accID == undefined) {
-            isValid = false;
-            swal("Vendor", "Please Select Vendor!", "error");
-            //alert("Please Select Vendor");
-        }
-      
-        else if (PurchaseDate == "" || PurchaseDate == null) {
-            isValid = false;
-            swal("Date", "Please Enter Purchase Date!", "error");
-        }
-        else if (InvoiceNo == "") {
-            isValid = false;
-            swal("Invoice No.", "Please Enter Invoice No!", "error");
-        }
-  
-        else if (paymentStatus == 0) {
-            isValid = false;
-            swal("Payment Status.", "Please Select Payment Status!", "error");
-        }
-        else if ((paymentStatus == 1 || paymentStatus == 2) && (PaymentTypeID == "" || PaymentTypeID == undefined)) {
-
-            isValid = false;
-            swal("Payment Type.", "Please Select Payment Type!", "error");
-        }
-        else if ((paymentStatus == 2) && (amountPaid == "" || amountPaid == 0)) {
-            isValid = false;
-            swal("Amount Paid!", "Please Enter Amount!", "error");
-        }
-        else if ((PaymentTypeID == 3 || PaymentTypeID == 2) && (Bank == null || Bank == "" || Bank == undefined)) {
-            isValid = false;
-            console.log(Bank + "Bank");
-
-            swal("Bank", "Please Select Bank Account!", "error");
-        }
-        else if (PaymentTypeID == 3 && (ChqNo == null || ChqNo == "")) {
-            isValid = false;
-            console.log(ChqNo + "ChqNo");
-
-
-            swal("Cheque No.", "Please Enter Cheque Number!", "error");
-        }
-        else if (PaymentTypeID == 3 && (DatE == null || DatE == "") && (chqDate == null || chqDate == "" || chqDate == undefined)) {
-
-            isValid = false;
-            console.log(DatE + "chDate");
-            console.log(chqDate + "chnewDate");
-
-            swal("Date", "Please Enter Cheque Date!", "error");
-            //console.log(PurchaseDate + "date");
-        }
-        else if (isValid == true) {
-            uiBlock();
             insert();
         }
+
     });
-    //$('#tbl').keyup(function (e) {
-    //    var qty = $(e.target).closest("tr").find('input[id*="txtQty"]').val();
-    //    var price = $(e.target).closest("tr").find('input[id*="txtPrice"]').val();
-    //    var currency = $('#Currency').val();
-    //    if (currency == 2) {
-    //        var convRate = $('#exRate').val();
-    //        price = price * convRate;
-    //        $(e.target).closest("tr").find('input[id*="txtERate"]').val(price);
-    //        //console.log("convRate = " + convRate);
-    //        //console.log("newPrice = " + price);
-    //    }
-    //    if (($.isNumeric(price)) && ($.isNumeric(qty))) {
-    //        var amount = (qty * price);
-    //        $(e.target).closest('tr').find('input[id*="txtSub"]').val(parseFloat(amount).toFixed(3)
-    //        );
-    //        calcTotal();
-    //    }
-    //    else {
-    //        $(e.target).closest('tr').find('input[id*="txtSub"]').val(''
-    //        );
-    //    }
-    //});
-
-    //get edit invoice detail 
-
-    ////////////
-
-    ////////////
 })
 
 //function getTmpOrderID() {
@@ -151,12 +66,13 @@ function getPOID() {
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: '/PurchaseOrders/getNewPOID',
+        url: '/Purchase/getNewPurchase',
         async: true,
         success: function (data) {
             {
-                $("#POID").val(data);
-                POID = data;
+                console.log(data);
+                $("#InvoiceNo").val(data);
+               // POID = data;
             }
         },
         error: function (err) { console.log(err); }
@@ -267,7 +183,7 @@ function insert() {
    
     //  console.log("Branch ID on insert is = " + BranchID);
     $('#btnSubmit').prop('disabled', true);
-    uiBlock();
+ //   uiBlock();
     var rows = [];
     var stockLog = [];
     var total = 0;
@@ -279,7 +195,7 @@ function insert() {
     var bankAccountId = $('#Bank option:selected').val();
     //console.log(bankAccountId + " bankAccountId");
     var BranchID = $('#hdnBranchId').val();
-    var OrderID = $('#OrderID').val();
+    var OrderID = $('#OrderId').val();
 
    
     calcVatExpAmount();
@@ -290,62 +206,57 @@ function insert() {
         var pId = $row.find('input[id*="productID"]').val();
         var qtyCTN = parseInt($row.find("#ProductQty").text());
         var price = $row.find("#ProductCostPrice").text();
-        var salePrice = $row.find("#ProductSalePrice").text();
-        var subTotal = $row.find("#ProductSubTotal").text();
+        var ProductDescription = $row.find("#ProductDescription").text();
+        var ProductMeasure = $row.find("#ProductMeasure").text();
         var qty = parseInt(qtyCTN);
-        var unitCode = $row.find("#unitCode").text();
+        var partNumber = $row.find("td").eq(1).text();
 
         if (pId != "" && qty != "" && qty != 0 && price != "" && price != 0) {
             isValid = true;
             rows.push({
-                ProductId: pId,
+                MaterailId: pId,
                 Qty: qty,
-                UnitPrice: price,
-                UnitCode: unitCode,
-                IsReturned: false,
-                ReturnedQty: 0,
-                SalePrice: salePrice,
-                Total: subTotal,
-                BranchID: BranchID,
-
+                MaterailName: partNumber,
+                Price: price,
+                Description: ProductDescription,
+                MeasureOfUnit: ProductMeasure
             });
             var newprice = parseFloat(price);
-            stockLog.push({
-                AccountID: $('#AccountID option:selected').val(),
-                ProductId: pId,
-                StockIN: qty,
-                InvoiceDate: $('#PurchaseDate').val(),
-                CostPrice: parseFloat(newprice).toFixed(2),
-                SalePrice: salePrice,
-                InReference: 'Purchase',
-                OrderTypeID: 1,
-                UserReferenceID: $('#InvoiceNo').val(),
-                BranchID: BranchID,
-                UnitCode: unitCode
-            });
+            //stockLog.push({
+            //    VendorId: $('#VendorId option:selected').val(),
+            //    ProductId: pId,
+            //    StockIN: qty,
+            //    InvoiceDate: $('#DateIssued').val(),
+            //    CostPrice: parseFloat(newprice).toFixed(2),
+            //    SalePrice: "00",
+            //    InReference: 'Purchase',
+            //    OrderTypeID: 1,
+            //    UserReferenceID: $('#InvoiceNo').val(),
+
+            //});
             //console.log('stockLog=' + stockLog[0].AccountID, stockLog[0].ProductId, stockLog[0].StockIN, stockLog[0].InvoiceDate, stockLog[0].CostPrice, stockLog[0].SalePrice, stockLog[0].InReference, stockLog[0].OrderTypeID, stockLog[0].UserReferenceID, stockLog[0].BranchID, stockLog[0].UnitCode);
 
         }
         else if (pId == "") {
-            uiUnBlock();
+            // uiUnBlock();
             $('#btnSubmit').prop('disabled', false);
             isValid = false;
             swal("Product", "Please Select Product!", "error");
         }
         else if (qty == "" || qty == 0) {
-            uiUnBlock();
+            //  uiUnBlock();
             $('#btnSubmit').prop('disabled', false);
             isValid = false;
             swal("Quantity", "Please Enter Quantity!", "error");
         }
         else if (price == "" || price == 0) {
-            uiUnBlock();
+            //  uiUnBlock();
             $('#btnSubmit').prop('disabled', false);
             isValid = false;
             swal("Unit Cost", "Please Enter Unit Cost!", "error");
         }
         else {
-            uiUnBlock();
+            //  uiUnBlock();
             $('#btnSubmit').prop('disabled', false);
             swal("Error", "Some error occured!", "error");
             //alert("Error!!!");
@@ -355,67 +266,74 @@ function insert() {
         var gTotal = $("#subAmount").val();
         //total = $('#tbl tfoot tr').find('input[id*="txtTotal"]').val();
         //total = $('#Total').val()
-        var paymentStatus = 0;
-        if ($('#PaymentStatus option:selected').val() != 0) {
-            paymentStatus = $('#PaymentStatus option:selected').text()
-        }
         var invoiceAmount = parseFloat(gTotal).toFixed(2);
+
         var data = {
-            'AccountID': $('#AccountID option:selected').val(),
-            'BranchID': BranchID,
-            'POID': $("#POID").val(),
-            'InvoiceNo': $('#InvoiceNo').val(),
-            'PurchaseDate': $('#PurchaseDate').val(),
-            'PaymentStatus': paymentStatus,
-            'PaymentTypeID': $('#PaymentType option:selected').val(),
-            'Expenses': $('#expenseInput').val(),
-            'PurchaseCode': $('#PurchaseCode').val(),
-            'TotalAmount': invoiceAmount,
-            'ChequeDate': $("#chqDate").val(),
-            'ChequeNo': $("#chqNumber").val(),
-            'BankName': bank,
-            'AmountPaid': $('#amountPaid').val(),
-            'PODetails': rows
+            'VendorId': $('#VendorId').val(),
+            'QuotationNo': $('#Quotation').val(),
+            'TotalAmount': $('#TotalAmount').val(),
+            'ReferenceNumber': $('#RefNo').val(),
+            'PurchaseDetails': rows
         };
 
-        var json = JSON.stringify({ 'OrderId': OrderID, 'model': data, 'modelStockLog': stockLog, 'bankAccId': bankAccountId });
-        //   console.log(json);
-        ajaxCall("POST", json, "application/json; charset=utf-8", "/PurchaseOrders/SaveEditOrder", "json", onSuccess, onFailure);
-        //debugger;
-        function onSuccess(Result) {
-            if (Result == "success") {
-                deleteTempOrder(tmpOrderID);
-                // in case of Purchase Order Submit
-                var tOrderID = $('#tOrderID').val();
-                var isPO = $('#hdnIsPO').val();
-                //console.log(tOrderID);
-                if (tOrderID > 0 && isPO == 1) {
-                    updatePurchaseOrderStatus();
-                }
-                // in case of Unsaved Submit
-                var oldtmpOrderID = $('#oldtmpOrderID').val();
-                var isUnsaved = $('#hdnIsUnSaved').val();
-                if (oldtmpOrderID > 0 && tOrderID > 0 && isUnsaved == 1) {
-                    hideTempOrder(oldtmpOrderID, tOrderID);
-                }
-                uiUnBlock();
-                window.location.href = '/PurchaseOrders/Index';
-            }
-            else {
-                uiUnBlock();
-                $('#btnSubmit').prop('disabled', false);
-                swal("critical error", "Some error Ocurred! Please Check Your Entries!", "error");
-            }
+        var json = JSON.stringify({ 'model': data, 'modelStockLog': stockLog });
+        console.log(data);
+        debugger
+        $.ajax({
+            type: 'POST',
+            url: '/Purchase/SavePurchaseDetail',
+            dataType: 'json',
+            async: false,
+            data: { 'model': data, 'OrderId': OrderID },
+            success: function (result) {
+                // console.log(result);
+                //alert(result);
 
-        }
-        function onFailure(error) {
-            if (error.statusText == "OK") {
-                window.location.reload();
+                if (result == "success") {
+                    swal(result, "success", "success");
+
+                    //deleteTempOrder(tmpOrderID);
+                    // in case of Purchase Order Submit
+
+                    window.location.href = '/Purchase/Index';
+                } else {
+                    swal("Error", "Some error occured!", "error");
+
+                }
+            },
+            error: function (ex) {
+
             }
-            else {
-                swal("critical error", "Some error Ocurred! Please Check Your Entries!", "error");
-            }
-        }
+        });
+
+
+
+        //ajaxCall("POST", json, "application/json; charset=utf-8", "/Purchase/SaveQuotationDetail", "json", onSuccess, onFailure);
+        ////debugger;
+        //function onSuccess(Result) {
+        //    if (Result == "success") {                
+        //        //deleteTempOrder(tmpOrderID);
+        //        // in case of Purchase Order Submit
+        //        var tOrderID = $('#tOrderID').val();
+        //        var isPO = $('#hdnIsPO').val();
+        //        //console.log(tOrderID);               
+        //        uiUnBlock();                
+        //        window.location.href = 'Index';
+        //    }
+        //    else {
+        //        uiUnBlock();
+        //        $('#btnSubmit').prop('disabled', false);
+        //        swal("critical error", "Some error Ocurred! Please Check Your Entries!", "error");                
+        //    }            
+        //}
+        //function onFailure(error) {
+        //    if (error.statusText == "OK") {
+        //        window.location.reload();
+        //    }
+        //    else {
+        //        swal("critical error", "Some error Ocurred! Please Check Your Entries!", "error");
+        //    }
+        //}
     }
     else {
         uiUnBlock();

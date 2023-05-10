@@ -21,13 +21,14 @@ namespace MangoERP.Models
         }
     
         public int Id { get; set; }
-        public Nullable<int> QuotationNo { get; set; }
+        public Nullable<int> PurchaseNo { get; set; }
         public string ReferenceNumber { get; set; }
         public Nullable<System.DateTime> DateIssued { get; set; }
         public Nullable<System.DateTime> ExpireDate { get; set; }
         public int VendorId { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public int Status { get; set; }
+        public Nullable<int> QutotationReferenceNo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }

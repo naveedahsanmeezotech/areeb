@@ -35,8 +35,8 @@ namespace MangoERP.Models.BLL
                         m.Qty = item.Qty;
                         m.Price = item.Price;
                         m.Amount = item.Price;
-                  
-                    m.Description = item.Description;
+                    m.MeasureOfUnit = item.MeasureOfUnit;
+                        m.Description = item.Description;
                         db.QuotationDetails.Add(m);
                         db.SaveChanges();
 
@@ -55,6 +55,56 @@ namespace MangoERP.Models.BLL
                 //    return ex.Message;
                 }
             
+        }
+
+        public object PurchaseSave(Purchase model)
+        {
+            dbPOS db = new dbPOS();
+
+
+            try
+            {
+                Purchase q = new Purchase();
+                q.ReferenceNumber = model.ReferenceNumber;
+                q.QutotationReferenceNo = model.QutotationReferenceNo;
+                q.DateIssued = DateTime.Now;
+                q.VendorId = model.VendorId;
+                q.Status = 1;
+                q.TotalAmount = model.TotalAmount;
+
+                q.ExpireDate = model.ExpireDate;
+                db.Quotations.Add(q);
+                var data = db.SaveChanges();
+
+                foreach (var item in model.PurchaseDetails)
+                {
+                    PurchaseDetail m = new PurchaseDetail();
+                    m.PurchaseId = q.Id;
+                    m.MaterailId = item.MaterailId;
+                    m.MaterailName = item.MaterailName;
+                    m.Qty = item.Qty;
+                    m.Price = item.Price;
+                    m.Amount = item.Price * item.Qty;
+                    m.MeasureOfUnit = item.MeasureOfUnit;
+                    m.Description = item.Description;
+                    db.PurchaseDetails.Add(m);
+                    db.SaveChanges();
+
+                }
+
+
+                //}
+                //}
+                return "success";
+            }
+
+            catch (Exception ex)
+            {
+                return "Fail";
+                //  transaction.Rollback();
+                //    return ex.Message;
+            }
+
         }
 
     }

@@ -5,8 +5,7 @@ var perPieceExp = 0;
 var perProductExp = 0;
 var expensePercentage = 0;
 var tmpOrderID = 0;
-var POID = 0;
-getPOID();
+
 $("#Bank").prop("disabled", true);
 //Attach input width
 $(function () {    
@@ -16,8 +15,14 @@ $(function () {
             //isValid = false;
           //  swal("Invoice No.", "Please Enter Invoice No!", "error");         
         //      }
-    
+        var accID = $('#VendorId').val();
+        if (accID == "") {
+            isValid = false;
+            swal("Vendor No.", "Please Enter Vendor !", "error");
+        } else {
+
             insert();
+        }
         
     });    
 })
@@ -170,14 +175,17 @@ function insert() {
         var qtyCTN = parseInt($row.find("#ProductQty").text());
         var price = $row.find("#ProductCostPrice").text();             
         var ProductDescription = $row.find("#ProductDescription").text();
-        var ProductMeasure = = $row.find("#ProductMeasure").text();  
+        var ProductMeasure =  $row.find("#ProductMeasure").text();  
         var qty = parseInt(qtyCTN);
-                
+        var partNumber = $row.find("td").eq(1).text();
+
+                debugger
         if (pId != "" && qty != "" && qty != 0 && price != "" && price != 0) {
             isValid = true;
             rows.push({
                 MaterailId: pId,
                 Qty: qty,
+                MaterailName: partNumber,
                 Price: price,
                 Description: ProductDescription,
                 MeasureOfUnit: ProductMeasure

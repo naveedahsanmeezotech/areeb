@@ -3,13 +3,15 @@ var $addedProductIDs = [];
 var QtyinPack = 0;
 var PackLength = 0;
 var PrUntLnth = 0;
-var OrderId = $('#OrderID').val();
+var OrderId = $('#OrderId').val();
 var Count = 0;
 var DatE = null;
-
+var POID = 0;
+getPOID();
 
 $("#BranchID").prop('disabled', true);
 $("#btnRemove").prop('disabled', false);
+$('#TotalAmount').val('');
 
 GetEditVendors(OrderId);
 //Edit Vendor
@@ -23,71 +25,39 @@ function GetEditVendors(OrderId) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: '/PurchaseOrders/GetEditInvoiceVendor',
+        url: '/Purchase/GetEditInvoiceVendor',
         async: true,
         data: JSON.stringify(json),
         success: function (data) {
 
-            $('#AccountID').val(data[0].Qry.Value).trigger('change.select2');
-
-            
-            //console.log(data[0].Qry1.Name);
-         
-            $('#BranchID').val(data[0].Qry1.Value).trigger('change.select2');
-            //$('#OpeningBal').val(data[0].Qry2);
-            var vendorID = $('#AccountID').val();
-            $('#hdnAccountID').val(vendorID);      
-            
-            getVendorDetail(vendorID);
-
-            $('#PaymentStatus').val(data[0].PayStatus).trigger('change.select2');
-             if (data[0].PayStatus == 3) {
-                $("#PaymentType").prop('disabled', true);
-            }
-            $("#Bank").val(data[0].Bank.Value).trigger('change.select2');
-            DatE = data[0].ChqDate;
+        
+            data[0].ProductsList.forEach(ListProduct);
 
 
-            // $('#chqDate').val(DatE.dateFormat("dd/MM/yy"));
-            $('#chqNumber').val(data[0].Cheque);
-            $('#amountPaid').val(data[0].AmountPaid);
-            $('#vatAmount').val(data[0].Tax);
-            //$('#finalAmountWithVAT').val(data[0].FinalAmount);
-            $('#TotalAmount').val(data[0].TotalAmount);
-            $('#subAmount').val(data[0].SubAmount);
-            $('#discInput').val(data[0].Discount);
-            $('#InvoiceNo').val(data[0].InvNo);
+            //getVendorDetail(vendorID);
+
+            //$('#PaymentStatus').val(data[0].PayStatus).trigger('change.select2');
+            // if (data[0].PayStatus == 3) {
+            //    $("#PaymentType").prop('disabled', true);
+            //}
+            //$("#Bank").val(data[0].Bank.Value).trigger('change.select2');
+            //DatE = data[0].ChqDate;
+
+
+            //// $('#chqDate').val(DatE.dateFormat("dd/MM/yy"));
+            //$('#chqNumber').val(data[0].Cheque);
+            //$('#amountPaid').val(data[0].AmountPaid);
+            //$('#vatAmount').val(data[0].Tax);
+            ////$('#finalAmountWithVAT').val(data[0].FinalAmount);
+            //$('#TotalAmount').val(data[0].TotalAmount);
+            //$('#subAmount').val(data[0].SubAmount);
+            //$('#discInput').val(data[0].Discount);
+            //$('#InvoiceNo').val(data[0].InvNo);
 
 
             // console.log(DatE + "ch20Date");
 
             ////////////populate product edit table/////////////
-            data[0].ProductsList.forEach(ListProduct);
-            // console.log(data[0].Paytype+"Pay");
-            ////////////////////////
-           // console.log(data);
-            // console.log(data[0].ProductsList);
-
-            if (data[0].Paytype == "" || data[0].Paytype == null) {
-            }
-            else {
-                $('#PaymentType').val(data[0].Paytype.Value).trigger('change.select2');
-                if (data[0].Paytype.Value == 1) {
-                    $("#Bank").prop("disabled", true);
-                    $("#chqNumber").prop("disabled", true);
-                    $("#chqDate").prop("disabled", true);
-                }
-                else if (data[0].Paytype.Value == 2) {
-                    $("#Bank").prop("disabled", false);
-                    $("#chqNumber").prop("disabled", true);
-                    $("#chqDate").prop("disabled", true);
-                }
-                else {
-                    $("#Bank").prop("disabled", false);
-                    $("#chqNumber").prop("disabled", false);
-                    $("#chqDate").prop("disabled", false);
-                }
-            }
         },
         error: function (err) { console.log(err); }
     });
@@ -95,25 +65,25 @@ function GetEditVendors(OrderId) {
 //function for edit product list
 ////////////
 function ListProduct(item) {
-    var pid = '<input type="hidden" id="productID"  value="' + item.ProductID + '"/>';
-  
+    console.log(item);
+   
+    var pid = '<input type="hidden" id="productID"  value="' + item.MaterailId + '"/>';
+    var product = item.MaterailName;
+    var Description = item.Description;
+    var UnitPrice = item.Price;
+    var MeasureOfUnit = item.MeasureOfUnit;
+    var SubTotal = item.Price;
+    var UnitOfMeasure = item.MeasureOfUnit; 
     var cPrice = '<input type="hidden" id="costPrice" value="' + item.cPrice + '"/>';
-    var qtyBox = parseInt(item.Qty);
-    var unitPerCTN = parseInt(item.UnitPerCarton);
-
-  //  var qty = parseInt(qtyBox / unitPerCTN);
-    //console.log("unitPerCTN=" + unitPerCTN);
-    //console.log("qty=" + qty);
-    //var unitCTN = '<input type="hidden" id="unitPerCTN" value="' + unitPerCTN + '"/>';
-    var markup = "<tr><td><input type='radio' name='record'></td><td>" + item.Cat + "</td><td>" + pid + "" + item.ProductName + "</td><td  hidden>" + item.UnitCode+ "</td><td contenteditable='false' id='ProductQty'>" + item.Qty + "</td><td contenteditable='true' id='ProductCostPrice'>" + item.Unit_Price + "</td><td contenteditable='true' id='ProductSalePrice'>" + item.SalePrice + "</td><td id='ProductSubTotal'>" + item.PTotal + "</td></tr>";
-    
-    //var markup = "<tr><td><input type='radio' name='record'></td><td>" + item.Cat + "</td><td>" + item.ProductID + "</td><td>" + item.UnitCode + "</td><td contenteditable='false' id='ProductQty'>" + item.Qty + "</td><td contenteditable='true' id='ProductCostPrice'>" + item.Unit_Price + "</td><td contenteditable='true' id='ProductSalePrice'>" + item.SalePrice + "</td><td id='ProductSubTotal'>" + item.PTotal + "</td></tr>";
+    var Qty = parseInt(item.Qty);
+  
+    var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + pid + "" + product + "</td><td id='ProductQty' contenteditable='true' >" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td></tr>";
 
     
     $("#tblProduct tbody").append(markup);
     $tableItemCounter++;
     $addedProductIDs.push(item.Product);
-    proIdEdit = item.ProductID;
+    proIdEdit = item.MaterailId;
 }
 function GetEditProductDetail(OrderId, ProductID, BranchID) {
 
@@ -206,12 +176,12 @@ $('#UnitPrice').on('input', function (e) {
 
     calcSubTotal();
 });
-getPOID();
 function getPOID() {
+    debugger 
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: '/PurchaseOrders/getNewPOID',
+        url: '/Purchase/getNewPOID',
         async: true,
         success: function (data) {
             {
@@ -416,6 +386,51 @@ function isNumberKey(evt) {
 
     return true;
 }
+
+// When changed made in product table
+$("#tblProduct").focusout(function () {
+    var total = 0;
+    $('#tblProduct tbody tr').each(function (i, n) {
+        var $row = $(n);
+        var qty = $row.find("#ProductQty").text();
+        var rate = $row.find("#ProductCostPrice").text();
+        ///////////////Changes by ahsan //////////////////////////
+        var DiscAm = $row.find("#ProductDiscount").text() || 0;
+        var DiscAmPer = $row.find("#ProductDiscountPercent").text();
+        var GST = $row.find("#ProductGST").text() || 0;
+        var GSTPer = $row.find("#ProductGSTPercent").text();
+        /////////////////////////////////////////////////////////
+        var currency = 2;
+        if (currency == 2) {
+            var convRate = $('#exRate').val();
+            rate = rate * 1;
+            $row.find("#exchangePrice").text(parseFloat(rate).toFixed(2));
+        }
+        else {
+            $row.find("#exchangePrice").text("");
+        }
+        if (($.isNumeric(rate)) && ($.isNumeric(qty))) {
+            // var amount = 0;
+            //if ((($.isNumeric(DiscAm)) && ($.isNumeric(GST)))) {
+            //console.log(DiscAm + "Discount");
+            // console.log(GST + "GST");
+            // console.log(rate + "rate");
+
+            var amountWithGST = (parseFloat(rate) + parseFloat(GST));
+            var amountWithGSTAndDisc = amountWithGST - parseFloat(DiscAm);
+            var amount = parseInt(qty) * amountWithGSTAndDisc;
+
+            //console.log(amountWithGST + "amountWithGST");
+            //console.log(amountWithGSTAndDisc + "amountWithGSTAndDisc");
+            //console.log(amount + "amount");
+            //   }
+
+
+            $row.find("#ProductSubTotal").text(parseFloat(amount).toFixed(2));
+            calcTotal();
+        }
+    });
+});
 function calcTotal() {
 
     var total = 0;

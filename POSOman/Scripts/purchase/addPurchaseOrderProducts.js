@@ -127,8 +127,9 @@ $("#addRow").click(function () {
     var UnitOfMeasure = $("#UnitOfMeasure").val(); 
     var SubTotal = $("#SubTotalrow").val(); 
     var pid = '<input type="hidden" id="productID" value="' + ProductID + '"/>';    
-   
-    if (ProductID > 0 && (parseInt(Qty)) > 0 && Number(parseFloat(UnitPrice)) && SubTotal > 0) {
+   debugger
+    if (ProductID > 0
+        && (parseInt(Qty)) > 0 && Number(parseFloat(UnitPrice)) && SubTotal > 0) {
         var index = $.inArray(ProductID, $addedProductIDs);
         if (index >= 0) {
             swal("Error", "Product Already Added!", "error");

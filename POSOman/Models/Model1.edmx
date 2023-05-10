@@ -135,13 +135,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="QuotationNo" Type="int" />
+          <Property Name="PurchaseNo" Type="int" />
           <Property Name="ReferenceNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="DateIssued" Type="datetime" />
           <Property Name="ExpireDate" Type="datetime" />
           <Property Name="VendorId" Type="int" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="QutotationReferenceNo" Type="int" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -642,13 +643,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuotationNo" Type="Int32" />
+          <Property Name="PurchaseNo" Type="Int32" />
           <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DateIssued" Type="DateTime" Precision="3" />
           <Property Name="ExpireDate" Type="DateTime" Precision="3" />
           <Property Name="VendorId" Type="Int32" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="QutotationReferenceNo" Type="Int32" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
           <NavigationProperty Name="Vendor" Relationship="Self.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
         </EntityType>
@@ -1157,13 +1159,14 @@
             <EntityTypeMapping TypeName="db_fypModel.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="PurchaseNo" ColumnName="PurchaseNo" />
                 <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
                 <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
                 <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
                 <ScalarProperty Name="VendorId" ColumnName="VendorId" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="QutotationReferenceNo" ColumnName="QutotationReferenceNo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
