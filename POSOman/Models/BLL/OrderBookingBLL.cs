@@ -65,6 +65,7 @@ namespace MangoERP.Models.BLL
             try
             {
                 Purchase q = new Purchase();
+                q.PurchaseNo = model.PurchaseNo;
                 q.ReferenceNumber = model.ReferenceNumber;
                 q.QutotationReferenceNo = model.QutotationReferenceNo;
                 q.DateIssued = DateTime.Now;
