@@ -60,8 +60,10 @@
                                             </td>
 
                                             <td>
+                                              @*//  @if (item.Status == 0)
+                                               // {*@
                                                 @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
-
+                                             
                                             </td>
                                         </tr>
                                     }
