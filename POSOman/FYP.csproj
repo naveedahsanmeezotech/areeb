@@ -4215,6 +4215,7 @@
     <Content Include="Scripts\purchase\addPurchaseOrderProducts.js" />
     <Content Include="Scripts\purchase\EditPurchaseInvoice.js" />
     <Content Include="Scripts\purchase\EditPurchaseOrderProducts.js" />
+    <Content Include="Scripts\purchase\GR.js" />
     <Content Include="Scripts\purchase\purchaseInvoice.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -4278,13 +4279,9 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Purchase\Create.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Graves12\Create.cshtml" />
-    <Content Include="Views\Graves12\Delete.cshtml" />
-    <Content Include="Views\Graves12\Details.cshtml" />
-    <Content Include="Views\Graves12\Edit.cshtml" />
-    <Content Include="Views\Graves12\Index.cshtml" />
     <Content Include="Views\Purchase\CreateBill.cshtml" />
     <Content Include="Views\Purchase\IndexList.cshtml" />
+    <Content Include="Views\Purchase\CreateGR.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
