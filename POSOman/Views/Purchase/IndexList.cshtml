@@ -39,7 +39,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.QuotationNo)
+                                                @Html.DisplayFor(modelItem => item.PurchaseNo)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
@@ -54,9 +54,13 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.TotalAmount)
                                             </td>
-
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                                            </td>
 
                                             <td>
+                                                @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
+
                                             </td>
                                         </tr>
                                     }

@@ -17,7 +17,7 @@ namespace MangoERP.Controllers
         }
         public ActionResult IndexList()
         {
-            return View(db.Purchases.Where(p => p.Status == 0).ToList());
+            return View(db.Purchases.Where(p => p.Status == 1).ToList());
             //return View();
         }
         // GET: Purchase
@@ -117,7 +117,21 @@ namespace MangoERP.Controllers
                 return Json(POID, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult getNewPOID()
+        {
+            int? POID = 0;
+            var tmp = db.Quotations.OrderByDescending(v => v.Id).FirstOrDefault();
+            if (tmp != null)
+            {
+                POID = tmp.QuotationNo + 1;
+            }
+            else
+            {
+                POID = 1000;
+            }
 
+            return Json(POID, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult CreateBill(int? Id)
         {
             var data = db.Quotations.Where(p => p.Id == Id).FirstOrDefault();
