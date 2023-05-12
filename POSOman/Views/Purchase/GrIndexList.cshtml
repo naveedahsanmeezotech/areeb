@@ -16,23 +16,23 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Invoice
+                                            GR
                                         </th>
                                         <th>
                                             VendorName
                                         </th>
 
                                         <th>
-                                            Date Issued
+                                            DocumnetDate
                                         </th>
                                         <th>
-                                            Reference
+                                            PostingDate
                                         </th>
                                         <th>
                                             Amount
                                         </th>
-                                        
-                                        <th></th>
+                                        <th>Action</th>
+                                     
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,28 +40,29 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.PurchaseNo)
+                                                @Html.DisplayFor(modelItem => item.GR)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
                                             </td>
 
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.DateIssued)
+                                                @Html.DisplayFor(modelItem => item.DocumnetDate)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                                @Html.DisplayFor(modelItem => item.PostingDate)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.TotalAmount)
                                             </td>
-                                          
-                                            <td>
-                                                @if (item.Status ==1)
+                                            
+
+                                            @*<td>
+                                                @if (item.Status == 2)
                                                 {
-                                                @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
+                                                    @Html.ActionLink("Detail", "Detail", new { Id = item.Id }, null)
                                                 }
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>

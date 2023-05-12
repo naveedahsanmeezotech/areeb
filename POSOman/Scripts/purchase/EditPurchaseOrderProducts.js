@@ -11,7 +11,8 @@ getPOID();
 
 $("#BranchID").prop('disabled', true);
 $("#btnRemove").prop('disabled', false);
-$('#TotalAmount').val('');
+
+
 
 GetEditVendors(OrderId);
 //Edit Vendor

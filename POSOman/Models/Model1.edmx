@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -143,6 +143,9 @@
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="QutotationReferenceNo" Type="int" />
+          <Property Name="GR" Type="int" />
+          <Property Name="DocumnetDate" Type="datetime" />
+          <Property Name="PostingDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -157,6 +160,7 @@
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="MeasureOfUnit" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Quotation">
           <Key>
@@ -201,6 +205,18 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Section" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
+        <EntityType Name="StockLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterailId" Type="int" />
+          <Property Name="MaterailName" Type="nvarchar" MaxLength="50" />
+          <Property Name="StockIn" Type="int" />
+          <Property Name="StockOut" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Description" Type="nchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -240,6 +256,7 @@
           <Property Name="Contact_Person" Type="varchar" MaxLength="30" />
           <Property Name="Vendor_Contact" Type="nvarchar" MaxLength="15" />
           <Property Name="Vendor_Payment_Type" Type="varchar" MaxLength="30" />
+          <Property Name="Address" Type="varchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK_Customer_Grave">
           <End Role="Grave" Type="Self.Grave" Multiplicity="0..1" />
@@ -391,6 +408,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockLog_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="StockLog" Type="Self.StockLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockLog">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Log_UserAction_Log">
           <End Role="Users_Log" Type="Self.Users_Log" Multiplicity="0..1" />
           <End Role="UserAction_Log" Type="Self.UserAction_Log" Multiplicity="*" />
@@ -433,6 +462,7 @@
           <EntitySet Name="QuotationDetail" EntityType="Self.QuotationDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleOrder" EntityType="Self.SaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockLog" EntityType="Self.StockLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAction_Log" EntityType="Self.UserAction_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users_Log" EntityType="Self.Users_Log" Schema="dbo" store:Type="Tables" />
@@ -485,6 +515,10 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="SaleOrder" EntitySet="SaleOrder" />
           </AssociationSet>
+          <AssociationSet Name="FK_StockLog_Product" Association="Self.FK_StockLog_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StockLog" EntitySet="StockLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Log_UserAction_Log" Association="Self.FK_Users_Log_UserAction_Log">
             <End Role="Users_Log" EntitySet="Users_Log" />
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
@@ -494,8 +528,7 @@
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_fypModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -637,6 +670,7 @@
           <Property Name="UnitOfMeasure" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Product" FromRole="Product" ToRole="PurchaseDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
+          <NavigationProperty Name="StockLogs" Relationship="db_fypModel.FK_StockLog_Product" FromRole="Product" ToRole="StockLog" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -651,6 +685,9 @@
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="QutotationReferenceNo" Type="Int32" />
+          <Property Name="GR" Type="Int32" />
+          <Property Name="DocumnetDate" Type="DateTime" Precision="3" />
+          <Property Name="PostingDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
           <NavigationProperty Name="Vendor" Relationship="Self.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
         </EntityType>
@@ -667,6 +704,7 @@
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MeasureOfUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="Self.FK_PurchaseDetail_Product" FromRole="PurchaseDetail" ToRole="Product" />
           <NavigationProperty Name="Purchase" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="PurchaseDetail" ToRole="Purchase" />
         </EntityType>
@@ -760,6 +798,7 @@
           <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Purchases" Relationship="Self.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
           <NavigationProperty Name="Quotations" Relationship="Self.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
         </EntityType>
@@ -1015,7 +1054,37 @@
             <End Role="Users_Log" EntitySet="Users_Log" />
             <End Role="UserAction_Log" EntitySet="UserAction_Log" />
           </AssociationSet>
+          <EntitySet Name="StockLogs" EntityType="db_fypModel.StockLog" />
+          <AssociationSet Name="FK_StockLog_Product" Association="db_fypModel.FK_StockLog_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StockLog" EntitySet="StockLogs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="StockLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StockIn" Type="Int32" />
+          <Property Name="StockOut" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="db_fypModel.FK_StockLog_Product" FromRole="StockLog" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_StockLog_Product">
+          <End Type="db_fypModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="db_fypModel.StockLog" Role="StockLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockLog">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1167,6 +1236,9 @@
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="QutotationReferenceNo" ColumnName="QutotationReferenceNo" />
+                <ScalarProperty Name="GR" ColumnName="GR" />
+                <ScalarProperty Name="DocumnetDate" ColumnName="DocumnetDate" />
+                <ScalarProperty Name="PostingDate" ColumnName="PostingDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1182,6 +1254,7 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="MeasureOfUnit" ColumnName="MeasureOfUnit" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1273,6 +1346,20 @@
                 <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
                 <ScalarProperty Name="Vendor_Contact" ColumnName="Vendor_Contact" />
                 <ScalarProperty Name="Vendor_Payment_Type" ColumnName="Vendor_Payment_Type" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockLogs">
+            <EntityTypeMapping TypeName="db_fypModel.StockLog">
+              <MappingFragment StoreEntitySet="StockLog">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StockOut" ColumnName="StockOut" />
+                <ScalarProperty Name="StockIn" ColumnName="StockIn" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

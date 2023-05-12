@@ -29,6 +29,9 @@ namespace MangoERP.Models
         public Nullable<decimal> TotalAmount { get; set; }
         public int Status { get; set; }
         public Nullable<int> QutotationReferenceNo { get; set; }
+        public Nullable<int> GR { get; set; }
+        public Nullable<System.DateTime> DocumnetDate { get; set; }
+        public Nullable<System.DateTime> PostingDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }

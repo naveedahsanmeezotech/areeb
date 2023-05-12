@@ -31,7 +31,8 @@ function GetEditVendors(OrderId) {
 
 
             data[0].ProductsList.forEach(ListProduct);
-
+            
+            $('#ReferencePO').val(data[0].Qry);
 
             //getVendorDetail(vendorID);
 
@@ -76,13 +77,20 @@ function ListProduct(item) {
     var cPrice = '<input type="hidden" id="costPrice" value="' + item.cPrice + '"/>';
     var Qty = parseInt(item.Qty);
 
-    var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + pid + "" + product + "</td><td id='ProductQty' contenteditable='true' >" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td></tr>";
+    var markup = "<tr><td>" + pid + "" + product + "</td><td id='ProductQty'  >" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td></tr>";
+
+
+    $("#tblProductold tbody").append(markup);
+
+    var markup = "<tr><td>" + pid + "" + product + "</td><td id='ProductQty' contenteditable='true' >" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td><td id='ProductRemark'  contenteditable='true' >" + "" + "</td></tr>";
 
 
     $("#tblProduct tbody").append(markup);
     $tableItemCounter++;
     $addedProductIDs.push(item.Product);
     proIdEdit = item.MaterailId;
+
+  
 }
 function GetEditProductDetail(OrderId, ProductID, BranchID) {
 

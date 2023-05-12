@@ -46,5 +46,6 @@ namespace MangoERP.Models
         public virtual DbSet<UserAction_Log> UserAction_Log { get; set; }
         public virtual DbSet<Users_Log> Users_Log { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<StockLog> StockLogs { get; set; }
     }
 }

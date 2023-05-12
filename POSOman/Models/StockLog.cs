@@ -12,20 +12,16 @@ namespace MangoERP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PurchaseDetail
+    public partial class StockLog
     {
         public int Id { get; set; }
-        public int PurchaseId { get; set; }
-        public string MaterailName { get; set; }
         public Nullable<int> MaterailId { get; set; }
-        public Nullable<int> Qty { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<decimal> Amount { get; set; }
+        public string MaterailName { get; set; }
+        public Nullable<int> StockIn { get; set; }
+        public Nullable<int> StockOut { get; set; }
+        public Nullable<int> Status { get; set; }
         public string Description { get; set; }
-        public string MeasureOfUnit { get; set; }
-        public string Remark { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual Purchase Purchase { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MangoERP.Models.Purchase>
+﻿@model IEnumerable<MangoERP.Models.StockLog>
 
 @{
     ViewBag.Title = "Index";
@@ -16,20 +16,14 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Invoice
+                                            Material Id
                                         </th>
                                         <th>
-                                            VendorName
+                                            Material Name
                                         </th>
 
                                         <th>
-                                            Date Issued
-                                        </th>
-                                        <th>
-                                            Reference
-                                        </th>
-                                        <th>
-                                            Amount
+                                           Stock
                                         </th>
                                         
                                         <th></th>
@@ -40,28 +34,16 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.PurchaseNo)
+                                                @Html.DisplayFor(modelItem => item.MaterailId)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
+                                                @Html.DisplayFor(modelItem => item.MaterailName)
                                             </td>
 
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.DateIssued)
+                                                @Html.DisplayFor(modelItem => item.StockIn)
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ReferenceNumber)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.TotalAmount)
-                                            </td>
-                                          
-                                            <td>
-                                                @if (item.Status ==1)
-                                                {
-                                                @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
-                                                }
-                                            </td>
+                                         
                                         </tr>
                                     }
                                 </tbody>
