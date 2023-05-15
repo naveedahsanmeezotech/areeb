@@ -1,0 +1,182 @@
+﻿
+@model IEnumerable<MangoERP.Models.PurchaseDetail>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>'</title>
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/styles.css">
+    <style type="text/css">
+        .footer {
+            position: fixed;
+            text-align: center;
+            bottom: 0px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body style="margin-top:40px; margin-bottom:10px; -webkit-print-color-adjust: exact !important;">
+    <div>
+        <div class="container">
+            <div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-5" style="text-align:center; align-content:center">
+                            <h3> Grave</h3>
+                        </div>
+                        <div class="col-md-11" style="text-align:center ">
+
+                            @*<h6>Plot # Q-312, Sector 33/A, Korangi # 2, Karachi</h6>
+                            <hr />
+                            <h4>Purchase Invoice</h4>*@
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+            <d@*iv class="row">
+                <div class="col-md-4 col-xl-4">
+                    <form>
+                        <div class="form-group"><label style="padding-right:15px;"><strong>Bill From : </strong></label>@Model.First().PurchaseOrder.AccountDetail.AccountName</div>
+                        <div class="form-group row"><label class="col-lg-4 col-md-5 col-sm-2 col-xs-2"><strong>Order ID</strong></label>@Model.First().PurchaseOrder.POID</div>
+                    </form>
+                </div>
+                <div class="col-md-3 col-xl-4"></div>
+                <div class="col-md-5 col-xl-4">
+                    <form>
+                        <div class="form-group row"><label class="col-lg-4 col-md-5 col-sm-2 col-xs-2"><strong>Date</strong></label>@Model.First().PurchaseOrder.PurchaseDate.GetValueOrDefault().ToString("dd/MM/yyyy")</div>
+                        <div class="form-group row"><label class="col-lg-4 col-md-5 col-sm-2 col-xs-2"><strong>Invoice No.</strong></label>@Model.First().PurchaseOrder.InvoiceNo</div>
+                    </form>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table" id="item-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.tmp_PO.InvoiceNo)
+                            </th>*@
+                        <th>
+                            <label>Material Name</label>
+                        </th>
+                        
+
+                        <th>
+                            @Html.DisplayName("Description")
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MeasureOfUnit)
+                        </th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    @{  int counter = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@counter</th>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.PurchaseOrder.InvoiceNo)
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.MaterialName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+
+                              
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeasureOfUnit)
+                                </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.ReturnedQty)
+                                    </td>*@
+
+                            </tr>
+                            counter = counter + 1;
+                        }
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="col-md-5 col-sm-12">
+            <p class="lead">Net Total</p>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td> Total</td>
+                            <td class="text-right">@Model.First().Purchase.TotalAmount</td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center">
+                @*<p>Authorized person</p>*@
+                @*<img src="../../../app-assets/images/pages/signature-scan.png" alt="signature" class="height-100" />
+                    <h6>Amanda Orton</h6>
+                    <p class="text-muted">Managing Director</p>*@
+            </div>
+
+        </div>
+    </div>
+    <div>
+        <div class="container">
+            @*<div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6 text-center">
+                        <h6 style="padding-bottom: 30px;">Authorized Person</h6>
+                        <p style="padding-top: 30px;">_____________________</p>
+                    </div>
+                </div>*@
+           
+        </div>
+    </div>
+
+    
+    @*<input id="printdiv" type="submit" value="Print" onclick="printContent()" /><i class="fa fa-print"></i>*@
+    <script src="~/assets/js/data.js"></script>
+
+    <script type="text/javascript">
+    function printContent() {
+        var printButton = document.getElementById("printdiv");
+        printButton.style.visibility = 'hidden';
+        var backbtn = document.getElementById("backbtn");
+        backbtn.style.visibility = 'hidden';
+        window.print();
+    }
+    function Back() {
+        window.location.href = '/Purchase';
+    }
+    </script>
+    @*<div class="footer">Developed By: MangoTech Solutions</div>*@
+    @*<div class="footer">
+
+        </div>*@
+</body>
+
+</html>

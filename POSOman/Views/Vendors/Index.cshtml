@@ -55,10 +55,13 @@
                                             @Html.DisplayFor(modelItem => item.Address   )
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+
+                                        <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Vendor_ID }) |
                                             @Html.ActionLink("Details", "Details", new { id = item.Vendor_ID }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Vendor_ID })
-                                        </td>
+                                      </td>
                                     </tr>
                                 }
 

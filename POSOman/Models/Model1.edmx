@@ -257,6 +257,7 @@
           <Property Name="Vendor_Contact" Type="nvarchar" MaxLength="15" />
           <Property Name="Vendor_Payment_Type" Type="varchar" MaxLength="30" />
           <Property Name="Address" Type="varchar" MaxLength="30" />
+          <Property Name="Status" Type="varchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK_Customer_Grave">
           <End Role="Grave" Type="Self.Grave" Multiplicity="0..1" />
@@ -689,7 +690,7 @@
           <Property Name="DocumnetDate" Type="DateTime" Precision="3" />
           <Property Name="PostingDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
+          <NavigationProperty Name="Vendor" Relationship="db_fypModel.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -720,8 +721,8 @@
           <Property Name="VendorId" Type="Int32" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
           <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
+          <NavigationProperty Name="Vendor" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="QuotationDetail">
           <Key>
@@ -788,19 +789,6 @@
           <Property Name="IsLogin" Type="Boolean" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Id_Users_Log" FromRole="Users_Log" ToRole="AspNetUsers" />
           <NavigationProperty Name="UserAction_Log" Relationship="Self.FK_Users_Log_UserAction_Log" FromRole="Users_Log" ToRole="UserAction_Log" />
-        </EntityType>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="Vendor_ID" />
-          </Key>
-          <Property Name="Vendor_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Vendor_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Purchases" Relationship="Self.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
-          <NavigationProperty Name="Quotations" Relationship="Self.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -928,30 +916,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKPurchase_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
-          <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="Vendor_ID" />
-            </Principal>
-            <Dependent Role="Purchase">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Quotation_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
-          <End Role="Quotation" Type="Self.Quotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="Vendor_ID" />
-            </Principal>
-            <Dependent Role="Quotation">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_QuotationDetail_Quotation">
           <End Role="Quotation" Type="Self.Quotation" Multiplicity="1" />
           <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
@@ -997,7 +961,6 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="UserAction_Log" EntityType="Self.UserAction_Log" />
           <EntitySet Name="Users_Log" EntityType="Self.Users_Log" />
-          <EntitySet Name="Vendors" EntityType="Self.Vendor" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -1038,14 +1001,6 @@
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
-          <AssociationSet Name="FKPurchase_Vendor" Association="Self.FKPurchase_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Purchase" EntitySet="Purchases" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Quotation_Vendor" Association="Self.FK_Quotation_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Quotation" EntitySet="Quotations" />
-          </AssociationSet>
           <AssociationSet Name="FK_QuotationDetail_Quotation" Association="Self.FK_QuotationDetail_Quotation">
             <End Role="Quotation" EntitySet="Quotations" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
@@ -1059,7 +1014,16 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="StockLog" EntitySet="StockLogs" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Vendors" EntityType="db_fypModel.Vendor" />
+          <AssociationSet Name="FKPurchase_Vendor" Association="db_fypModel.FKPurchase_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quotation_Vendor" Association="db_fypModel.FK_Quotation_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Quotation" EntitySet="Quotations" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="StockLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -1085,7 +1049,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="Vendor_ID" />
+          </Key>
+          <Property Name="Vendor_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Vendor_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Purchases" Relationship="db_fypModel.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
+          <NavigationProperty Name="Quotations" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
+        </EntityType>
+        <Association Name="FKPurchase_Vendor">
+          <End Type="db_fypModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="db_fypModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quotation_Vendor">
+          <End Type="db_fypModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Quotation">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1338,18 +1340,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="db_fypModel.Vendor">
-              <MappingFragment StoreEntitySet="Vendor">
-                <ScalarProperty Name="Vendor_ID" ColumnName="Vendor_ID" />
-                <ScalarProperty Name="Vendor_Name" ColumnName="Vendor_Name" />
-                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
-                <ScalarProperty Name="Vendor_Contact" ColumnName="Vendor_Contact" />
-                <ScalarProperty Name="Vendor_Payment_Type" ColumnName="Vendor_Payment_Type" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="StockLogs">
             <EntityTypeMapping TypeName="db_fypModel.StockLog">
               <MappingFragment StoreEntitySet="StockLog">
@@ -1360,6 +1350,19 @@
                 <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
                 <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="db_fypModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Vendor_Payment_Type" ColumnName="Vendor_Payment_Type" />
+                <ScalarProperty Name="Vendor_Contact" ColumnName="Vendor_Contact" />
+                <ScalarProperty Name="Contact_Person" ColumnName="Contact_Person" />
+                <ScalarProperty Name="Vendor_Name" ColumnName="Vendor_Name" />
+                <ScalarProperty Name="Vendor_ID" ColumnName="Vendor_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

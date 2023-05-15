@@ -1,0 +1,233 @@
+﻿@model IEnumerable<MangoERP.Models.PurchaseDetail>
+<div class="content-body">
+    <section class="card">
+        <div id="invoice-template" class="card-body">
+            <!-- Invoice Company Details -->
+            <div id="invoice-company-details" class="row">
+                <div class="col-md-6 col-sm-12 text-center text-md-left">
+                    <div class="media">
+                        <img src="~/Content/app-assets/images/logo/stack-80x80.png" alt="company logo" class="" />
+                        <div class="media-body">
+                            <ul class="ml-2 px-0 list-unstyled">
+                                 @*<li></li>*@
+                                @*<li>Melbourne,</li>
+                                    <li>Florida 32940,</li>*@
+                                <li>Grave</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 text-center text-md-right">
+                    <h3>Purchase Invoice</h3>
+                    <p class="pb-3">@Model.First().Purchase.PurchaseNo</p>
+                    <ul class="px-0 list-unstyled">
+                        <li></li>
+                        <li class="lead text-bold-800"></li>
+                    </ul>
+                </div>
+            </div>
+            <!--/ Invoice Company Details -->
+            <!-- Invoice Customer Details -->
+            <div id="invoice-customer-details" class="row pt-2">
+                <div class="col-sm-12 text-center text-md-left">
+                    <p class="text-muted">Bill From :</p>
+                </div>
+                <div class="col-md-6 col-sm-12 text-center text-md-left">
+                    <ul class="px-0 list-unstyled">
+                        <li class="text-bold-800">Mr.@Model.First().Purchase.Vendor.Vendor_Name</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                @*<div class="col-md-6 col-sm-12 text-center text-md-right">
+                    <p>
+                        <span class="text-muted">Invoice Date :</span> @Model.First().PurchaseOrder.PurchaseDate.GetValueOrDefault().ToString("dd/MM/yyyy")
+                    </p>
+                    <p>
+                        <span class="text-muted">Invoice No. :</span> @Model.First().PurchaseOrder.InvoiceNo
+                    </p>
+                    <p>
+                        @*<span class="text-muted">Due Date :</span> 10/05/2016*@
+                    </p>
+                </div>*@
+            </div>
+            <!--/ Invoice Customer Details -->
+            <!-- Invoice Items Details -->
+            <div id="invoice-items-details" class="pt-2">
+                <div class="row">
+                    <div class="table-responsive col-sm-12">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    @*<th>
+                                            @Html.DisplayNameFor(model => model.PurchaseOrder.InvoiceNo)
+                                        </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MaterailName)
+                                    </th>
+                                  
+                                  
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Price)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Amount)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                            <tbody>
+                                @{  int counter = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <th scope="row">@counter</th>
+                                            @*<td>
+                                                    @Html.DisplayFor(modelItem => item.PurchaseOrder.InvoiceNo)
+                                                </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MaterailName)
+                                            </td>
+                                          
+                                         
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
+                                            </td>
+                                            @*<td>
+                                                    @Html.DisplayFor(modelItem => item.ReturnedQty)
+                                                </td>*@
+
+                                        </tr>
+                                        counter = counter + 1;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    @*<div class="col-md-7 col-sm-12 text-center text-md-left">
+                            <p class="lead">Payment Methods:</p>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <table class="table table-borderless table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>Payment Type:</td>
+                                                <td class="text-right">@(Model.First().PurchaseOrder.PaymentTypeID != null ? Model.First().PurchaseOrder.PaymentType.Name : "")</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment Status:</td>
+                                                <td class="text-right">@Model.First().PurchaseOrder.PaymentStatus</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Currency</td>
+                                                <td class="text-right">@Model.First().PurchaseOrder.Currency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>IBAN:</td>
+                                                <td class="text-right">FGS165461646546AA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>SWIFT code:</td>
+                                                <td class="text-right">BTNPP34</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>*@
+                 
+                </div>
+                <!--/ Invoice Footer -->
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@*<div class="content-body">
+        <!-- DOM - jQuery events table -->
+        <section id="dom">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">@Html.ActionLink("Create New", "NewOrder")</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="table-responsive">
+
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.PurchaseOrder.InvoiceNo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.PartNo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Qty)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.UnitPrice)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.SalePrice)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Total)
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PurchaseOrder.InvoiceNo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PartNo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Qty)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SalePrice)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                </td>
+                                                @*<td>
+                                                    @Html.DisplayFor(modelItem => item.ReturnedQty)
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>*@

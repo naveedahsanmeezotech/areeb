@@ -57,10 +57,10 @@
                                            
 
                                             <td>
-                                                @if (item.Status == 1)
-                                                {
+                                                @*@if (item.Status == 1)
+                                                {*@
                                                     @Html.ActionLink("Create Bill", "CreateBill", new { Id = item.Id }, null)
-                                                }
+                                                    @*//}*@
                                             </td>
                                         </tr>
                                     }

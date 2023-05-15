@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,8 +16,23 @@ namespace MangoERP.Controllers
         public ActionResult Index()
         {
             //         return View(db.Quotations.Where(p=>p.Status==1).ToList());
-            return View(db.Quotations.ToList());
+            return View(db.Quotations.Where(p=>p.Vendor.Status=="Active").ToList());
 
+        }
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //tbl_PurchaseOrder purchaseOrder = db.tbl_PurchaseOrder.Find(id);
+            List<PurchaseDetail> _PODetails = db.PurchaseDetails.Where(p => p.PurchaseId == id).ToList();
+           
+            if (_PODetails == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_Invoice", _PODetails);
         }
         public ActionResult GRIndexList()
         {

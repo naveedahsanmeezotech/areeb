@@ -58,6 +58,10 @@ function getProducts(categoryID) {
 
 // Get Details of Selected Product
 function getDetail(pId) {
+    $('#Description').val('');
+    $('#UnitOfMeasure').val('');
+
+
    // get product description
     var json = { "productId": pId };
     $.ajax({
@@ -69,7 +73,7 @@ function getDetail(pId) {
         success: function (data) {
             debugger
             console.log(data.MaterialName)
-            $('#Description').val(data.MaterialName);
+            $('#Description').val(data.Description);
             $('#UnitOfMeasure').val(data.UnitOfMeasure);
 
             //console.log($('#hdnProductID').val());

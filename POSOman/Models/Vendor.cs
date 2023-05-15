@@ -27,6 +27,7 @@ namespace MangoERP.Models
         public string Vendor_Contact { get; set; }
         public string Vendor_Payment_Type { get; set; }
         public string Address { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Purchase> Purchases { get; set; }

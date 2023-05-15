@@ -4290,6 +4290,8 @@
     <Content Include="Views\Purchase\CreateGR.cshtml" />
     <Content Include="Views\Purchase\GRIndexList.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
+    <Content Include="Views\Purchase\Details.cshtml" />
+    <Content Include="Views\Purchase\_Invoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
