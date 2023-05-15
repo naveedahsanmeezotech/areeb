@@ -28,13 +28,13 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         <input type="hidden" id="isPacket" name="isPacket">
                                         <input type="hidden" id="isMinor" name="isMinor">
                                         <input type="hidden" id="minorDivisor" name="minorDivisor">
-                                        
+
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Vendor</label>
                                             <br>
 
-                                           @Html.DropDownList("VendorId", new SelectList(ViewBag.vendor, "Value", "Name"), "Select Vendor", htmlAttributes: new { @class = "form-control" })
-                                         </div>
+                                            @Html.DropDownList("VendorId", new SelectList(ViewBag.vendor, "Value", "Name"), "Select Vendor", htmlAttributes: new { @class = "form-control" })
+                                        </div>
                                         <div class="col-md-4">
                                             <label>Date Issued </label>
                                             @Html.EditorFor(model => model.DateIssued, new { htmlAttributes = new { @class = "form-control", type = "date", name = "DateIssued", id = "DateIssued", @readonly = "readonly" } })
@@ -61,7 +61,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         <div class="col-12">
                                             <div class="form-row">
 
-                                        </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <h5 class="form-section"><i class="ft-mail"></i>Materail Entry </h5>
@@ -112,7 +112,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                             <div class="col-sm-2">
                                                 <label>Unit Of Measure</label>
                                                 <br />
-                                                <input type="text"  class="form-control" placeholder="UnPrice" id="UnitOfMeasure" />
+                                                <input type="text" class="form-control" placeholder="UnPrice" id="UnitOfMeasure" />
                                             </div>
                                             <div class="col-sm-2" hidden>
                                                 <label>Sub Total</label>
@@ -140,18 +140,18 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                             <tbody></tbody>
                                         </table>
                                     </div>
-                                   
+
                                     <hr /><button type="button" value="Remove" id="btnRemove" name="btnRemove" class="btn btn-danger btn-sm btn-round" onclick="remove(this)" tabindex="0">Remove Product(s)</button>
 
                                     <div class="row">
-                                   
+
                                         <div class="col-md-2">
                                             <label>Total Amount</label>
 
-                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" ,@id= "TotalAmount" } })
+                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "TotalAmount" } })
                                             @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
                                         </div>
-                                       
+
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
@@ -160,8 +160,8 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                             </div>
                                         </div>
                                     </div>
-                                 </div>
-                              
+                                </div>
+
 
                                 <div class="form-actions right">
                                     <input type="button" id="btnSubmit" value="Create" class="btn btn-primary" />
@@ -182,21 +182,24 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
 @section scripts{
     <script type="text/javascript">
         document.getElementById('DateIssued').valueAsDate = new Date();
-     //   document.getElementById('PurchaseDate').valueAsDate = new Date();
-       // $('#AccountID').select2();
-        //$('#VendorCode').select2();
-        //$('#ddlVehCode').select2();
-        //$('#ddlPartNumber').select2();
-        //onunblock - callback
+         //   document.getElementById('PurchaseDate').valueAsDate = new Date();
+           // $('#AccountID').select2();
+            //$('#VendorCode').select2();
+            //$('#ddlVehCode').select2();
+            //$('#ddlPartNumber').select2();
+            //onunblock - callback
     </script>
     <script src="~/Scripts/js/scripts/extensions/block-ui.js" type="text/javascript"></script>
     <script src="~/Scripts/js/scripts/modal/components-modal.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/vendors/css/extensions/sweetalert.css">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="~/Content/vendors/css/extensions/toastr.css">
     <script src="~/Scripts/purchase/addPurchaseOrderProducts.js"></script>
     <script src="~/Scripts/purchase/purchaseInvoice.js"></script>
     @*<script src="~/Scripts/customScripts/partialVendor.js"></script>*@
     <script src="~/Scripts/jquery.validate.js" type="text/javascript"></script>
-  
+
 }
