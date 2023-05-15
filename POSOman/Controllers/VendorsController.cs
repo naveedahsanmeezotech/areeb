@@ -46,7 +46,7 @@ namespace MangoERP.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Vendor_ID,Vendor_Name,Contact_Person,Vendor_Contact,Vendor_Payment_Type")] Vendor vendor)
+        public ActionResult Create( Vendor vendor)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace MangoERP.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Vendor_ID,Vendor_Name,Contact_Person,Vendor_Contact,Vendor_Payment_Type")] Vendor vendor)
+        public ActionResult Edit(Vendor vendor)
         {
             if (ModelState.IsValid)
             {

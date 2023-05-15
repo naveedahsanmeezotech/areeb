@@ -58,27 +58,31 @@ function getProducts(categoryID) {
 
 // Get Details of Selected Product
 function getDetail(pId) {
-    $("#hdnProductID").val(pId);
-    // get product description
+   // get product description
     var json = { "productId": pId };
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: '/Products/getProductDetail',
+        url: '/Purchase/getProductDetail',
         async: true,
         data: JSON.stringify(json),
         success: function (data) {
+            debugger
+            console.log(data.MaterialName)
+            $('#Description').val(data.MaterialName);
+            $('#UnitOfMeasure').val(data.UnitOfMeasure);
+
             //console.log($('#hdnProductID').val());
             //if (data) { document.getElementById('btnEdit').style.visibility = 'visible'; }
-            if (data.Category) { $('#GroupTitle').text("Category: "); $('#Group').text(data.Category); }
-            if (data.UnitCode) {
-                $('#UnitCodeTitle').text("Un Code: "); $('#UnitCode').text(data.UnitCode);
-                $('#unitCode').val(data.UnitCode);
-            }
-            $('#hdnCostPrice').val(data[0].costPrice);
-            var salePrice = data[0].SalePrice;
-            $('#hdnSalePrice').val(salePrice);
-            $('#Stock').val(data[0].stock);          
+            //if (data.Category) { $('#GroupTitle').text("Category: "); $('#Group').text(data.Category); }
+            //if (data.UnitCode) {
+            //    $('#UnitCodeTitle').text("Un Code: "); $('#UnitCode').text(data.UnitCode);
+            //    $('#unitCode').val(data.UnitCode);
+            //}
+            //$('#hdnCostPrice').val(data[0].costPrice);
+            //var salePrice = data[0].SalePrice;
+            //$('#hdnSalePrice').val(salePrice);
+            //$('#Stock').val(data[0].stock);          
         },
         error: function (err) { console.log(err); }
     });   
@@ -111,8 +115,8 @@ $("#tblProduct").focusout(function () {
     });
 });
 // On part No Selection
-$("#ddlProduct").change(function () {
-    var pId = $('#ddlProduct').val();
+$("#ProductId").change(function () {
+    var pId = $('#ProductId').val();
     getDetail(pId);
 });
 // Add Product to Purchase List 

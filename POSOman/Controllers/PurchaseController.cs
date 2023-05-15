@@ -1,4 +1,5 @@
 ﻿using MangoERP.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -255,6 +256,45 @@ namespace MangoERP.Controllers
             return Json(objectList, JsonRequestBehavior.AllowGet);
 
         }
+
+        public JsonResult getProductDetail(int productId)
+        {
+            try
+            {
+                //int branchId = 0;
+
+                //if (Session["BranchID"] != null)
+                //{
+                //    branchId = Convert.ToInt32(Session["BranchID"]);
+                //}
+                //else
+                //{
+                //    var user = User.Identity;
+                //    string currentUserId = User.Identity.GetUserId();
+                //    var currentUser = db.AspNetUsers.FirstOrDefault(x => x.Id == currentUserId);
+                //    branchId = currentUser.BranchID;
+                //}
+                var qry = db.Products.Where(p => p.Id == productId).Select(p => new {
+
+                    MaterialName = p.MaterialName,
+                    Id = p.Id,
+
+                    Description = p.Description,
+                    UnitOfMeasure = p.UnitOfMeasure,
+
+
+                }).FirstOrDefault();
+
+                return Json(qry);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message.ToString());
+            }
+
+            // return Json("null data");
+        }
+
 
         [HttpPost]
         public JsonResult GR(Purchase model, int? OrderId)

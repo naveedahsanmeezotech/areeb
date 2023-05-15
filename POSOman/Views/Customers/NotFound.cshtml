@@ -57,13 +57,14 @@
                                             <input class="form-control" name="last_name" required />
 
                                         </div>
-                                        <div class="form-group mb-1 col-sm-12 col-md-2">
-                                            <label>Delivery Date</label>
-                                            <br>
+                                             <div class="form-group mb-1 col-sm-12 col-md-2" id="show1">
+                                                <label>Delivery Date</label>
+                                                <br>
 
-                                            <input class="form-control" type="date" name="DeliveryDate"  id="DeliveryDate" />
+                                                <input class="form-control" type="date" name="DeliveryDate" id="DeliveryDate" />
 
-                                        </div>
+                                            </div>
+                                        
                                         <div class="form-group mb-1 col-sm-12 col-md-2" style="display:none">
                                             <label>Order Date</label>
                                             <br>
@@ -292,12 +293,15 @@ s
 
 
                     $("#show").show();
-                    
+                    $("#show1").show();
+
           
                 }
                 else {
                     $("#show").hide();
+                    $("#show1").hide();
 
+                    
                 }
 
      

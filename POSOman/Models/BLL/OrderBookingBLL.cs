@@ -162,24 +162,26 @@ namespace MangoERP.Models.BLL
 
 
                     var srock = db.StockLogs.Where(p => p.MaterailId == item.MaterailId).FirstOrDefault();
-                    if(srock !=null)
+                    if (srock != null)
                     {
                         srock.StockIn += item.Qty;
-                        srock.MaterailName += item.MaterailName;
+                        srock.MaterailName = item.MaterailName;
 
                         db.Entry(srock).State = EntityState.Modified;
                         db.SaveChanges();
                     }
-                    StockLog sl = new StockLog();
-                    sl.MaterailId = item.MaterailId  ;
-                    sl.MaterailName = item.MaterailName;
-                    sl.StockIn = item.Qty;
-                     sl.Status = 1;
-                    sl.Description = item.Description;
-               
-                    db.StockLogs.Add(sl);
-                    db.SaveChanges();
+                    else
+                    {
+                        StockLog sl = new StockLog();
+                        sl.MaterailId = item.MaterailId;
+                        sl.MaterailName = item.MaterailName;
+                        sl.StockIn = item.Qty;
+                        sl.Status = 1;
+                        sl.Description = item.Description;
 
+                        db.StockLogs.Add(sl);
+                        db.SaveChanges();
+                    }
                 }
 
 
