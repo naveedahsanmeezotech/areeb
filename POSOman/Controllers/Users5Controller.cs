@@ -100,6 +100,11 @@ namespace MangoERP.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, "Customer");
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+
+                }
                 //// Create a new user with ASP.NET Identity
                 //var user = new ApplicationUser
                 //{
@@ -148,6 +153,8 @@ namespace MangoERP.Controllers
             }
             catch (Exception ex)
             {
+                return RedirectToAction("Login", "Account");
+
                 return View();
 
             }
