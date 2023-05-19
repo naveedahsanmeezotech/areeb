@@ -1,10 +1,4 @@
 ﻿@using Microsoft.AspNet.Identity
-@using MangoERP.Models;
-
-@{
-    dbPOS db = new dbPOS();
-
-}
 
 <html lang="en" data-textdirection="ltr" class="loaded">
 <head>
@@ -98,12 +92,11 @@
                                         <span class="user-name">@User.Identity.GetUserName()</span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        @if (@User.IsInRole("Admin") || @User.IsInRole("SuperAdmin"))
+                                        @*@if (@User.IsInRole("Admin") || @User.IsInRole("SuperAdmin"))
                                         {
-                                            @*<a href="/Account/Register" class="dropdown-item"><i class="ft-user-plus"></i> Register User </a>*@
-                                            @*<i class="ft-user-plus"></i>
-                                                @Html.ActionLink("Register User", "Register", "Account", routeValues: null, htmlAttributes: new { id = "reg" })*@
-                                        }
+                                            <a href="/Account/Register" class="dropdown-item"><i class="ft-user-plus"></i> Register User </a>
+                                            <i class="ft-user-plus"></i>
+                                            }*@
                                         @*<i class="ft-user"></i>
                                             @Html.ActionLink("Change Password", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { id = "pwd" })*@
 
@@ -152,9 +145,12 @@
                     <li class="has-sub">
                         <a href="#" class="menu-item">Grave</a>
                         <ul class="menu-content">
+@if (User.IsInRole("Admin"))
+{
                             <li>
                                 <a href="/Graves/Create" class="menu-item">Create</a>
                             </li>
+}
                             <li>
                                 <a href="/Graves/Index" class="menu-item">List</a>
                             </li>
@@ -163,6 +159,8 @@
                             </li>
                         </ul>
                     </li>
+@if (User.IsInRole("Admin"))
+{ 
                     <li class="has-sub">
                         <a href="#" class="menu-item">Customer</a>
                         <ul class="menu-content">
@@ -172,6 +170,8 @@
 
                         </ul>
                     </li>
+}
+@if (User.IsInRole("Admin")) { 
                     <li class="has-sub">
                         <a href="#" class="menu-item">Vendor</a>
                         <ul class="menu-content">
@@ -183,6 +183,7 @@
                             </li>
                         </ul>
                     </li>
+
                     <li class="has-sub">
                         <a href="#" class="menu-item">Product</a>
                         <ul class="menu-content">
@@ -195,6 +196,9 @@
 
                         </ul>
                     </li>
+                    }
+@if (User.IsInRole("Admin"))
+{
                     <li class="has-sub">
                         <a href="#" class="menu-item">Inventory</a>
                         <ul class="menu-content">
@@ -216,7 +220,7 @@
 
                         </ul>
                     </li>
-
+}
                 </ul>
 
 

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using MangoERP.Models;
 using ZXing;
 using static MangoERP.Controllers.GravesController;
+using Microsoft.AspNet.Identity;
+using MangoERP.Models.BLL;
 
 namespace MangoERP.Controllers
 {
@@ -59,9 +61,7 @@ namespace MangoERP.Controllers
 
             return View(customer);
         }
-
-        // GET: Customers/Edit/5
-        public ActionResult Edit(int? id,string Name)
+  public ActionResult Edit(int? id, string Name)
         {
 
 
@@ -69,8 +69,8 @@ namespace MangoERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-           
-            Customer customer = db.Customers.Where(o => o.GraveId == id).FirstOrDefault();
+
+            Customer customer = db.Customers.Where(o => o.GraveDetail.GraveId == id).FirstOrDefault();
             if (customer == null)
             {
                 TempData["GraveName"] = Name;
@@ -81,27 +81,28 @@ namespace MangoERP.Controllers
 
             else
             {
-                if(customer.Status == "Reserved" )
+               if (customer.GraveDetail.Status == "Reserved")
                 {
                     ViewBag.hidden = "Reserved";
-                }else
+                }
+                else
                 {
                     ViewBag.hidden = "Booked";
                 }
 
-                ViewBag.hiddensize = customer.GraveSizeId;
+                ViewBag.hiddensize = customer.GraveDetail.GraveSizeId;
                 ViewBag.GraveName = Name;
-                ViewBag.GraveId = customer.GraveId;
+                ViewBag.GraveId = customer.GraveDetail.GraveId;
 
                 ViewBag.dob = customer.date_of_birth;  // date of birth
-                ViewBag.dod = customer.DeceasedDateofBirth;  // dof death 
-                ViewBag.ood = customer.OrderDate;  //order data
-                ViewBag.DeliveryDate = customer.DeliveryDate;  //delivery
+                ViewBag.dod = customer.GraveDetail.DeceasedDateofBirth;  // dof death 
+                ViewBag.ood = customer.GraveDetail.OrderDate;  //order data
+                ViewBag.DeliveryDate = customer.GraveDetail.DeliveryDate;  //delivery
 
 
                 return View(customer);
             }
-           
+
         }
 
         // POST: Customers/Edit/5
@@ -111,8 +112,8 @@ namespace MangoERP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerDto customer)
         {
-            
-            var data = db.Customers.Where(p=>p.customer_ID == customer.customer_ID).FirstOrDefault();
+
+            var data = db.Customers.Where(p => p.customer_ID == customer.customer_ID).FirstOrDefault();
             if (data != null)
             {
                 var grave = db.Graves.Where(p => p.Id == customer.GraveId).FirstOrDefault();
@@ -120,18 +121,18 @@ namespace MangoERP.Controllers
                 {
                     if (customer.typedetail == "Booked")
                     {
-                        data.DeceasedCnic = customer.DeceasedCnic;
-                        data.DeceasedCnic = customer.DeceasedCnic;
-                        data.ReasonOfDeath = customer.ReasonOfDeath;
-                        data.Status = "Booked";
+                        data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
+                        data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
+                        data.GraveDetail.ReasonOfDeath = customer.ReasonOfDeath;
+                        data.GraveDetail.Status = "Booked";
 
-                         grave.Grave_Status_Id = 2;
+                        grave.Grave_Status_Id = 2;
 
                     }
                     else if (customer.typedetail == "Reserved")
                     {
-                          grave.Grave_Status_Id = 3;
-                        data.Status = "Reserved";
+                        grave.Grave_Status_Id = 3;
+                        data.GraveDetail.Status = "Reserved";
 
                     }
                 }
@@ -146,15 +147,15 @@ namespace MangoERP.Controllers
                 data.cnic = customer.cnic;
                 data.date_of_birth = customer.date_of_birth;
                 data.Creation_Date = DateTime.Now;
-                data.DeceasedPerson = customer.DeceasedPerson;
-                data.DeceasedCnic = customer.DeceasedCnic;
-                data.ReasonOfDeath = customer.ReasonOfDeath;
-                data.DateofDeath = customer.DateofDeath;
-                data.DeceasedDateofBirth = customer.DeceasedDateofBirth;
-                data.Status = customer.Status;
+                data.GraveDetail.DeceasedPerson = customer.DeceasedPerson;
+                data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
+                data.GraveDetail.ReasonOfDeath = customer.ReasonOfDeath;
+                data.GraveDetail.DateofDeath = customer.DateofDeath;
+                data.GraveDetail.DeceasedDateofBirth = customer.DeceasedDateofBirth;
+                data.GraveDetail.Status = customer.Status;
                 db.Entry(data).State = EntityState.Modified;
                 db.SaveChanges();
-              
+
                 //   return RedirectToAction("/Graves/Index", db.Graves.ToList());
                 return RedirectToAction("Index", "Graves", db.Graves.ToList());
 
@@ -172,8 +173,11 @@ namespace MangoERP.Controllers
         {
             try
             {
+                string userId = User.Identity.GetUserId();
+
+                GraveDetail gd = new GraveDetail();
+
                 Customer po = new Customer();
-                po.GraveId = customer.GraveId;
                 po.first_name = customer.first_name;
                 po.last_name = customer.last_name;
                 po.Address = customer.Address;
@@ -182,38 +186,58 @@ namespace MangoERP.Controllers
                 po.city = customer.city;
                 po.country = customer.country;
                 po.cnic = customer.cnic;
+                po.UserId = userId;
                 po.date_of_birth = customer.date_of_birth;
                 po.Creation_Date =DateTime.Now;
-                po.DeliveryDate = customer.DeliveryDate;
-                po.OrderDate = DateTime.Now;
-                po.DeceasedPerson = customer.DeceasedPerson;
-                po.DeceasedCnic = customer.DeceasedCnic;
-                po.ReasonOfDeath = customer.ReasonOfDeath;
-                po.DateofDeath = customer.DateofDeath;
-                po.DeceasedDateofBirth = customer.DeceasedDateofBirth;
+                //po.DeceasedPerson = customer.DeceasedPerson;
+                //po.DeceasedCnic = customer.DeceasedCnic;
+                //po.ReasonOfDeath = customer.ReasonOfDeath;
+                //po.DateofDeath = customer.DateofDeath;
+                //po.DeceasedDateofBirth = customer.DeceasedDateofBirth;
                
-                po.GraveSizeId = customer.GraveSizeId;
+              //  po.GraveSizeId = customer.GraveSizeId;
 
 
                 if (customer.typedetail != null)
                 {
                     if (customer.typedetail == "Booked")
                     {
-                        po.DeceasedCnic = customer.DeceasedCnic;
-                        po.DeceasedCnic = customer.DeceasedCnic;
-                        po.ReasonOfDeath = customer.ReasonOfDeath;
+                        gd.DeceasedCnic = customer.DeceasedCnic;
+                        gd.DeceasedCnic = customer.DeceasedCnic;
+                        gd.ReasonOfDeath = customer.ReasonOfDeath;
+                        gd.GraveSizeId = customer.GraveSizeId;
+                        gd.GraveId = customer.GraveId;
 
-                        po.Status = "Booked";
+                        gd.Status = "Booked";
                     }
                     else if (customer.typedetail == "Reserved")
                     {
-                        po.Status = "Reserved";
+                        gd.Status = "Reserved";
                     }
                 }
 
 
                 db.Customers.Add(po);
                 db.SaveChanges();
+
+               //     gd.date_of_birth = customer.date_of_birth;
+                //      gd.Creation_Date =DateTime.Now;
+                gd.GraveDetail_ID = po.customer_ID;
+
+                gd.DeliveryDate = customer.DeliveryDate;
+                gd.OrderDate = DateTime.Now;
+                gd.DeceasedPerson = customer.DeceasedPerson;
+                gd.DeceasedCnic = customer.DeceasedCnic;
+                gd.ReasonOfDeath = customer.ReasonOfDeath;
+                gd.DateofDeath = customer.DateofDeath;
+                gd.DeceasedDateofBirth = customer.DeceasedDateofBirth;
+             //   gd.GraveSizeId = customer.DeceasedDateofBirth;
+                gd.DateofDeath = customer.date_of_birth;
+                //po.GraveSizeId = customer.GraveSizeId;
+                db.GraveDetails.Add(gd);
+                db.SaveChanges();
+
+
                 // return  statsu ki liye hia
                 var data = db.Graves.Where(p => p.Id == customer.GraveId).FirstOrDefault();
                 data.Grave_Status_Id = 2;
@@ -311,12 +335,12 @@ namespace MangoERP.Controllers
                    country = customer.country,
                    cnic = customer.cnic,
                    date_of_birth = customer.date_of_birth.ToString(),
-                   DeceasedPerson = customer.DeceasedPerson,
-                   DeceasedCnic = customer.DeceasedCnic,
-                   ReasonOfDeath = customer.ReasonOfDeath,
-                    DeliveryDate = customer.DeliveryDate.ToString(),
-                    DateofDeath = customer.DateofDeath.ToString(),
-                    DeceasedDateofBirth = customer.DeceasedDateofBirth.ToString(),
+                    DeceasedPerson = customer.GraveDetail.DeceasedPerson,
+                    DeceasedCnic = customer.GraveDetail.DeceasedCnic,
+                    ReasonOfDeath = customer.GraveDetail.ReasonOfDeath,
+                    DeliveryDate = customer.GraveDetail.DeliveryDate.ToString(),
+                    DateofDeath = customer.GraveDetail.DateofDeath.ToString(),
+                    DeceasedDateofBirth = customer.GraveDetail.DeceasedDateofBirth.ToString(),
 
 
 

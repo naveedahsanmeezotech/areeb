@@ -17,7 +17,7 @@ namespace MangoERP.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Grave_Size()
         {
-            this.Customers = new HashSet<Customer>();
+            this.GraveDetails = new HashSet<GraveDetail>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace MangoERP.Models
         public Nullable<decimal> Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<GraveDetail> GraveDetails { get; set; }
     }
 }

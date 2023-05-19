@@ -31,19 +31,9 @@ namespace MangoERP.Models
         public string country { get; set; }
         public string cnic { get; set; }
         public Nullable<System.DateTime> date_of_birth { get; set; }
-        public Nullable<int> GraveId { get; set; }
-        public Nullable<System.DateTime> DeliveryDate { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
-        public string DeceasedPerson { get; set; }
-        public string DeceasedCnic { get; set; }
-        public string ReasonOfDeath { get; set; }
-        public Nullable<System.DateTime> DateofDeath { get; set; }
-        public Nullable<System.DateTime> DeceasedDateofBirth { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> GraveSizeId { get; set; }
+        public string UserId { get; set; }
     
-        public virtual Grave Grave { get; set; }
-        public virtual Grave_Size Grave_Size { get; set; }
+        public virtual GraveDetail GraveDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleOrder> SaleOrders { get; set; }
     }

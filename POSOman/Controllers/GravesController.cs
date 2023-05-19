@@ -1,4 +1,5 @@
 ﻿using MangoERP.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,9 +38,17 @@ namespace MangoERP.Controllers
         // GET: Graves
         public ActionResult Index()
         {
-           
-            var graves = db.Graves.ToList();
-            return View(graves.ToList());
+            if (User.IsInRole("Admin"))
+            {
+                var graves = db.Graves.ToList();
+                return View(graves.ToList());
+            }
+            else
+            {
+                var graves = db.Graves.Where(p=>p.Grave_Status_Id==1).ToList();
+                return View(graves.ToList());
+            }
+         
         }
         public ActionResult Payment()
         {
@@ -57,12 +66,26 @@ namespace MangoERP.Controllers
 
                 SaleOrder od = new SaleOrder();
                 od.CustomerId = dataS.customer_ID;
-                od.DeliveryDate = dataS.DeliveryDate;
-                od.OrderDate = dataS.OrderDate;
+                od.DeliveryDate = dataS.GraveDetail.DeliveryDate;
+                od.OrderDate = dataS.GraveDetail.OrderDate;
                 db.SaleOrders.Add(od);
 
                 db.SaveChanges();
-                return View("SaleOrder", db.Customers.ToList());
+
+                string userId = User.Identity.GetUserId();
+
+           
+
+                if (User.IsInRole("Admin"))
+                {
+                    return View("SaleOrder", db.Customers.ToList());
+
+                }
+                else
+                {
+                    return View("SaleOrder", db.Customers.Where(p=>p.UserId== userId).ToList());
+
+                }
             }
             return View();
         }
@@ -73,10 +96,10 @@ namespace MangoERP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Customer customer = db.Customers.Find(id);
-            ViewBag.hidden = db.Customers.Include(p => p.Grave).Where(p => p.customer_ID == id).Select(p => p.Status).FirstOrDefault();
-            ViewBag.GraveName = db.Customers.Include(p => p.Grave).Where(p => p.customer_ID == id).Select(p=>p.Grave.Grave_Name).FirstOrDefault();
-             ViewBag.Price = db.Customers.Include(p => p.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.Grave_Size.Price).FirstOrDefault();
-           ViewBag.Size = db.Customers.Include(p => p.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.Grave_Size.Sizes).FirstOrDefault();
+            ViewBag.hidden = db.GraveDetails.Where(p => p.GraveDetail_ID == id).Select(p => p.Status).FirstOrDefault();
+             ViewBag.GraveName = db.Customers.Include(p => p.GraveDetail.Grave).Where(p => p.customer_ID == id).Select(p=>p.GraveDetail.Grave.Grave_Name).FirstOrDefault();
+             ViewBag.Price = db.Customers.Include(p => p.GraveDetail.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.GraveDetail.Grave_Size.Price).FirstOrDefault();
+            ViewBag.Size = db.Customers.Include(p => p.GraveDetail.Grave_Size).Where(p => p.customer_ID == id).Select(p => p.GraveDetail.Grave_Size.Sizes).FirstOrDefault();
              //  ViewBag.Price = null;
            //  ViewBag.Size = null;
 
@@ -89,7 +112,23 @@ namespace MangoERP.Controllers
         }
         public ActionResult SaleOrder()
         {
-            return View(db.Customers.ToList());
+
+
+
+            string userId = User.Identity.GetUserId();
+
+            if (User.IsInRole("Admin"))
+            {
+                return View("SaleOrder", db.Customers.ToList());
+
+            }
+            else
+            {
+                return View("SaleOrder", db.Customers.Where(p => p.UserId == userId).ToList());
+
+            }
+                  return View("SaleOrder", db.Customers.ToList());
+
         }
 
         public class Data

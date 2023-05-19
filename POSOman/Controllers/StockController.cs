@@ -7,6 +7,8 @@ using System.Web.Mvc;
 
 namespace MangoERP.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class StockController : Controller
     {
         private dbPOS db = new dbPOS();

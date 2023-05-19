@@ -14,9 +14,7 @@
                         <div class="card-body">
                                       <div class="form-body">
                                     <div class="form-group" style="display:none">
-                                        @Html.LabelFor(model => model.GraveId, "GraveId", htmlAttributes: new { @class = "control-label col-md-2" })
-
-
+                                        
                                         <div class="col-md-10">
                                             @*@Html.DropDownList("Grave_Id", null, htmlAttributes: new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.Grave_Id, "", new { @class = "text-danger" })*@
@@ -39,7 +37,7 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Order Date</label>
                                             <br>
-                                            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "OrderDate", @required = "" } })
+                                            @Html.EditorFor(model => model.GraveDetail.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "OrderDate", @required = "" } })
 
 
                                         </div>
@@ -47,7 +45,7 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Type</label>
                                             <br>
-                                            @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.EditorFor(model => model.GraveDetail.Status, new { htmlAttributes = new { @class = "form-control", @required = "" } })
 
 
                                         </div>
@@ -58,14 +56,14 @@
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Deceased Person</label>
                                             <br>
-                                            @Html.EditorFor(model => model.DeceasedPerson, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.EditorFor(model => model.GraveDetail.DeceasedPerson, new { htmlAttributes = new { @class = "form-control", @required = "" } })
 
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>Delivery Date</label>
                                             <br>
-                                            @Html.EditorFor(model => model.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id = "DeliveryDate", @required = "" } })
+                                            @Html.EditorFor(model => model.GraveDetail.DeliveryDate, new { htmlAttributes = new { @class = "form-control", @id = "DeliveryDate", @required = "" } })
 
 
                                         </div>

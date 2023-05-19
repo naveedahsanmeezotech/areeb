@@ -14,7 +14,7 @@ using MangoERP.Models.BLL;
 
 namespace MangoERP.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class AccountController : Controller
     {
         dbPOS db = new dbPOS();
@@ -90,57 +90,57 @@ namespace MangoERP.Controllers
                         var User = db.AspNetUsers.Where(x => x.UserName == model.UserName).Select(x=>new { x.Id ,x.UserId}).FirstOrDefault();
                         Session["User"] = User.Id.ToString();
                         Session["CurrentUserID"] = User.UserId;
-                        Users_Log InsertUser = new Users_Log();
-                        UserAction_Log UserActions = new UserAction_Log();
-                        //var UpdateUser = db.Users_Log.Where(x => x.UserId == User && x.IsLogin == true && x.LogoutTime == null).FirstOrDefault();
-                        var UpdateUser = db.Users_Log.Where(x => x.UserId == User.Id && x.IsLogin == true && x.LogoutTime == null).ToList();
-
-                        if (UpdateUser.Count()>0)
-                        {
-                            foreach (var i in UpdateUser)
-                            {
-                                i.LogoutTime = DateTime.UtcNow.AddHours(5);
-                                i.IsLogin = false;
-                                db.Entry(i).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
-
-                            }
-                            InsertUser.IsLogin = true;
-                            InsertUser.LoginTime = DateTime.UtcNow.AddHours(5);
-                            InsertUser.UserId = User.Id.ToString();
-                            db.Users_Log.Add(InsertUser);
-                            db.SaveChanges();
-
-                            Session["LoginUserID"] = InsertUser.ID;
-
-                            UserActions.ActionDate = DateTime.UtcNow.AddHours(5);
-                            UserActions.UserAction = "LoggedIn".ToString();
-                            InsertUser.UserAction_Log.Add(UserActions);
-                            db.SaveChanges();
-                            return RedirectToLocal(returnUrl);
-                            //UpdateUser.LogoutTime = DateTime.UtcNow.AddHours(5);
-                            //UpdateUser.IsLogin = false;
-                            //db.Entry(UpdateUser).State = System.Data.Entity.EntityState.Modified;
-                            //db.SaveChanges();
-                            //return View(model);
-                        }
-                        else
-                        {
-                            InsertUser.IsLogin = true;
-                            InsertUser.LoginTime = DateTime.UtcNow.AddHours(5);
-                            InsertUser.UserId = User.Id.ToString();
-                            db.Users_Log.Add(InsertUser);
-                            db.SaveChanges();
-                            Session["LoginUserID"] = InsertUser.ID;
-
-                            UserActions.ActionDate = DateTime.UtcNow.AddHours(5);
-                            UserActions.UserAction = "LoggedIn".ToString();
-                            InsertUser.UserAction_Log.Add(UserActions);
-                            db.SaveChanges();
-                            return RedirectToLocal(returnUrl);
-                        }
                         //Users_Log InsertUser = new Users_Log();
+                        //UserAction_Log UserActions = new UserAction_Log();
+                        ////var UpdateUser = db.Users_Log.Where(x => x.UserId == User && x.IsLogin == true && x.LogoutTime == null).FirstOrDefault();
+                        //////var UpdateUser = db.Users_Log.Where(x => x.UserId == User.Id && x.IsLogin == true && x.LogoutTime == null).ToList();
 
+                        //////if (UpdateUser.Count()>0)
+                        //////{
+                        //////    foreach (var i in UpdateUser)
+                        //////    {
+                        //////        i.LogoutTime = DateTime.UtcNow.AddHours(5);
+                        //////        i.IsLogin = false;
+                        //////        db.Entry(i).State = System.Data.Entity.EntityState.Modified;
+                        //////        db.SaveChanges();
+
+                        //////    }
+                        //////    InsertUser.IsLogin = true;
+                        //////    InsertUser.LoginTime = DateTime.UtcNow.AddHours(5);
+                        //////    InsertUser.UserId = User.Id.ToString();
+                        //////    db.Users_Log.Add(InsertUser);
+                        //////    db.SaveChanges();
+
+                        //////    Session["LoginUserID"] = InsertUser.ID;
+
+                        //////    UserActions.ActionDate = DateTime.UtcNow.AddHours(5);
+                        //////    UserActions.UserAction = "LoggedIn".ToString();
+                        //////    InsertUser.UserAction_Log.Add(UserActions);
+                        //////    db.SaveChanges();
+                        //////    return RedirectToLocal(returnUrl);
+                        //////    //UpdateUser.LogoutTime = DateTime.UtcNow.AddHours(5);
+                        //////    //UpdateUser.IsLogin = false;
+                        //////    //db.Entry(UpdateUser).State = System.Data.Entity.EntityState.Modified;
+                        //////    //db.SaveChanges();
+                        //////    //return View(model);
+                        //////}
+                        //////else
+                        //////{
+                        //////    InsertUser.IsLogin = true;
+                        //////    InsertUser.LoginTime = DateTime.UtcNow.AddHours(5);
+                        //////    InsertUser.UserId = User.Id.ToString();
+                        //////    db.Users_Log.Add(InsertUser);
+                        //////    db.SaveChanges();
+                        //////    Session["LoginUserID"] = InsertUser.ID;
+
+                        //////    UserActions.ActionDate = DateTime.UtcNow.AddHours(5);
+                        //////    UserActions.UserAction = "LoggedIn".ToString();
+                        //////    InsertUser.UserAction_Log.Add(UserActions);
+                        //////    db.SaveChanges();
+                        //////    return RedirectToLocal(returnUrl);
+                        //////}
+                        //Users_Log InsertUser = new Users_Log();
+                        return RedirectToLocal(returnUrl);
 
                         //if (db.Users_Log.Where(x=>x.UserId == User).Any(x => x.IsLogin == true))
                         //{
@@ -216,7 +216,7 @@ namespace MangoERP.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize]
+     
         public ActionResult Register()
         {
             dbPOS db = new dbPOS();
@@ -530,30 +530,30 @@ namespace MangoERP.Controllers
         public ActionResult LogOff()
         {
             string UserID = Session["User"] == null ? null : Session["User"].ToString();
-            var UpdateUser = db.Users_Log.Where(x => x.UserId == UserID && x.IsLogin == true && x.LogoutTime == null).FirstOrDefault();
+            //var UpdateUser = db.Users_Log.Where(x => x.UserId == UserID && x.IsLogin == true && x.LogoutTime == null).FirstOrDefault();
             
-            if (UpdateUser != null)
-            {
-                UserActions.MapActions(Convert.ToInt32(Session["LoginUserID"]),"LoggedOut");
+            //if (UpdateUser != null)
+            //{
+            //    UserActions.MapActions(Convert.ToInt32(Session["LoginUserID"]),"LoggedOut");
                 
-                UpdateUser.LogoutTime = DateTime.UtcNow.AddHours(5);
-                UpdateUser.IsLogin = false;
-                db.Entry(UpdateUser).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-            else
-            {
-                var LockUser = db.Users_Log.Where(x=>x.LogoutTime == null && x.ID !=0).ToList();
-                UserActions.MapActions(null, "LoggedOut");
-                foreach (var i in LockUser)
-                {
-                    //i.LogoutTime = DateTime.UtcNow.AddHours(5);
-                    i.IsLogin = false;
-                    db.Entry(i).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                }
+            //    UpdateUser.LogoutTime = DateTime.UtcNow.AddHours(5);
+            //    UpdateUser.IsLogin = false;
+            //    db.Entry(UpdateUser).State = System.Data.Entity.EntityState.Modified;
+            //    db.SaveChanges();
+            //}
+            //else
+            //{
+            //    var LockUser = db.Users_Log.Where(x=>x.LogoutTime == null && x.ID !=0).ToList();
+            //    UserActions.MapActions(null, "LoggedOut");
+            //    foreach (var i in LockUser)
+            //    {
+            //        //i.LogoutTime = DateTime.UtcNow.AddHours(5);
+            //        i.IsLogin = false;
+            //        db.Entry(i).State = System.Data.Entity.EntityState.Modified;
+            //        db.SaveChanges();
+            //    }
                
-            }
+            //}
             
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

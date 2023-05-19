@@ -10,6 +10,7 @@ using MangoERP.Models;
 
 namespace MangoERP.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private dbPOS db = new dbPOS();

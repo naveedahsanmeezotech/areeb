@@ -62,14 +62,14 @@ namespace MangoERP
             string html = message.Body;
             //do whatever you want to the message        
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("zeemangotech@gmail.com");
+            msg.From = new MailAddress("");
             msg.To.Add(new MailAddress(message.Destination));
             msg.Subject = message.Subject;
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587));
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("zeemangotech@gmail.com", "123M@nGOTech");
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("", "");
             smtpClient.Credentials = credentials;
             smtpClient.EnableSsl = true;
             smtpClient.Send(msg);

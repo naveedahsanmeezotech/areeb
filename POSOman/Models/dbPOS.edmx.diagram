@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a0555018daed43cdbe124b1ff37586e3" Name="Diagram1">
+        <EntityTypeShape EntityType="db_fypModel.AspNetRole" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.AspNetUserClaim" Width="1.5" PointX="13" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.AspNetUserLogin" Width="1.5" PointX="13" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.AspNetUserRole" Width="1.5" PointX="13" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.AspNetUser" Width="1.5" PointX="10.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Customer" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Grave" Width="1.5" PointX="8.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Grave_Size" Width="1.5" PointX="8.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Grave_Status" Width="1.5" PointX="3.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.GraveDetail" Width="1.5" PointX="11" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.PaymentCard" Width="1.5" PointX="5.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Product" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Purchase" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.PurchaseDetail" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Quotation" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.QuotationDetail" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.SaleOrder" Width="1.5" PointX="11" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Section" Width="1.5" PointX="5.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.StockLog" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.sysdiagram" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_fypModel.Vendor" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
+        <AssociationConnector Association="db_fypModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_GraveDetails_Customer1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_SaleOrder_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_Customer_Grave" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_Customer_Grave_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_PurchaseDetail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_QuotationDetail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_StockLog_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_PurchaseDetail_Purchase" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FKPurchase_Vendor" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_Quotation_Vendor" ManuallyRouted="false" />
+        <AssociationConnector Association="db_fypModel.FK_QuotationDetail_Quotation" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
