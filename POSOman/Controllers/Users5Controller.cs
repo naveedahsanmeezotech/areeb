@@ -16,9 +16,9 @@ namespace MangoERP.Controllers
 {
     public class Users5Controller : Controller
     {
-       
+
         dbPOS db = new dbPOS();
-         private ApplicationSignInManager _signInManager;
+        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         ApplicationDbContext context;
 
@@ -76,12 +76,14 @@ namespace MangoERP.Controllers
                 // Handle invalid input
                 return RedirectToAction("Error", "Home");
             }
+            Random rnd = new Random();
+            int num = rnd.Next();
             var model = new ApplicationUser
             {
                 UserName = UserName,
-                Email = UserName + "@gmail.com",
+                Email = num + "@gmail.com",
                 BranchID = 9001,
-               
+
             };
 
             try
@@ -105,48 +107,6 @@ namespace MangoERP.Controllers
                     return RedirectToAction("Login", "Account");
 
                 }
-                //// Create a new user with ASP.NET Identity
-                //var user = new ApplicationUser
-                //{
-                //    UserName = UserName,
-                //    Email = UserName + "@gmail.com"
-                //};
-
-                //var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
-                //var result = userManager.Create(user, Password);
-
-                //if (result.Succeeded)
-                //{
-                //    userManager.AddToRoles(user.Id, "Customer");
-
-                //    using (var connection = new SqlConnection("Server=MEEZOTECH;Database=db_fyp;Trusted_Connection=True;"))
-                //    {
-                //        connection.Open();
-
-                //        var sql = @"INSERT INTO [dbo].[AspNetUsers] (Id, Email, EmailConfirmed, PasswordHash, SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, UserName, BranchID)
-                //                    VALUES (@Id, @Email, @EmailConfirmed, @PasswordHash, @SecurityStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled, @LockoutEndDateUtc, @LockoutEnabled, @AccessFailedCount, @UserName, @BranchID)";
-
-                //        using (var command = new SqlCommand(sql, connection))
-                //        {
-                //            command.Parameters.AddWithValue("@Id", user.Id);
-                //            command.Parameters.AddWithValue("@Email", user.Email);
-                //            command.Parameters.AddWithValue("@EmailConfirmed", user.EmailConfirmed);
-                //            command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                //            command.Parameters.AddWithValue("@SecurityStamp", user.SecurityStamp);
-                //            command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                //            command.Parameters.AddWithValue("@PhoneNumberConfirmed", user.PhoneNumberConfirmed);
-                //            command.Parameters.AddWithValue("@TwoFactorEnabled", user.TwoFactorEnabled);
-                //            command.Parameters.AddWithValue("@LockoutEndDateUtc", user.LockoutEndDateUtc);
-                //            command.Parameters.AddWithValue("@LockoutEnabled", user.LockoutEnabled);
-                //            command.Parameters.AddWithValue("@AccessFailedCount", user.AccessFailedCount);
-                //            command.Parameters.AddWithValue("@UserName", user.UserName);
-                //            command.Parameters.AddWithValue("@BranchID", "1"); // Replace with the actual method to get the branch ID
-
-                //            command.ExecuteNonQuery();
-                //        }
-                //    }
-                //}
-                //// ...
 
                 return View();
 

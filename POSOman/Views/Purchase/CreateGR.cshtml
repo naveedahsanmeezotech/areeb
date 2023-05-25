@@ -21,7 +21,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>GRNO</label>
                                             <br>
-                                            <input type="text" class="form-control" placeholder="" id="GRNO" />
+                                            <input type="text" class="form-control" placeholder="" id="GRNO"  readonly/>
 
                                         </div>
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
@@ -243,6 +243,23 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
         var da = $('#datavl').val();
         $('#TotalAmount').val(da);
 
+        getPOID();
+        function getPOID() {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: '/Purchase/getGR',
+                async: true,
+                success: function (data) {
+                    {
+                        //  alert(data);
+                        $("#GRNO").val(data);
+                      
+                    }
+                },
+                error: function (err) { console.log(err); }
+            });
+        }
 
         $(function () {
             // tmpOrderID = getTmpOrderID();

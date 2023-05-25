@@ -180,6 +180,14 @@ namespace MangoERP.Controllers
 
             return Json(POID, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult getGR()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1, 501); // Generate a random integer between 1 and 100
+
+
+            return Json(randomNumber, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult CreateBill(int? Id)
         {
             var data = db.Quotations.Where(p => p.Id == Id).FirstOrDefault();

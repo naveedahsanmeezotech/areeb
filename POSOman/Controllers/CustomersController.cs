@@ -61,7 +61,7 @@ namespace MangoERP.Controllers
 
             return View(customer);
         }
-  public ActionResult Edit(int? id, string Name)
+        public ActionResult Edit(int? id)
         {
 
 
@@ -69,11 +69,13 @@ namespace MangoERP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            Grave da = db.Graves.Where(o => o.Id == id).FirstOrDefault();
+
 
             Customer customer = db.Customers.Where(o => o.GraveDetail.GraveId == id).FirstOrDefault();
             if (customer == null)
             {
-                TempData["GraveName"] = Name;
+                TempData["GraveName"] = da.Grave_Name;
                 TempData["GraveId"] = id;
                 ViewBag.GraveId = id;
                 return View("NotFound");
@@ -91,7 +93,7 @@ namespace MangoERP.Controllers
                 }
 
                 ViewBag.hiddensize = customer.GraveDetail.GraveSizeId;
-                ViewBag.GraveName = Name;
+                ViewBag.GraveName = da.Grave_Name;
                 ViewBag.GraveId = customer.GraveDetail.GraveId;
 
                 ViewBag.dob = customer.date_of_birth;  // date of birth
