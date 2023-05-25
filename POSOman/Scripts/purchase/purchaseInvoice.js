@@ -243,6 +243,9 @@ function insert() {
             'QuotationNo': $('#Quotation').val(),
             'TotalAmount': $('#TotalAmount').val(),
             'ReferenceNumber': $('#RefNo').val(),
+            'validTill': $('#validTill').val(),
+        
+            
             'QuotationDetails': rows
         };
        

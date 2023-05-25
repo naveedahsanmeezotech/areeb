@@ -20,7 +20,8 @@ namespace MangoERP.Models.BLL
                     q.QuotationNo = model.QuotationNo;
                     q.DateIssued = DateTime.Now;
                     q.VendorId = model.VendorId;
-                    q.Status =1;
+                    q.validTill = model.validTill;
+                q.Status =1;
                     q.TotalAmount = model.TotalAmount;
 
                     q.ExpireDate = model.ExpireDate;

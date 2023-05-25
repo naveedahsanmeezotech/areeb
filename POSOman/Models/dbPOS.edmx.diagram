@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="db_fypModel.Product" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fypModel.Purchase" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fypModel.PurchaseDetail" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_fypModel.Quotation" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fypModel.QuotationDetail" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fypModel.SaleOrder" Width="1.5" PointX="11" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fypModel.Section" Width="1.5" PointX="5.75" PointY="12.75" IsExpanded="true" />
@@ -38,8 +37,9 @@
         <AssociationConnector Association="db_fypModel.FK_StockLog_Product" ManuallyRouted="false" />
         <AssociationConnector Association="db_fypModel.FK_PurchaseDetail_Purchase" ManuallyRouted="false" />
         <AssociationConnector Association="db_fypModel.FKPurchase_Vendor" ManuallyRouted="false" />
-        <AssociationConnector Association="db_fypModel.FK_Quotation_Vendor" ManuallyRouted="false" />
-        <AssociationConnector Association="db_fypModel.FK_QuotationDetail_Quotation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="db_fypModel.Quotation" Width="1.5" PointX="3.75" PointY="17" />
+        <AssociationConnector Association="db_fypModel.FK_Quotation_Vendor" />
+        <AssociationConnector Association="db_fypModel.FK_QuotationDetail_Quotation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

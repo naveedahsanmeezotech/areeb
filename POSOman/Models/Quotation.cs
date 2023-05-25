@@ -28,6 +28,7 @@ namespace MangoERP.Models
         public int VendorId { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public int Status { get; set; }
+        public Nullable<System.DateTime> validTill { get; set; }
     
         public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

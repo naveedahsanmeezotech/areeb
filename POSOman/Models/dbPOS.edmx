@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -181,6 +181,7 @@
           <Property Name="VendorId" Type="int" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="validTill" Type="datetime" />
         </EntityType>
         <EntityType Name="QuotationDetail">
           <Key>
@@ -499,8 +500,7 @@
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_fypModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -688,21 +688,6 @@
           <NavigationProperty Name="Product" Relationship="Self.FK_PurchaseDetail_Product" FromRole="PurchaseDetail" ToRole="Product" />
           <NavigationProperty Name="Purchase" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="PurchaseDetail" ToRole="Purchase" />
         </EntityType>
-        <EntityType Name="Quotation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuotationNo" Type="Int32" />
-          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateIssued" Type="DateTime" Precision="3" />
-          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
-          <Property Name="VendorId" Type="Int32" Nullable="false" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
-          <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
-        </EntityType>
         <EntityType Name="QuotationDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -717,7 +702,7 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MeasureOfUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="Self.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
-          <NavigationProperty Name="Quotation" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
+          <NavigationProperty Name="Quotation" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
         </EntityType>
         <EntityType Name="SaleOrder">
           <Key>
@@ -771,7 +756,7 @@
           <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Purchases" Relationship="Self.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
-          <NavigationProperty Name="Quotations" Relationship="Self.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
+          <NavigationProperty Name="Quotations" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -923,30 +908,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Quotation_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
-          <End Role="Quotation" Type="Self.Quotation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="Vendor_ID" />
-            </Principal>
-            <Dependent Role="Quotation">
-              <PropertyRef Name="VendorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuotationDetail_Quotation">
-          <End Role="Quotation" Type="Self.Quotation" Multiplicity="1" />
-          <End Role="QuotationDetail" Type="Self.QuotationDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Quotation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuotationDetail">
-              <PropertyRef Name="QuotationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="dbPOS" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
@@ -962,7 +923,6 @@
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Purchases" EntityType="Self.Purchase" />
           <EntitySet Name="PurchaseDetails" EntityType="Self.PurchaseDetail" />
-          <EntitySet Name="Quotations" EntityType="Self.Quotation" />
           <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetail" />
           <EntitySet Name="SaleOrders" EntityType="Self.SaleOrder" />
           <EntitySet Name="Sections" EntityType="Self.Section" />
@@ -1017,15 +977,56 @@
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Purchase" EntitySet="Purchases" />
           </AssociationSet>
-          <AssociationSet Name="FK_Quotation_Vendor" Association="Self.FK_Quotation_Vendor">
+          <EntitySet Name="Quotations" EntityType="db_fypModel.Quotation" />
+          <AssociationSet Name="FK_Quotation_Vendor" Association="db_fypModel.FK_Quotation_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Quotation" EntitySet="Quotations" />
           </AssociationSet>
-          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="Self.FK_QuotationDetail_Quotation">
+          <AssociationSet Name="FK_QuotationDetail_Quotation" Association="db_fypModel.FK_QuotationDetail_Quotation">
             <End Role="Quotation" EntitySet="Quotations" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Quotation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotationNo" Type="Int32" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssued" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="3" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="validTill" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Vendor" Relationship="db_fypModel.FK_Quotation_Vendor" FromRole="Quotation" ToRole="Vendor" />
+          <NavigationProperty Name="QuotationDetails" Relationship="db_fypModel.FK_QuotationDetail_Quotation" FromRole="Quotation" ToRole="QuotationDetail" />
+        </EntityType>
+        <Association Name="FK_Quotation_Vendor">
+          <End Type="db_fypModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Vendor_ID" />
+            </Principal>
+            <Dependent Role="Quotation">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuotationDetail_Quotation">
+          <End Type="db_fypModel.Quotation" Role="Quotation" Multiplicity="1" />
+          <End Type="db_fypModel.QuotationDetail" Role="QuotationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quotation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuotationDetail">
+              <PropertyRef Name="QuotationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1207,20 +1208,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Quotations">
-            <EntityTypeMapping TypeName="db_fypModel.Quotation">
-              <MappingFragment StoreEntitySet="Quotation">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
-                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
-                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="QuotationDetails">
             <EntityTypeMapping TypeName="db_fypModel.QuotationDetail">
               <MappingFragment StoreEntitySet="QuotationDetail">
@@ -1288,6 +1275,21 @@
                 <ScalarProperty Name="Vendor_Payment_Type" ColumnName="Vendor_Payment_Type" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quotations">
+            <EntityTypeMapping TypeName="db_fypModel.Quotation">
+              <MappingFragment StoreEntitySet="Quotation">
+                <ScalarProperty Name="validTill" ColumnName="validTill" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="DateIssued" ColumnName="DateIssued" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

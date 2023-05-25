@@ -34,6 +34,21 @@ namespace MangoERP.Controllers
             }
             return PartialView("_Invoice", _PODetails);
         }
+        public ActionResult Detailsq(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //tbl_PurchaseOrder purchaseOrder = db.tbl_PurchaseOrder.Find(id);
+            List<QuotationDetail> _PODetails = db.QuotationDetails.Where(p => p.QuotationId == id).ToList();
+
+            if (_PODetails == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_QuotationDetails", _PODetails);
+        }
         public ActionResult GRIndexList()
         {
             //            return View(db.Purchases.Where(p => p.Status == 2).ToList());
@@ -51,7 +66,7 @@ namespace MangoERP.Controllers
         {
             //ViewBag.BankAccount = db.AccountDetails.Where(acd => acd.AccountTypeID == 27).Select(p => new { Value = p.AccountID, Name = p.AccountName + " | " + p.Bank }).ToList();
            // ViewBag.BranchID = branchId;
-            ViewBag.vendor = db.Vendors.Select(v => new { Value = v.Vendor_ID, Name = v.Vendor_Name}).ToList();
+            ViewBag.vendor = db.Vendors.Where(p=>p.Status== "Active").Select(v => new { Value = v.Vendor_ID, Name = v.Vendor_Name}).ToList();
            // ViewBag.vendorCode = db.Vendors.Select(v => new { Value = v.AccountID, Name = v.VendorCode }).ToList();
             ViewBag.Product = db.Products.Select(c => new { Value = c.Id, Name = c.MaterialName }).ToList();
               return View();
