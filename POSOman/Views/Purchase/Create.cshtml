@@ -53,9 +53,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
 
                                         <div class="col-md-2">
                                             <label>valid Till</label>
-                                            <input class="form-control" id = "validTill" />
-                                            @Html.EditorFor(model => model.ReferenceNumber, new { htmlAttributes = new { @class = "form-control", name = "RefNo", id = "RefNo" } })
-                                            @Html.ValidationMessageFor(model => model.ReferenceNumber, "", new { @class = "text-danger" })
+                                            <input class="form-control" type="date" id = "validTill" />
                                         </div>
 
                                         @*<div class="form-group mb-1 col-sm-12 col-md-2">
@@ -140,8 +138,9 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                     <th>Select</th>
                                                     <th>Materail</th>
                                                     <th>Description</th>
+                                                    <th>Unit  Price.</th>
+
                                                     <th>Unit Of Measure</th>
-                                                    <th>Un Pr.</th>
                                                     <th hidden>S Price</th>
                                                 </tr>
                                             </thead>
@@ -196,6 +195,20 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
             //$('#ddlVehCode').select2();
             //$('#ddlPartNumber').select2();
             //onunblock - callback
+        $(document).ready(function () {
+            $("#validTill").on("change", function () {
+                debugger
+                var a = $('#validTill').val();
+                var DateIssued = $('#DateIssued').val();
+
+                if (a > DateIssued) {
+                    alert('Valid Geater than Date Issued');
+                    $('#validTill').val('');
+                }
+            });
+
+        });
+        
     </script>
     <script src="~/Scripts/js/scripts/extensions/block-ui.js" type="text/javascript"></script>
     <script src="~/Scripts/js/scripts/modal/components-modal.js" type="text/javascript"></script>
