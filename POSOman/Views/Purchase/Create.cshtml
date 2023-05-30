@@ -201,7 +201,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                 var a = $('#validTill').val();
                 var DateIssued = $('#DateIssued').val();
 
-                if (a > DateIssued) {
+                if (a < DateIssued) {
                     alert('Valid Geater than Date Issued');
                     $('#validTill').val('');
                 }
