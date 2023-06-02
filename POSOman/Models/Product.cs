@@ -18,6 +18,7 @@ namespace MangoERP.Models
         public Product()
         {
             this.PurchaseDetails = new HashSet<PurchaseDetail>();
+            this.PurchaseReturnDetails = new HashSet<PurchaseReturnDetail>();
             this.QuotationDetails = new HashSet<QuotationDetail>();
             this.StockLogs = new HashSet<StockLog>();
         }
@@ -29,6 +30,8 @@ namespace MangoERP.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuotationDetail> QuotationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
