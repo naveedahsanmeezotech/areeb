@@ -410,7 +410,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                     debugger
                     $.ajax({
                         type: 'POST',
-                        url: '/Purchase/GR',
+                        url: '/Purchase/ReturnPurchase',
                         dataType: 'json',
                         async: false,
                         data: { 'model': data, 'OrderId': OrderID },

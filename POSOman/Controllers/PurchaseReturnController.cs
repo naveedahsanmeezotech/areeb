@@ -104,5 +104,79 @@ namespace MangoERP.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult ReturnPurchase(Purchase model, int? OrderId)
+        {
+            try
+            {
+                bool sucess = false;
+
+                var ProductsList = db.PurchaseDetails.Where(x => x.PurchaseId == OrderId).ToList();
+                int? qty = 0;
+                foreach (var item in ProductsList)
+                {
+                    qty += item.Qty;
+                }
+                int? oldqty = 0;
+                foreach (var item in model.PurchaseDetails)
+                {
+                    oldqty += item.Qty;
+                }
+                string data = "";
+                if (qty == oldqty)
+                {
+                    data = "No. of quantity in PO and Goods  Receipt are Equal";
+                }
+                if (qty > oldqty)
+                {
+                    sucess = true;
+                    data = "No. of quantity in PO is Less";
+                }
+                if (qty < oldqty)
+                {
+                    data = "greater then No. of quantity in Goods Receipt";
+                }
+
+                //var data = db.Quotations.Where(p => p.Id == OrderId).FirstOrDefault();
+                //ViewBag.Invoice = data?.QuotationNo;
+                //ViewBag.OrderId = OrderId;
+
+                //// ViewBag.BranchID = branchId;
+                //// int vend = data?.VendorId ? 0;
+                //ViewBag.vendor = data?.Vendor?.Vendor_Name;
+                //int? siod = 0;
+                //var tmp = db.Purchases.OrderByDescending(v => v.Id).FirstOrDefault();
+                //if (tmp != null)
+                //{
+                //    siod = tmp.PurchaseNo + 1;
+                //}
+                //else
+                //{
+                //    siod = 2000;
+                //}
+                //model.PurchaseNo = siod;
+                //model.QutotationReferenceNo = data?.QuotationNo;
+                //model.DateIssued = DateTime.Now;
+
+                if (sucess)
+                {
+                    MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
+                    object result = order.ReturnPurchase(model, OrderId);
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("Error");
+
+            }
+        }
+
+
     }
 }
