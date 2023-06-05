@@ -230,22 +230,7 @@ namespace MangoERP.Controllers
 
                 objectList.Add(new
                 {
-                    //Qry = qry,
-                    //Qry1 = qry1,
-                    //Qry2 = qry2,
-                    //FinalAmount = FinalAmount,
-                    //Discount = Discount,
-                    //SalesDate = PurchaseDate,
-                    //SubAmount = SubAmount,
-                    //TotalAmount = TotalAmount,
-                    //Tax = Tax,
-                    //AmountPaid = AmountPaid,
-                    //Paytype = Paytype,
-                    //PayStatus = PayStatus,
-                    //Cheque = Cheque,
-                    //ChqDate = ChqDate,
-                    //Bank = Bank,
-                    //InvNo = InvNo,
+                  
                     ProductsList = ProductsList
 
 
@@ -270,21 +255,7 @@ namespace MangoERP.Controllers
             objectList.Add(new
             {
                 Qry = Order.PurchaseNo,
-                //Qry1 = qry1,
-                //Qry2 = qry2,
-                //FinalAmount = FinalAmount,
-                //Discount = Discount,
-                //SalesDate = PurchaseDate,
-                //SubAmount = SubAmount,
-                //TotalAmount = TotalAmount,
-                //Tax = Tax,
-                //AmountPaid = AmountPaid,
-                //Paytype = Paytype,
-                //PayStatus = PayStatus,
-                //Cheque = Cheque,
-                //ChqDate = ChqDate,
-                //Bank = Bank,
-                //InvNo = InvNo,
+               
                 ProductsList = ProductsList
 
 

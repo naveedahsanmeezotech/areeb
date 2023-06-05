@@ -66,5 +66,43 @@ namespace MangoERP.Controllers
 
         }
 
+        [HttpPost]
+        //Edit Vendro 
+        public JsonResult GrInvoice(int OrderId)
+        {
+            List<object> objectList = new List<object>();
+            var ProductsList = db.PurchaseDetails.Where(x => x.PurchaseId == OrderId).Select(p => new { Price = p.Price, Qty = p.Qty, Description = p.Description, MeasureOfUnit = p.MeasureOfUnit, Amount = p.Amount, MaterailName = p.MaterailName, MaterailId = p.MaterailId }).ToList();
+
+            var Order = db.Purchases.Where(x => x.Id == OrderId).FirstOrDefault();
+
+            objectList.Add(new
+            {
+                Qry = Order.PurchaseNo,
+
+                ProductsList = ProductsList
+
+
+            });
+
+
+
+            return Json(objectList, JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult Create(int? Id)
+        {
+            var data = db.Purchases.Where(p => p.Id == Id).FirstOrDefault();
+            ViewBag.Invoice = data?.PurchaseNo;
+            ViewBag.VendorId = data?.VendorId;
+            ViewBag.OrderId = Id;
+            ViewBag.Total = data?.TotalAmount;
+
+            // ViewBag.BranchID = branchId;
+            ViewBag.vendor = data?.Vendor?.Vendor_Name;
+            // ViewBag.vendorCode = db.Vendors.Select(v => new { Value = v.AccountID, Name = v.VendorCode }).ToList();
+            ViewBag.Product = db.Products.Select(c => new { Value = c.Id, Name = c.MaterialName }).ToList();
+
+            return View();
+        }
     }
 }

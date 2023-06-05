@@ -59,8 +59,10 @@
 
                                             <td>
                                                 @*@if (item.Status == 2)
-                                                {*@
-                                                    @Html.ActionLink("Details", "Details", new { Id = item.Id }, null)
+        {*@
+                                                @Html.ActionLink("Details", "Details", new { Id = item.Id }, null)
+                                                |
+                                                @Html.ActionLink("GR Return", "Create", "PurchaseReturn", new { Id = item.Id }, null)
                                                 @*}*@
                                             </td>
                                         </tr>

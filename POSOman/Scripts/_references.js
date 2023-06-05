@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-1.10.2.js" />
+﻿/// <reference path="jquery-1.12.4.js" />
 /// <autosync enabled="true" />
 /// <reference path="../assets/bootstrap/js/bootstrap.min.js" />
 /// <reference path="../assets/js/data.js" />
