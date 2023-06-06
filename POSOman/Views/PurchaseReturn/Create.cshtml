@@ -180,7 +180,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                     <br />
                                     <div>
                                         <hr />
-                                        <h3>Return  QUANTITY</h3>
+                                        <h3>Return  Quantity</h3>
 
                                         <table id="tblProduct" class="table table-striped table-bordered dynamic-height">
                                             <thead>
@@ -188,11 +188,12 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                     <th hidden>Select</th>
                                                     <th>Materail</th>
                                                     <th>QTY</th>
+                                                    <th>Return QTY</th>
 
                                                     <th>Description</th>
                                                     <th>Unit Of Measure</th>
                                                     <th>Un Pr.</th>
-                                                    <th>Remark</th>
+                                                  
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -242,8 +243,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
         document.getElementById('DocumentDate').valueAsDate = new Date();
         document.getElementById('PostingDate').valueAsDate = new Date();
         var da = $('#datavl').val();
-        alert(da);
-        $('#TotalAmount').val(da);
+       $('#TotalAmount').val(da);
 
         getPOID();
         function getPOID() {
@@ -410,7 +410,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                     debugger
                     $.ajax({
                         type: 'POST',
-                        url: '/Purchase/ReturnPurchase',
+                        url: '/PurchaseReturn/ReturnPurchase',
                         dataType: 'json',
                         async: false,
                         data: { 'model': data, 'OrderId': OrderID },
@@ -418,7 +418,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                             // console.log(result);
                             //alert(result);
 
-                            if (result != "") {
+                            if (result== "success") {
                                 swal("", result, "success");
                                 setTimeout(
                                     function () {
@@ -430,7 +430,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                 // in case of Purchase Order Submit
 
                             } else {
-                                swal("Error", "Some error occured!", "error");
+                                swal("Error", "Something went wrong!", "error");
 
                             }
                         },

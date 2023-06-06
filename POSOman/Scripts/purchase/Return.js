@@ -58,14 +58,22 @@ function ListProduct(item) {
 
     $("#tblProductold tbody").append(markup);
 
-    var markup = "<tr><td>" + pid + "" + product + "</td><td id='ProductQty' contenteditable='true' >" + Qty + "</td><td id='ProductDescription'>" + Description + "</td><td id='ProductMeasure' >" + UnitOfMeasure + "</td><td  id='ProductCostPrice'>" + parseFloat(UnitPrice).toFixed(2) + "</td><td id='ProductSubTotal' hidden>" + parseFloat(SubTotal).toFixed(2) + "</td><td id='ProductRemark'  contenteditable='true' >" + "" + "</td></tr>";
+    var markupw = '<tr><td>' + pid + "" + product + '</td><td id="ProductQty"" contenteditable="true" >' + Qty + '</td><td><input id="rQty" name="rQty" oninput="validate(this)" style="width: 70px" type="number" min="0" max=' + Qty + ' step="0" value=0 class="form-control"> </td><td id="ProductDescription">' + Description + '</td><td id="ProductMeasure" >' + UnitOfMeasure + '</td><td  id="ProductCostPrice">' + parseFloat(UnitPrice).toFixed(2) + '</td><td id="ProductSubTotal" hidden>' + parseFloat(SubTotal).toFixed(2) + '</td></tr>';
 
 
-    $("#tblProduct tbody").append(markup);
+    $("#tblProduct tbody").append(markupw);
     $tableItemCounter++;
     $addedProductIDs.push(item.Product);
     proIdEdit = item.MaterailId;
 
+
+}
+var validate = function (element) {
+    
+    var maxQty = parseFloat(element.parentNode.previousElementSibling.textContent);
+    var inputQty = parseFloat(element.value);
+    alert("first" + maxQty);
+    alert("sec" + inputQty)
 
 }
 function GetEditProductDetail(OrderId, ProductID, BranchID) {

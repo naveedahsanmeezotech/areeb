@@ -163,7 +163,7 @@ namespace MangoERP.Controllers
                 {
                     MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
                     object result = order.ReturnPurchase(model, OrderId);
-                    return Json("Success");
+                    return Json("success");
                 }
                 else
                 {
