@@ -4305,6 +4305,7 @@
     <Content Include="Views\Purchase\_QuotationDetails.cshtml" />
     <Content Include="Views\PurchaseReturn\Index.cshtml" />
     <Content Include="Views\PurchaseReturn\Create.cshtml" />
+    <Content Include="Views\PurchaseReturn\Index1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

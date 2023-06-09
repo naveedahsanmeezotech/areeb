@@ -14,7 +14,13 @@ namespace MangoERP.Controllers
     public class PurchaseReturnController : Controller
     {
         public dbPOS db = new dbPOS();
+        public ActionResult Index1()
+        {
+            return View("Index", db.Purchases.Where(p => p.IsReturned == true ).ToList());
 
+        //    return View("Index1", db.PurchaseReturns.Where(p =>  p.IsDeleted != true).ToList());
+            //return View();
+        }
         // GET: PurchaseReturn
         public ActionResult Index()
         {
@@ -77,8 +83,11 @@ namespace MangoERP.Controllers
 
             objectList.Add(new
             {
-                Qry = Order.PurchaseNo,
-
+                PurchaseNo = Order.PurchaseNo,
+                PostingDate = Order.PostingDate.ToString(),
+                DocumnetDate = Order.DocumnetDate.ToString(),
+                GRNO = Order.GR,
+                ReferencePO = Order.ReferenceNumber,
                 ProductsList = ProductsList
 
 
@@ -106,10 +115,29 @@ namespace MangoERP.Controllers
         }
 
         [HttpPost]
-        public JsonResult ReturnPurchase(Purchase model, int? OrderId)
+        public JsonResult ReturnPurchase(PurchaseReturn model, int? OrderId)
         {
             try
             {
+
+                int branchId = 0;
+                int userID = 0;
+                string useridname = "";
+                if (Session["BranchID"] != null && Session["UserID"] != null)
+                {
+                    branchId = Convert.ToInt32(Session["BranchID"]);
+                    userID = Convert.ToInt32(Session["UserID"]);
+                }
+                else
+                {
+                    var user = User.Identity;
+                    string currentUserId = User.Identity.GetUserId();
+                    var currentUser = db.AspNetUsers.FirstOrDefault(x => x.Id == currentUserId);
+                    branchId = currentUser.BranchID;
+                    userID = currentUser.UserId;
+                    useridname = currentUser.Id;
+                }
+              
                 bool sucess = false;
 
                 var ProductsList = db.PurchaseDetails.Where(x => x.PurchaseId == OrderId).ToList();
@@ -119,13 +147,16 @@ namespace MangoERP.Controllers
                     qty += item.Qty;
                 }
                 int? oldqty = 0;
-                foreach (var item in model.PurchaseDetails)
+                decimal? total = 0;
+                foreach (var item in model.PurchaseReturnDetails)
                 {
                     oldqty += item.Qty;
+                    total = item.Qty * item.Price;
                 }
                 string data = "";
                 if (qty == oldqty)
                 {
+                    sucess = true;
                     data = "No. of quantity in PO and Goods  Receipt are Equal";
                 }
                 if (qty > oldqty)
@@ -137,6 +168,11 @@ namespace MangoERP.Controllers
                 {
                     data = "greater then No. of quantity in Goods Receipt";
                 }
+
+                model.TotalAmount = model.TotalAmount;
+                model.UserID = useridname.ToString();
+                model.PurchaseID = OrderId??0;
+                model.IsDeleted = false;
 
                 //var data = db.Quotations.Where(p => p.Id == OrderId).FirstOrDefault();
                 //ViewBag.Invoice = data?.QuotationNo;
@@ -163,7 +199,7 @@ namespace MangoERP.Controllers
                 {
                     MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
                     object result = order.ReturnPurchase(model, OrderId);
-                    return Json("success");
+                    return Json(result);
                 }
                 else
                 {

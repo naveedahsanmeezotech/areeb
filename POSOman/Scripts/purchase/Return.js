@@ -29,6 +29,28 @@ function GetEditVendors(OrderId) {
         data: JSON.stringify(json),
         success: function (data) {
 
+            console.log(data);
+            //data[0].DocumnetDate
+            //data[0].PostingDate
+
+            //let text = data[0].DocumnetDate;
+            //const myArray = text.split(" ");
+            //let word = myArray[1];
+
+
+            //let textW = data[0].PostingDate;
+            //const myArrayW = textW.split(" ");
+            //Ylet word = myArrayW[1];
+            //$("#DocumentDate").val(myArray[0]);
+            //$("#PostingDate").val(myArrayW[0]);
+
+
+
+            $('[name="DocumentDate"]').val(data[0].DocumnetDate ? moment(data[0].DocumnetDate).format('YYYY-MM-DD') : '');
+            $('[name="PostingDate"]').val(data[0].PostingDate ? moment(data[0].PostingDate).format('YYYY-MM-DD') : '');
+
+            $("#GRNO").val(data[0].GRNO);
+            $('[name="ReferencePO"]').val(data[0].ReferencePO);
 
             data[0].ProductsList.forEach(ListProduct);
 
@@ -72,9 +94,10 @@ var validate = function (element) {
     
     var maxQty = parseFloat(element.parentNode.previousElementSibling.textContent);
     var inputQty = parseFloat(element.value);
-    alert("first" + maxQty);
-    alert("sec" + inputQty)
-
+    if (maxQty < inputQty) {
+        swal("Error", "Please Enter Correct Qty", "error");
+    }
+   
 }
 function GetEditProductDetail(OrderId, ProductID, BranchID) {
 

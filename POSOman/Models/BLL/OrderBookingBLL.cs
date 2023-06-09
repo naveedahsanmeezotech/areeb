@@ -201,13 +201,14 @@ namespace MangoERP.Models.BLL
         }
 
 
-        public object ReturnPurchase(Purchase model, int? OrderId)
+        public object ReturnPurchase(PurchaseReturn model, int? OrderId)
         {
             dbPOS db = new dbPOS();
             var value = db.Purchases.Where(p => p.Id == OrderId).FirstOrDefault();
             if (value != null)
             {
-                value.Status = 0;
+               // value.Status = 0;
+                value.IsReturned = true;
 
                 db.Entry(value).State = EntityState.Modified;
                 db.SaveChanges();
@@ -215,30 +216,22 @@ namespace MangoERP.Models.BLL
             }
             try
             {
-                Purchase q = new Purchase();
-                q.DocumnetDate = model.DocumnetDate;
-                q.PostingDate = model.PostingDate;
-                q.GR = model.GR;
+                PurchaseReturn q = new PurchaseReturn();
 
-
-                q.PurchaseNo = value.PurchaseNo;
-                q.ReferenceNumber = value.ReferenceNumber;
-                q.QutotationReferenceNo = value.QutotationReferenceNo;
-                q.DateIssued = value.DateIssued;
-                q.VendorId = value.VendorId;
-
-
-
-                q.Status = 2;
+                q.InvoiceNo = model.InvoiceNo;
+                q.ReturnDate = DateTime.Now;
+                q.PurchaseID = model.PurchaseID;
+                q.UserID = model.UserID;    
+               
                 q.TotalAmount = model.TotalAmount;
 
-                db.Purchases.Add(q);
+                db.PurchaseReturns.Add(q);
                 var data = db.SaveChanges();
 
-                foreach (var item in model.PurchaseDetails)
+                foreach (var item in model.PurchaseReturnDetails)
                 {
-                    PurchaseDetail m = new PurchaseDetail();
-                    m.PurchaseId = q.Id;
+                    PurchaseReturnDetail m = new PurchaseReturnDetail();
+                    m.PurchaseReturnId = q.PurchaseReturnID;
                     m.MaterailId = item.MaterailId;
                     m.MaterailName = item.MaterailName;
                     m.Qty = item.Qty;
@@ -247,14 +240,14 @@ namespace MangoERP.Models.BLL
                     m.MeasureOfUnit = item.MeasureOfUnit;
                     m.Description = item.Description;
                     m.Remark = item.Remark;
-                    db.PurchaseDetails.Add(m);
+                    db.PurchaseReturnDetails.Add(m);
                     db.SaveChanges();
 
 
                     var srock = db.StockLogs.Where(p => p.MaterailId == item.MaterailId).FirstOrDefault();
                     if (srock != null)
                     {
-                        srock.StockIn += item.Qty;
+                        srock.StockIn -= item.Qty;
                         srock.MaterailName = item.MaterailName;
 
                         db.Entry(srock).State = EntityState.Modified;
@@ -265,7 +258,7 @@ namespace MangoERP.Models.BLL
                         StockLog sl = new StockLog();
                         sl.MaterailId = item.MaterailId;
                         sl.MaterailName = item.MaterailName;
-                        sl.StockIn = item.Qty;
+                        sl.StockIn -= item.Qty;
                         sl.Status = 1;
                         sl.Description = item.Description;
 
@@ -277,12 +270,12 @@ namespace MangoERP.Models.BLL
 
                 //}
                 //}
-                return "success";
+                return "Success";
             }
 
             catch (Exception ex)
             {
-                return "Fail";
+                return "ERROR";
                 //  transaction.Rollback();
                 //    return ex.Message;
             }

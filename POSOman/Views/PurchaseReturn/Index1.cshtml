@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MangoERP.Models.Purchase>
+﻿@model IEnumerable<MangoERP.Models.pur>
 
 @{
     ViewBag.Title = "Index";
@@ -31,8 +31,8 @@
                                         <th>
                                             Amount
                                         </th>
-                                        <th>Action</th>
-                                     
+                                        <th></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,19 +55,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.TotalAmount)
                                             </td>
-                                            
+
 
                                             <td>
-                                                @*@if (item.Status == 2)
-        {*@
-                                                @Html.ActionLink("Details", "Details", new { Id = item.Id }, null)
-                                                |
-                                                @*}*@
-                                                @if (item.IsReturned != true)
-                                                {
-                                                    @Html.ActionLink("GR Return", "Create", "PurchaseReturn", new { Id = item.Id }, null)
-
-                                                }
+                                                 
+                                              
                                             </td>
                                         </tr>
                                     }
@@ -89,9 +81,9 @@
 
 
 
-                                        $(document).ready(function () {
-                                            $('#table1').DataTable();
+        $(document).ready(function () {
+            $('#table1').DataTable();
 
-                                        });
+        });
     </script>
 }

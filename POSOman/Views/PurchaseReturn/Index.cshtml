@@ -34,19 +34,13 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                 <th>
                                                     Vendor
                                                 </th>
-                                                <th>
-                                                    @Html.DisplayNameFor(model => model.DateIssued)
-                                                </th>
-                                                <th>
-                                                    @Html.DisplayNameFor(model => model.TotalAmount)
-                                                </th>
-                                                <th hidden>
-                                                    @Html.DisplayNameFor(model => model.Id)
-                                                </th>
+                                             
+                                             
+                                                
                                                 @*<th>
                                                         <label>Payment Type</label>
                                                     </th>*@
-                                                <th></th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,19 +56,12 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                                     <td>
                                                         @Html.DisplayFor(modelItem => item.Vendor.Vendor_Name)
                                                     </td>
-                                                    <td>
-                                                        @*@Html.DisplayFor(modelItem => item.PurchaseDate)*@
-                                                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateIssued))
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.TotalAmount)
-                                                    </td>
+                                                   
 
-
-                                                    <td>
+                                                    <!--<td>-->
                                                         @*@Html.ActionLink("Details","null",new { onclick = "getInvoiceDetails(" + item.OrderID + ");" })*@
-                                                        <a href="#" onclick="getInvoiceDetails(@item.Id); return false;">Details</a>
-                                                    </td>
+                                                        <!--<a href="#" onclick="getInvoiceDetails(@item.Id); return false;">Details</a>
+                                                    </td>-->
                                                 </tr>
                                             }
                                         </tbody>
@@ -89,7 +76,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="col-12">
                 <div class="card">
                     <div class="card-content collapse show">
