@@ -34,6 +34,30 @@ namespace MangoERP.Controllers
             }
             return PartialView("_Invoice", _PODetails);
         }
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+          
+            var value = db.Purchases.Where(p => p.Id == id).FirstOrDefault();
+            if (value != null)
+            {
+                value.IsDeleted = true;
+
+                db.Entry(value).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            if (value == null)
+            {
+                return HttpNotFound();
+            }
+           return View("IndexList", db.Purchases.Where(p => p.Status != 2 && !p.IsDeleted).ToList());
+
+
+        }
         public ActionResult Detailsq(int? id)
         {
             if (id == null)
@@ -58,16 +82,13 @@ namespace MangoERP.Controllers
         }
         public ActionResult IndexList()
         {
-            return View(db.Purchases.Where(p => p.Status != 2).ToList());
+            return View(db.Purchases.Where(p => p.Status != 2 && !p.IsDeleted).ToList());
             //return View();
         }
         // GET: Purchase
         public ActionResult Create()
         {
-            //ViewBag.BankAccount = db.AccountDetails.Where(acd => acd.AccountTypeID == 27).Select(p => new { Value = p.AccountID, Name = p.AccountName + " | " + p.Bank }).ToList();
-           // ViewBag.BranchID = branchId;
-            ViewBag.vendor = db.Vendors.Where(p=>p.Status== "Active").Select(v => new { Value = v.Vendor_ID, Name = v.Vendor_Name}).ToList();
-           // ViewBag.vendorCode = db.Vendors.Select(v => new { Value = v.AccountID, Name = v.VendorCode }).ToList();
+             ViewBag.vendor = db.Vendors.Where(p=>p.Status== "Active").Select(v => new { Value = v.Vendor_ID, Name = v.Vendor_Name}).ToList();
             ViewBag.Product = db.Products.Select(c => new { Value = c.Id, Name = c.MaterialName }).ToList();
               return View();
             //return View();
@@ -184,6 +205,14 @@ namespace MangoERP.Controllers
         {
             Random random = new Random();
             int randomNumber = random.Next(1, 501); // Generate a random integer between 1 and 100
+
+
+            return Json(randomNumber, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getGRInvoiceNo()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1, 301); // Generate a random integer between 1 and 100
 
 
             return Json(randomNumber, JsonRequestBehavior.AllowGet);

@@ -21,7 +21,9 @@
                                         <th>
                                            Last Name
                                         </th>
-
+                                        <th>
+                                           Grave Name
+                                        </th>
                                         <th>
                                            Creation Date
                                         </th>
@@ -50,6 +52,9 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.last_name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.GraveDetail.Grave.Grave_Name)
                                             </td>
 
                                             <td>

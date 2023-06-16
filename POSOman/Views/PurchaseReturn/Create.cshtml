@@ -20,6 +20,12 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                     <h5 class="form-section"><i class="icon-eye6"></i>Return  </h5>
                                     <div class="row">
                                         <div class="form-group mb-1 col-sm-12 col-md-2">
+                                            <label>PO Number</label>
+                                            <br>
+                                            <input type="text" class="form-control" placeholder="" id="InvoiceNo" readonly />
+
+                                        </div>
+                                        <div class="form-group mb-1 col-sm-12 col-md-2">
                                             <label>GRNO</label>
                                             <br>
                                             <input type="text" class="form-control" placeholder="" id="GRNO" readonly />
@@ -38,7 +44,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                                         </div>
                                         <div class="col-md-2">
                                             <label>Posting Date</label>
-                                            <input type="date"  name="PostingDate"class="form-control" placeholder="" id="PostingDate" />
+                                            <input type="date" name="PostingDate" class="form-control" placeholder="" id="PostingDate" />
 
                                         </div>
                                         <div class="col-md-2">
@@ -248,17 +254,17 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
         var da = $('#datavl').val();
         $('#TotalAmount').val(da);
 
-        //  getPOID();
+         getPOID();
         function getPOID() {
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                url: '/Purchase/getGR',
+                url: '/Purchase/getGRInvoiceNo',
                 async: true,
                 success: function (data) {
                     {
                         //  alert(data);
-                        $("#GRNO").val(data);
+                        $("#InvoiceNo").val(data);
 
                     }
                 },
@@ -404,7 +410,7 @@ FormMethod.Post, new { @class = "form form-horizontal striped-rows form-bordered
                     var data = {
                         'VendorId': $('#VendorId').val(),
                         'GR': $('#GRNO').val(),
-                        'PostingDate': $('#PostingDate').val(),
+                        'InvoiceNo': $('#InvoiceNo').val(),
                         'TotalAmount': $('#TotalAmount').val(),
                         'DocumnetDate': $('#DocumentDate').val(),
                         'PurchaseReturnDetails': rows

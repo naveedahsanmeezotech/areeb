@@ -11,6 +11,7 @@ using ZXing;
 using static MangoERP.Controllers.GravesController;
 using Microsoft.AspNet.Identity;
 using MangoERP.Models.BLL;
+using Syncfusion.JavaScript.Models;
 
 namespace MangoERP.Controllers
 {
@@ -130,6 +131,7 @@ namespace MangoERP.Controllers
 
                         grave.Grave_Status_Id = 2;
 
+
                     }
                     else if (customer.typedetail == "Reserved")
                     {
@@ -210,10 +212,45 @@ namespace MangoERP.Controllers
                         gd.GraveSizeId = customer.GraveSizeId;
                         gd.GraveId = customer.GraveId;
 
+                        var stockless = db.Grave_Size.Where(p => p.Id == gd.GraveSizeId).FirstOrDefault();
+                        if (stockless != null) {
+
+                            //block 
+
+                            var srock = db.StockLogs.Where(p => p.MaterailId == 1).FirstOrDefault();
+                            if (srock != null)
+                            {
+                                srock.StockIn -= Convert.ToInt32(stockless.Blocks);
+                                
+                                db.Entry(srock).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            var Cement = db.StockLogs.Where(p => p.MaterailId ==2 ).FirstOrDefault();
+                            if (Cement != null)
+                            {
+                                Cement.StockIn -= Convert.ToInt32(stockless.Cement);
+
+                                db.Entry(Cement).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+
+                            var Slab = db.StockLogs.Where(p => p.MaterailId == 3).FirstOrDefault();
+                            if (Slab != null)
+                            {
+                                Slab.StockIn -= Convert.ToInt32(stockless.Slab);
+
+                                db.Entry(Slab).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+
+                        }
                         gd.Status = "Booked";
                     }
                     else if (customer.typedetail == "Reserved")
                     {
+                        gd.GraveId = customer.GraveId;
+                        gd.GraveSizeId = customer.GraveSizeId;
+
                         gd.Status = "Reserved";
                     }
                 }
@@ -235,7 +272,7 @@ namespace MangoERP.Controllers
                 gd.DeceasedDateofBirth = customer.DeceasedDateofBirth;
              //   gd.GraveSizeId = customer.DeceasedDateofBirth;
                 gd.DateofDeath = customer.date_of_birth;
-                //po.GraveSizeId = customer.GraveSizeId;
+               // gd.GraveSizeId = customer.GraveSizeId;
                 db.GraveDetails.Add(gd);
                 db.SaveChanges();
 

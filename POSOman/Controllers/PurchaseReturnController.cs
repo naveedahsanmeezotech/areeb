@@ -173,27 +173,8 @@ namespace MangoERP.Controllers
                 model.UserID = useridname.ToString();
                 model.PurchaseID = OrderId??0;
                 model.IsDeleted = false;
-
-                //var data = db.Quotations.Where(p => p.Id == OrderId).FirstOrDefault();
-                //ViewBag.Invoice = data?.QuotationNo;
-                //ViewBag.OrderId = OrderId;
-
-                //// ViewBag.BranchID = branchId;
-                //// int vend = data?.VendorId ? 0;
-                //ViewBag.vendor = data?.Vendor?.Vendor_Name;
-                //int? siod = 0;
-                //var tmp = db.Purchases.OrderByDescending(v => v.Id).FirstOrDefault();
-                //if (tmp != null)
-                //{
-                //    siod = tmp.PurchaseNo + 1;
-                //}
-                //else
-                //{
-                //    siod = 2000;
-                //}
-                //model.PurchaseNo = siod;
-                //model.QutotationReferenceNo = data?.QuotationNo;
-                //model.DateIssued = DateTime.Now;
+                model.InvoiceNo = model.InvoiceNo;
+               
 
                 if (sucess)
                 {

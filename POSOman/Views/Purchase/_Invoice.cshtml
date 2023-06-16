@@ -70,7 +70,9 @@
                         <th>
                             <label>Material Name</label>
                         </th>
-                        
+                        <th>
+                            @Html.DisplayName("Qty")
+                        </th>
 
                         <th>
                             @Html.DisplayName("Description")
@@ -89,31 +91,34 @@
                     @{  int counter = 1;
                         foreach (var item in Model)
                         {
-                            <tr>
-                                <th scope="row">@counter</th>
-                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.PurchaseOrder.InvoiceNo)
-                                    </td>*@
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.MaterialName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
+                                        <tr>
+                                            <th scope="row">@counter</th>
+                                            @*<td>
+            @Html.DisplayFor(modelItem => item.PurchaseOrder.InvoiceNo)
+        </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Product.MaterialName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Qty)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
 
-                              
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Price)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeasureOfUnit)
-                                </td>
-                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.ReturnedQty)
-                                    </td>*@
 
-                            </tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MeasureOfUnit)
+                                            </td>
+                                            @*<td>
+            @Html.DisplayFor(modelItem => item.ReturnedQty)
+        </td>*@
+
+                                        </tr>
                             counter = counter + 1;
                         }
                     }

@@ -57,13 +57,28 @@
                                             </td>
                                           
                                             <td>
-                                                @if (item.Status ==1)
+                                                @if (item.Status == 1)
                                                 {
-                                                @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
+                                                    @Html.ActionLink("Create GR", "CreateGR", new { Id = item.Id }, null)
+
+
+
                                                 }
-                                              |
-                                                @Html.ActionLink("Details", "Details", new { Id = item.Id }, null)
-                                                
+                                                |
+                                                @if (item.Status == 1)
+                                                {
+
+                                                    @Html.ActionLink("Delete", "Delete", new { Id = item.Id }, null)
+
+
+                                                }
+                                                else
+                                                {
+                                                                                    
+                                                                                @Html.ActionLink("Details", "Details", new { Id = item.Id }, null)
+
+                                                }
+
                                             </td>
                                         </tr>
                                     }
