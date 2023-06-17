@@ -35,7 +35,6 @@ namespace MangoERP.Models
         public virtual DbSet<Grave_Size> Grave_Size { get; set; }
         public virtual DbSet<Grave_Status> Grave_Status { get; set; }
         public virtual DbSet<GraveDetail> GraveDetails { get; set; }
-        public virtual DbSet<PaymentCard> PaymentCards { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Purchase> Purchases { get; set; }
         public virtual DbSet<PurchaseDetail> PurchaseDetails { get; set; }
@@ -48,5 +47,6 @@ namespace MangoERP.Models
         public virtual DbSet<StockLog> StockLogs { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<PaymentCard> PaymentCards { get; set; }
     }
 }

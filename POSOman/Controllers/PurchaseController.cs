@@ -148,6 +148,7 @@ namespace MangoERP.Controllers
             model.PurchaseNo = siod;
             model.QutotationReferenceNo  = data?.QuotationNo;
             model.DateIssued = DateTime.Now;
+            model.ReferenceNumber = data?.ReferenceNumber;
 
             //int branchId = 0;
             //int userID = 0;
@@ -166,7 +167,7 @@ namespace MangoERP.Controllers
             //}
             //model.AddBy = userID;
             //model.BranchID = branchId;
-             MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
+            MangoERP.Models.BLL.OrderBookingBLL order = new Models.BLL.OrderBookingBLL();
               object result = order.PurchaseSave(model);
             return Json(result);
         }

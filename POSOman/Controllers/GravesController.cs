@@ -59,7 +59,7 @@ namespace MangoERP.Controllers
         [HttpPost]
         public ActionResult Payment(Data po )
         {
-            var card = db.PaymentCards.Where(p => p.Active && p.CardNumber==po.CardNumber).FirstOrDefault();
+            var card = db.PaymentCards.Where(p => p.Active && p.CardNumber==po.CardNumber && p.cvc==po.cvc && p.Month ==po.Month && p.Year == po.Year   ).FirstOrDefault();
             if(card!=null)
             {
                 Customer dataS = db.Customers.OrderByDescending(x => x.customer_ID).First();
@@ -91,6 +91,7 @@ namespace MangoERP.Controllers
 
                 }
             }
+            TempData["Data"] = "Please Enter your Correct Number";
             return View();
         }
         public ActionResult Details(int? id)
@@ -139,6 +140,11 @@ namespace MangoERP.Controllers
         {
             public int id { get; set; }
             public string CardNumber { get; set; }
+            public bool Active { get; set; }
+            public string Name { get; set; }
+            public string Month { get; set; }
+            public string Year { get; set; }
+            public string cvc { get; set; }
         }
     }
 }

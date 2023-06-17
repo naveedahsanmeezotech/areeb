@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<MangoERP.Models.Grave>
-
 @{
     ViewBag.Title = "Index";
 }
-
 <style>
+
     table, th, td {
         border: 5px solid white;
     }
@@ -13,166 +12,98 @@
         FONT-STYLE: initial;
         padding: 24px;
         color: white;
-        font-size: 40px;
-        width: 142px;
-        height: 95px;
+        font-size: 14px;
+        /width: 250px;
+        / height: 145px;
         align-items: center;
     }
 </style>
-<style>
-    * {
-        box-sizing: border-box;
-    }
+<table>
 
-    .row {
-        margin-left: -5px;
-        margin-right: -5px;
-    }
-
-    .column {
-        float: left;
-        width: 50%;
-        padding: 5px;
-    }
-
-    /* Clearfix (clear floats) */
-    .row::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-        border: 1px solid #ddd;
-    }
-
-    th, td {
-        text-align: left;
-        padding: 16px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-</style>
-
-
-<div class="row">
-    <div class="column">
-        <table>
-            <tr>
-
-                @foreach (var item in Model)
+    <tr>
+        @foreach (var item in Model)
+        {
+            if (@item.Section_Id == 1)
+            {
+                if (@item.Grave_Status_Id == 1)
                 {
-                    if (@item.Section_Id == 2)
-                    { 
-                        if (@item.Grave_Status_Id == 1 )
-                        {
-                            <!-- AVAIABLE -->
-                            <td style="background-color:greenyellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-
-                            </td>
-                        }
-                        else if (@item.Grave_Status_Id == 2)
-                        {
-
-                            <td style="background-color:yellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                        else
-                        {
-
-                            <td style="background-color:cyan">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                    }
+                    <!-- AVAIABLE -->
+                    <td style="background-color:greenyellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
                 }
-            </tr>
-        </table>
-    </div>
-    <div class="column">
-        <table>
-
-            <tr>
-                @foreach (var item in Model)
+                else if (@item.Grave_Status_Id == 2)
                 {
-                    if (@item.Section_Id == 1)
-                    {
-                        if (@item.Grave_Status_Id == 1)
-                        {
-                            <!-- AVAIABLE -->
-                            <td style="background-color:greenyellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
 
-                            </td>
-                        }
-                        else if (@item.Grave_Status_Id == 2)
-                        {
-
-                            <td style="background-color:yellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                        else
-                        {
-
-                            <td style="background-color:cyan">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                    }
+                    <td style="background-color:yellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
                 }
-            </tr>
-
-        </table>
-    </div>
-</div>
-
-
-
-
-<div class="row">
-    <div class="column">
-        <table>
-            <tr>
-
-                @foreach (var item in Model)
+                else
                 {
-                    if (@item.Section_Id == 3)
-                    {
-                        if (@item.Grave_Status_Id == 1)
-                        {
-                            <!-- AVAIABLE -->
-                            <td style="background-color:greenyellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
 
-                            </td>
-                        }
-                        else if (@item.Grave_Status_Id == 2)
-                        {
-
-                            <td style="background-color:yellow">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                        else
-                        {
-
-                            <td style="background-color:cyan">
-                                <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
-                            </td>
-                        }
-                    }
+                    <td style="background-color:cyan">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
                 }
-            </tr>
+            }
+        }
+    </tr>
+    <tr>
+        @foreach (var item in Model)
+        {
+            if (@item.Section_Id == 2)
+            {
+                if (@item.Grave_Status_Id == 1)
+                {
+                    <!-- AVAIABLE -->
+                    <td style="background-color:greenyellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+                else if (@item.Grave_Status_Id == 2)
+                {
 
-        </table>
-    </div>
-</div>
+                    <td style="background-color:yellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+                else
+                {
 
+                    <td style="background-color:cyan">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+            }
+        }
+    </tr>
+    <tr>
+        @foreach (var item in Model)
+        {
+            if (@item.Section_Id == 3)
+            {
+                if (@item.Grave_Status_Id == 1)
+                {
+                    <!-- AVAIABLE -->
+                    <td style="background-color:greenyellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+                else if (@item.Grave_Status_Id == 2)
+                {
+
+                    <td style="background-color:yellow">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+                else
+                {
+
+                    <td style="background-color:cyan">
+                        <a href="~/customers/Edit/?Id=@item.Id">@item.Grave_Name</a>
+                    </td>
+                }
+            }
+        }
+    </tr>

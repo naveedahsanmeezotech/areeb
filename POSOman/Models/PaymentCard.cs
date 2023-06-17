@@ -16,8 +16,10 @@ namespace MangoERP.Models
     {
         public int Id { get; set; }
         public string CardNumber { get; set; }
-        public string Code { get; set; }
-        public string Expire { get; set; }
         public bool Active { get; set; }
+        public string Name { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
+        public string cvc { get; set; }
     }
 }

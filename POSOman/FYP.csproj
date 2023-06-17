@@ -312,6 +312,7 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\PurchaseReturnController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\Users5Controller.cs" />
     <Compile Include="Controllers\VendorsController.cs" />
@@ -4306,6 +4307,7 @@
     <Content Include="Views\PurchaseReturn\Index.cshtml" />
     <Content Include="Views\PurchaseReturn\Create.cshtml" />
     <Content Include="Views\PurchaseReturn\Index1.cshtml" />
+    <Content Include="Views\Reports\GraveReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
