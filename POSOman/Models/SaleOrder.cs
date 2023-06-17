@@ -15,9 +15,15 @@ namespace MangoERP.Models
     public partial class SaleOrder
     {
         public int Id { get; set; }
-        public int CustomerId { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
+        public string DeceasedPerson { get; set; }
+        public string DeceasedCnic { get; set; }
+        public string ReasonOfDeath { get; set; }
+        public Nullable<System.DateTime> DateofDeath { get; set; }
+        public Nullable<System.DateTime> DeceasedDateofBirth { get; set; }
+        public string Status { get; set; }
+        public Nullable<int> CustomerId { get; set; }
     
         public virtual Customer Customer { get; set; }
     }

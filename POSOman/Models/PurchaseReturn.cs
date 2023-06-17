@@ -21,7 +21,7 @@ namespace MangoERP.Models
         }
     
         public int PurchaseReturnID { get; set; }
-        public int PurchaseID { get; set; }
+        public Nullable<int> PurchaseID { get; set; }
         public string InvoiceNo { get; set; }
         public Nullable<System.DateTime> ReturnDate { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }

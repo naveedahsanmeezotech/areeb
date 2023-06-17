@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="db_fypModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="db_fyp_areebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -153,8 +153,8 @@
           <Property Name="GR" Type="int" />
           <Property Name="DocumnetDate" Type="datetime" />
           <Property Name="PostingDate" Type="datetime" />
-          <Property Name="IsReturned" Type="bit" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsReturned" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="PurchaseDetail">
           <Key>
@@ -176,12 +176,12 @@
             <PropertyRef Name="PurchaseReturnID" />
           </Key>
           <Property Name="PurchaseReturnID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PurchaseID" Type="int" Nullable="false" />
-          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="150" />
-          <Property Name="ReturnDate" Type="smalldatetime" />
-          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="PurchaseID" Type="int" />
+          <Property Name="InvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReturnDate" Type="datetime" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsDeleted" Type="bit" />
-          <Property Name="UserID" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserID" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PurchaseReturnDetail">
           <Key>
@@ -231,9 +231,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CustomerId" Type="int" Nullable="false" />
-          <Property Name="DeliveryDate" Type="datetime" />
-          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="DeliveryDate" Type="date" />
+          <Property Name="OrderDate" Type="date" />
+          <Property Name="DeceasedPerson" Type="varchar" MaxLength="50" />
+          <Property Name="DeceasedCnic" Type="varchar" MaxLength="50" />
+          <Property Name="ReasonOfDeath" Type="varchar" MaxLength="50" />
+          <Property Name="DateofDeath" Type="date" />
+          <Property Name="DeceasedDateofBirth" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerId" Type="int" />
         </EntityType>
         <EntityType Name="Section">
           <Key>
@@ -273,7 +279,7 @@
           <Property Name="Contact_Person" Type="varchar" MaxLength="30" />
           <Property Name="Vendor_Contact" Type="nvarchar" MaxLength="15" />
           <Property Name="Vendor_Payment_Type" Type="varchar" MaxLength="30" />
-          <Property Name="Address" Type="varchar" MaxLength="30" />
+          <Property Name="Address" Type="varchar(max)" />
           <Property Name="Status" Type="varchar" MaxLength="30" />
         </EntityType>
         <Association Name="FK_Customer_Grave">
@@ -390,7 +396,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PurchaseReturnDetail_PurchaseReturn">
+        <Association Name="FK_PurchaseReturnDetails_PurchaseReturns">
           <End Role="PurchaseReturn" Type="Self.PurchaseReturn" Multiplicity="1" />
           <End Role="PurchaseReturnDetail" Type="Self.PurchaseReturnDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -439,7 +445,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SaleOrder_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -474,7 +480,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="db_fypModelStoreContainer">
+        <EntityContainer Name="db_fyp_areebModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -534,7 +540,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK_PurchaseReturnDetail_PurchaseReturn" Association="Self.FK_PurchaseReturnDetail_PurchaseReturn">
+          <AssociationSet Name="FK_PurchaseReturnDetails_PurchaseReturns" Association="Self.FK_PurchaseReturnDetails_PurchaseReturns">
             <End Role="PurchaseReturn" EntitySet="PurchaseReturn" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetail" />
           </AssociationSet>
@@ -567,7 +573,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="db_fypModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="db_fyp_areebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -733,8 +739,8 @@
           <Property Name="GR" Type="Int32" />
           <Property Name="DocumnetDate" Type="DateTime" Precision="3" />
           <Property Name="PostingDate" Type="DateTime" Precision="3" />
-          <Property Name="IsReturned" Type="Boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsReturned" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Purchase" FromRole="Purchase" ToRole="PurchaseDetail" />
           <NavigationProperty Name="Vendor" Relationship="Self.FKPurchase_Vendor" FromRole="Purchase" ToRole="Vendor" />
         </EntityType>
@@ -760,13 +766,13 @@
             <PropertyRef Name="PurchaseReturnID" />
           </Key>
           <Property Name="PurchaseReturnID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PurchaseID" Type="Int32" Nullable="false" />
-          <Property Name="InvoiceNo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
-          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="PurchaseID" Type="Int32" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsDeleted" Type="Boolean" />
-          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PurchaseReturnDetails" Relationship="Self.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturn" ToRole="PurchaseReturnDetail" />
+          <Property Name="UserID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PurchaseReturnDetails" Relationship="Self.FK_PurchaseReturnDetails_PurchaseReturns" FromRole="PurchaseReturn" ToRole="PurchaseReturnDetail" />
         </EntityType>
         <EntityType Name="PurchaseReturnDetail">
           <Key>
@@ -783,7 +789,7 @@
           <Property Name="MeasureOfUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="Self.FK_PurchaseReturnDetail_Product" FromRole="PurchaseReturnDetail" ToRole="Product" />
-          <NavigationProperty Name="PurchaseReturn" Relationship="Self.FK_PurchaseReturnDetail_PurchaseReturn" FromRole="PurchaseReturnDetail" ToRole="PurchaseReturn" />
+          <NavigationProperty Name="PurchaseReturn" Relationship="Self.FK_PurchaseReturnDetails_PurchaseReturns" FromRole="PurchaseReturnDetail" ToRole="PurchaseReturn" />
         </EntityType>
         <EntityType Name="Quotation">
           <Key>
@@ -822,9 +828,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="DeceasedPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeceasedCnic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReasonOfDeath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateofDeath" Type="DateTime" Precision="0" />
+          <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_SaleOrder_Customer" FromRole="SaleOrder" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Section">
@@ -866,7 +878,7 @@
           <Property Name="Contact_Person" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Vendor_Contact" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Vendor_Payment_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Purchases" Relationship="Self.FKPurchase_Vendor" FromRole="Vendor" ToRole="Purchase" />
           <NavigationProperty Name="Quotations" Relationship="Self.FK_Quotation_Vendor" FromRole="Vendor" ToRole="Quotation" />
@@ -926,7 +938,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SaleOrder_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -1033,7 +1045,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PurchaseReturnDetail_PurchaseReturn">
+        <Association Name="FK_PurchaseReturnDetails_PurchaseReturns">
           <End Role="PurchaseReturn" Type="Self.PurchaseReturn" Multiplicity="1" />
           <End Role="PurchaseReturnDetail" Type="Self.PurchaseReturnDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1145,7 +1157,7 @@
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="Purchase" EntitySet="Purchases" />
           </AssociationSet>
-          <AssociationSet Name="FK_PurchaseReturnDetail_PurchaseReturn" Association="Self.FK_PurchaseReturnDetail_PurchaseReturn">
+          <AssociationSet Name="FK_PurchaseReturnDetails_PurchaseReturns" Association="Self.FK_PurchaseReturnDetails_PurchaseReturns">
             <End Role="PurchaseReturn" EntitySet="PurchaseReturns" />
             <End Role="PurchaseReturnDetail" EntitySet="PurchaseReturnDetails" />
           </AssociationSet>
@@ -1163,9 +1175,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="db_fypModelStoreContainer" CdmEntityContainer="dbPOS">
+        <EntityContainerMapping StorageEntityContainer="db_fyp_areebModelStoreContainer" CdmEntityContainer="dbPOS">
           <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="db_fypModel.AspNetRole">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1173,7 +1185,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="db_fypModel.AspNetUserClaim">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1183,7 +1195,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="db_fypModel.AspNetUserLogin">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
@@ -1192,7 +1204,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserRoles">
-            <EntityTypeMapping TypeName="db_fypModel.AspNetUserRole">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.AspNetUserRole">
               <MappingFragment StoreEntitySet="AspNetUserRoles">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -1200,7 +1212,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="db_fypModel.AspNetUser">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1220,7 +1232,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="db_fypModel.Customer">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="customer_ID" ColumnName="customer_ID" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
@@ -1238,7 +1250,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Graves">
-            <EntityTypeMapping TypeName="db_fypModel.Grave">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Grave">
               <MappingFragment StoreEntitySet="Grave">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Section_Id" ColumnName="Section_Id" />
@@ -1248,7 +1260,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Grave_Size">
-            <EntityTypeMapping TypeName="db_fypModel.Grave_Size">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Grave_Size">
               <MappingFragment StoreEntitySet="Grave_Size">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Sizes" ColumnName="Sizes" />
@@ -1260,7 +1272,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Grave_Status">
-            <EntityTypeMapping TypeName="db_fypModel.Grave_Status">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Grave_Status">
               <MappingFragment StoreEntitySet="Grave_Status">
                 <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
                 <ScalarProperty Name="Status_Name" ColumnName="Status_Name" />
@@ -1268,7 +1280,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GraveDetails">
-            <EntityTypeMapping TypeName="db_fypModel.GraveDetail">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.GraveDetail">
               <MappingFragment StoreEntitySet="GraveDetail">
                 <ScalarProperty Name="GraveDetail_ID" ColumnName="GraveDetail_ID" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
@@ -1285,7 +1297,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentCards">
-            <EntityTypeMapping TypeName="db_fypModel.PaymentCard">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.PaymentCard">
               <MappingFragment StoreEntitySet="PaymentCard">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
@@ -1296,7 +1308,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="db_fypModel.Product">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
@@ -1306,7 +1318,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Purchases">
-            <EntityTypeMapping TypeName="db_fypModel.Purchase">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PurchaseNo" ColumnName="PurchaseNo" />
@@ -1326,7 +1338,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseDetails">
-            <EntityTypeMapping TypeName="db_fypModel.PurchaseDetail">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.PurchaseDetail">
               <MappingFragment StoreEntitySet="PurchaseDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
@@ -1342,7 +1354,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseReturns">
-            <EntityTypeMapping TypeName="db_fypModel.PurchaseReturn">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.PurchaseReturn">
               <MappingFragment StoreEntitySet="PurchaseReturn">
                 <ScalarProperty Name="PurchaseReturnID" ColumnName="PurchaseReturnID" />
                 <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
@@ -1355,7 +1367,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseReturnDetails">
-            <EntityTypeMapping TypeName="db_fypModel.PurchaseReturnDetail">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.PurchaseReturnDetail">
               <MappingFragment StoreEntitySet="PurchaseReturnDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PurchaseReturnId" ColumnName="PurchaseReturnId" />
@@ -1371,7 +1383,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Quotations">
-            <EntityTypeMapping TypeName="db_fypModel.Quotation">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Quotation">
               <MappingFragment StoreEntitySet="Quotation">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
@@ -1386,7 +1398,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="QuotationDetails">
-            <EntityTypeMapping TypeName="db_fypModel.QuotationDetail">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.QuotationDetail">
               <MappingFragment StoreEntitySet="QuotationDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="QuotationId" ColumnName="QuotationId" />
@@ -1401,17 +1413,23 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleOrders">
-            <EntityTypeMapping TypeName="db_fypModel.SaleOrder">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.SaleOrder">
               <MappingFragment StoreEntitySet="SaleOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="DeceasedPerson" ColumnName="DeceasedPerson" />
+                <ScalarProperty Name="DeceasedCnic" ColumnName="DeceasedCnic" />
+                <ScalarProperty Name="ReasonOfDeath" ColumnName="ReasonOfDeath" />
+                <ScalarProperty Name="DateofDeath" ColumnName="DateofDeath" />
+                <ScalarProperty Name="DeceasedDateofBirth" ColumnName="DeceasedDateofBirth" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sections">
-            <EntityTypeMapping TypeName="db_fypModel.Section">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Section">
               <MappingFragment StoreEntitySet="Section">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Section1" ColumnName="Section" />
@@ -1419,7 +1437,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StockLogs">
-            <EntityTypeMapping TypeName="db_fypModel.StockLog">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.StockLog">
               <MappingFragment StoreEntitySet="StockLog">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
@@ -1432,7 +1450,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="db_fypModel.sysdiagram">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1443,7 +1461,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
-            <EntityTypeMapping TypeName="db_fypModel.Vendor">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
                 <ScalarProperty Name="Vendor_ID" ColumnName="Vendor_ID" />
                 <ScalarProperty Name="Vendor_Name" ColumnName="Vendor_Name" />

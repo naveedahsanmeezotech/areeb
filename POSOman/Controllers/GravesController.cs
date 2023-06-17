@@ -68,6 +68,10 @@ namespace MangoERP.Controllers
                 od.CustomerId = dataS.customer_ID;
                 od.DeliveryDate = dataS.GraveDetail.DeliveryDate;
                 od.OrderDate = dataS.GraveDetail.OrderDate;
+                od.DateofDeath = dataS.GraveDetail.DateofDeath;
+                od.DeceasedCnic = dataS.GraveDetail.DeceasedCnic;
+                od.DeceasedDateofBirth = dataS.GraveDetail.DeceasedDateofBirth;
+                od.DeceasedPerson = dataS.GraveDetail.DeceasedPerson;
                 db.SaleOrders.Add(od);
 
                 db.SaveChanges();
