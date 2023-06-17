@@ -145,12 +145,12 @@
                     <li class="has-sub">
                         <a href="#" class="menu-item">Grave</a>
                         <ul class="menu-content">
-@if (User.IsInRole("Admin"))
-{
-                            <li>
-                                <a href="/Graves/Create" class="menu-item">Create</a>
-                            </li>
-}
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a href="/Graves/Create" class="menu-item">Create</a>
+                                </li>
+                            }
                             <li>
                                 <a href="/Graves/Index" class="menu-item">List</a>
                             </li>
@@ -159,74 +159,89 @@
                             </li>
                         </ul>
                     </li>
-@if (User.IsInRole("Admin"))
-{ 
-                    <li class="has-sub">
-                        <a href="#" class="menu-item">Customer</a>
-                        <ul class="menu-content">
-                            <li>
-                                <a href="/Customers/Index" class="menu-item">Index</a>
-                            </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="#" class="menu-item">Customer</a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="/Customers/Index" class="menu-item">Index</a>
+                                </li>
 
-                        </ul>
-                    </li>
-}
-@if (User.IsInRole("Admin")) { 
-                    <li class="has-sub">
-                        <a href="#" class="menu-item">Vendor</a>
-                        <ul class="menu-content">
-                            <li>
-                                <a href="@Url.Action("Create", "Vendors")" class="menu-item">Create</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Vendors")" class="menu-item">List</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="has-sub">
-                        <a href="#" class="menu-item">Product</a>
-                        <ul class="menu-content">
-                            <li>
-                                <a href="@Url.Action("Create", "Products")" class="menu-item">Create</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Products")" class="menu-item">List</a>
-                            </li>
-
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
                     }
-@if (User.IsInRole("Admin"))
-{
-                    <li class="has-sub">
-                        <a href="#" class="menu-item">Inventory</a>
-                        <ul class="menu-content">
-                            <li>
-                                <a href="@Url.Action("Create", "Purchase")" class="menu-item">Create</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Purchase")" class="menu-item">List</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("IndexList", "Purchase")" class="menu-item">Purchase List</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("GRIndexList", "Purchase")" class="menu-item">GR List</a>
-                            </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="#" class="menu-item">Vendor</a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="@Url.Action("Create", "Vendors")" class="menu-item">Create</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Vendors")" class="menu-item">List</a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li>
-                                <a href="@Url.Action("Index1", "PurchaseReturn")" class="menu-item">PurchaseReturn</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Stock")" class="menu-item">Stock </a>
-                            </li>
-                             <li>
-                                 <a href="@Url.Action("GraveReport", "Reports")" class="menu-item">Grave Report </a>
-                            </li>
-                        </ul>
-                    </li>
-}
+                        <li class="has-sub">
+                            <a href="#" class="menu-item">Product</a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="@Url.Action("Create", "Products")" class="menu-item">Create</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Products")" class="menu-item">List</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="#" class="menu-item">Inventory</a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a href="@Url.Action("Create", "Purchase")" class="menu-item">Create</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Purchase")" class="menu-item">List</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("IndexList", "Purchase")" class="menu-item">Purchase List</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("GRIndexList", "Purchase")" class="menu-item">GR List</a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index1", "PurchaseReturn")" class="menu-item">PurchaseReturn</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Stock")" class="menu-item">Stock </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="#" class="menu-item">Report</a>
+                            <ul class="menu-content">
+                                
+                                <li>
+                                    <a href="@Url.Action("GraveReport", "Reports")" class="menu-item">Grave Report </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Report1", "Reports")" class="menu-item">Deceased Report </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
 

@@ -16,6 +16,10 @@ namespace MangoERP.Controllers
         {
             return View();
         }
+        public ActionResult Report1()
+        {
+            return View(db.GraveDetails.ToList());
+        }
         [HttpPost]
         public JsonResult Grave(string GraveId)
         {
