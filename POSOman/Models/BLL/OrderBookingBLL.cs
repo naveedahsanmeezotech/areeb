@@ -261,6 +261,7 @@ namespace MangoERP.Models.BLL
                         sl.StockIn = item.Qty;
                         sl.Status = 1;
                         sl.Description = item.Description;
+                        sl.StockOut = 0;
 
                         db.StockLogs.Add(sl);
                         db.SaveChanges();
