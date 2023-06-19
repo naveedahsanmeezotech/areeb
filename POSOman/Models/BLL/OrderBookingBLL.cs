@@ -258,7 +258,7 @@ namespace MangoERP.Models.BLL
                         StockLog sl = new StockLog();
                         sl.MaterailId = item.MaterailId;
                         sl.MaterailName = item.MaterailName;
-                        sl.StockIn -= item.Qty;
+                        sl.StockIn = item.Qty;
                         sl.Status = 1;
                         sl.Description = item.Description;
 
