@@ -242,7 +242,7 @@ namespace MangoERP.Controllers
                                 db.Entry(Slab).State = EntityState.Modified;
                                 db.SaveChanges();
                             }
-
+                           
                         }
                         gd.Status = "Booked";
                     }
