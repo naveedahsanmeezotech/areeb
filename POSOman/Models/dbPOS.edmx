@@ -256,11 +256,11 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaterailId" Type="int" />
-          <Property Name="MaterailName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaterailName" Type="nvarchar(max)" />
           <Property Name="StockIn" Type="int" />
           <Property Name="StockOut" Type="int" />
           <Property Name="Status" Type="int" />
-          <Property Name="Description" Type="nchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -712,7 +712,7 @@
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Product" FromRole="Product" ToRole="PurchaseDetail" />
           <NavigationProperty Name="PurchaseReturnDetails" Relationship="Self.FK_PurchaseReturnDetail_Product" FromRole="Product" ToRole="PurchaseReturnDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
-          <NavigationProperty Name="StockLogs" Relationship="Self.FK_StockLog_Product" FromRole="Product" ToRole="StockLog" />
+          <NavigationProperty Name="StockLogs" Relationship="db_fyp_areebModel.FK_StockLog_Product" FromRole="Product" ToRole="StockLog" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -836,19 +836,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Section1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="StockLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaterailId" Type="Int32" />
-          <Property Name="MaterailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StockIn" Type="Int32" />
-          <Property Name="StockOut" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_StockLog_Product" FromRole="StockLog" ToRole="Product" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1000,18 +987,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StockLog_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="StockLog" Type="Self.StockLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockLog">
-              <PropertyRef Name="MaterailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PurchaseDetail_Purchase">
           <End Role="Purchase" Type="Self.Purchase" Multiplicity="1" />
           <End Role="PurchaseDetail" Type="Self.PurchaseDetail" Multiplicity="*" />
@@ -1092,7 +1067,6 @@
           <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetail" />
           <EntitySet Name="SaleOrders" EntityType="Self.SaleOrder" />
           <EntitySet Name="Sections" EntityType="Self.Section" />
-          <EntitySet Name="StockLogs" EntityType="Self.StockLog" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -1135,10 +1109,6 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_StockLog_Product" Association="Self.FK_StockLog_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StockLog" EntitySet="StockLogs" />
-          </AssociationSet>
           <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="Self.FK_PurchaseDetail_Purchase">
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
@@ -1160,6 +1130,11 @@
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
           <EntitySet Name="PaymentCards" EntityType="db_fyp_areebModel.PaymentCard" />
+          <EntitySet Name="StockLogs" EntityType="db_fyp_areebModel.StockLog" />
+          <AssociationSet Name="FK_StockLog_Product" Association="db_fyp_areebModel.FK_StockLog_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StockLog" EntitySet="StockLogs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="PaymentCard">
           <Key>
@@ -1173,6 +1148,31 @@
           <Property Name="Year" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="cvc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="StockLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="MaterailName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StockIn" Type="Int32" />
+          <Property Name="StockOut" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="db_fyp_areebModel.FK_StockLog_Product" FromRole="StockLog" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_StockLog_Product">
+          <End Type="db_fyp_areebModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="db_fyp_areebModel.StockLog" Role="StockLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockLog">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1428,19 +1428,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StockLogs">
-            <EntityTypeMapping TypeName="db_fyp_areebModel.StockLog">
-              <MappingFragment StoreEntitySet="StockLog">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
-                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
-                <ScalarProperty Name="StockIn" ColumnName="StockIn" />
-                <ScalarProperty Name="StockOut" ColumnName="StockOut" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="db_fyp_areebModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1474,6 +1461,19 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockLogs">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.StockLog">
+              <MappingFragment StoreEntitySet="StockLog">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StockOut" ColumnName="StockOut" />
+                <ScalarProperty Name="StockIn" ColumnName="StockIn" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

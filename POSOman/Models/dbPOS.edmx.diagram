@@ -24,7 +24,6 @@
         <EntityTypeShape EntityType="db_fyp_areebModel.QuotationDetail" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fyp_areebModel.SaleOrder" Width="1.5" PointX="11" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fyp_areebModel.Section" Width="1.5" PointX="10.75" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="db_fyp_areebModel.StockLog" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fyp_areebModel.sysdiagram" Width="1.5" PointX="10.75" PointY="14" IsExpanded="true" />
         <EntityTypeShape EntityType="db_fyp_areebModel.Vendor" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="db_fyp_areebModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -37,13 +36,14 @@
         <AssociationConnector Association="db_fyp_areebModel.FK_PurchaseDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_PurchaseReturnDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_QuotationDetail_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="db_fyp_areebModel.FK_StockLog_Product" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_PurchaseDetail_Purchase" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FKPurchase_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_PurchaseReturnDetails_PurchaseReturns" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_Quotation_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="db_fyp_areebModel.FK_QuotationDetail_Quotation" ManuallyRouted="false" />
         <EntityTypeShape EntityType="db_fyp_areebModel.PaymentCard" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="db_fyp_areebModel.StockLog" Width="1.5" PointX="3" PointY="16.875" />
+        <AssociationConnector Association="db_fyp_areebModel.FK_StockLog_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

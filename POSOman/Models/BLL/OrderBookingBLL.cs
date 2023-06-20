@@ -173,15 +173,25 @@ namespace MangoERP.Models.BLL
                     }
                     else
                     {
-                        StockLog sl = new StockLog();
-                        sl.MaterailId = item.MaterailId;
-                        sl.MaterailName = item.MaterailName;
-                        sl.StockIn = item.Qty;
-                        sl.Status = 1;
-                        sl.Description = item.Description;
+                        try
+                        {
+                            StockLog swl = new StockLog();
+                            swl.MaterailId = item.MaterailId;
+                            swl.MaterailName = item.MaterailName;
+                            swl.StockIn = item.Qty;
+                            swl.StockOut = 0;
+                            swl.Status = 1;
+                            swl.Description = item.Description;
 
-                        db.StockLogs.Add(sl);
-                        db.SaveChanges();
+                            db.StockLogs.Add(swl);
+                            db.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+
+                            throw;
+                        }
+                        
                     }
                 }
 
