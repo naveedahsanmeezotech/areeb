@@ -45,7 +45,7 @@ namespace MangoERP.Controllers
             }
             else
             {
-                var graves = db.Graves.Where(p=>p.Grave_Status_Id==1).ToList();
+                var graves = db.Graves.ToList();
                 return View(graves.ToList());
             }
          
