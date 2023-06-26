@@ -32,7 +32,7 @@ namespace MangoERP.Models
         public Nullable<int> GR { get; set; }
         public Nullable<System.DateTime> DocumnetDate { get; set; }
         public Nullable<System.DateTime> PostingDate { get; set; }
-        public bool IsReturned { get; set; }
+        public Nullable<bool> IsReturned { get; set; }
         public bool IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

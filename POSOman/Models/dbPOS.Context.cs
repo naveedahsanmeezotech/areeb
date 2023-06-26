@@ -42,11 +42,11 @@ namespace MangoERP.Models
         public virtual DbSet<PurchaseReturnDetail> PurchaseReturnDetails { get; set; }
         public virtual DbSet<Quotation> Quotations { get; set; }
         public virtual DbSet<QuotationDetail> QuotationDetails { get; set; }
-        public virtual DbSet<SaleOrder> SaleOrders { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<PaymentCard> PaymentCards { get; set; }
         public virtual DbSet<StockLog> StockLogs { get; set; }
+        public virtual DbSet<SaleOrder> SaleOrders { get; set; }
     }
 }

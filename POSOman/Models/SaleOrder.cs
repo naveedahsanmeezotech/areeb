@@ -24,7 +24,9 @@ namespace MangoERP.Models
         public Nullable<System.DateTime> DeceasedDateofBirth { get; set; }
         public string Status { get; set; }
         public Nullable<int> CustomerId { get; set; }
+        public Nullable<int> GraveId { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual Grave Grave { get; set; }
     }
 }

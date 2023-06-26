@@ -73,6 +73,7 @@ namespace MangoERP.Controllers
                 od.DeceasedDateofBirth = dataS.GraveDetail.DeceasedDateofBirth;
                 od.DeceasedPerson = dataS.GraveDetail.DeceasedPerson;
                 od.ReasonOfDeath = dataS.GraveDetail.ReasonOfDeath;
+                od.GraveId = dataS.GraveDetail.GraveId;
                 db.SaleOrders.Add(od);
 
                 db.SaveChanges();

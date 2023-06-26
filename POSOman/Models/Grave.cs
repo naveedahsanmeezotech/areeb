@@ -18,6 +18,7 @@ namespace MangoERP.Models
         public Grave()
         {
             this.GraveDetails = new HashSet<GraveDetail>();
+            this.SaleOrders = new HashSet<SaleOrder>();
         }
     
         public int Id { get; set; }
@@ -27,5 +28,7 @@ namespace MangoERP.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GraveDetail> GraveDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleOrder> SaleOrders { get; set; }
     }
 }
