@@ -33,6 +33,7 @@ namespace MangoERP.Models
         public Nullable<System.DateTime> date_of_birth { get; set; }
         public string UserId { get; set; }
     
+        public virtual Deceased Deceased { get; set; }
         public virtual GraveDetail GraveDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleOrder> SaleOrders { get; set; }

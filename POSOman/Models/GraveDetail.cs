@@ -17,14 +17,11 @@ namespace MangoERP.Models
         public int GraveDetail_ID { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
-        public string DeceasedPerson { get; set; }
-        public string DeceasedCnic { get; set; }
-        public string ReasonOfDeath { get; set; }
-        public Nullable<System.DateTime> DateofDeath { get; set; }
-        public Nullable<System.DateTime> DeceasedDateofBirth { get; set; }
         public string Status { get; set; }
         public Nullable<int> GraveId { get; set; }
         public Nullable<int> GraveSizeId { get; set; }
+        public Nullable<System.DateTime> DateofDeath { get; set; }
+        public Nullable<System.DateTime> DeceasedDateofBirth { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Grave Grave { get; set; }

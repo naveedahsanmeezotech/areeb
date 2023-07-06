@@ -69,10 +69,15 @@ namespace MangoERP.Controllers
                 od.DeliveryDate = dataS.GraveDetail.DeliveryDate;
                 od.OrderDate = dataS.GraveDetail.OrderDate;
                 od.DateofDeath = dataS.GraveDetail.DateofDeath;
-                od.DeceasedCnic = dataS.GraveDetail.DeceasedCnic;
                 od.DeceasedDateofBirth = dataS.GraveDetail.DeceasedDateofBirth;
-                od.DeceasedPerson = dataS.GraveDetail.DeceasedPerson;
-                od.ReasonOfDeath = dataS.GraveDetail.ReasonOfDeath;
+
+                if (dataS.GraveDetail.Status != "Reserved")
+                {
+                   od.DeceasedCnic = dataS.Deceased.DeceasedCnic;
+                    od.DeceasedPerson = dataS.Deceased.DeceasedPerson;
+                    od.ReasonOfDeath = dataS.Deceased.ReasonOfDeath;
+
+                }
                 od.GraveId = dataS.GraveDetail.GraveId;
                 db.SaleOrders.Add(od);
 

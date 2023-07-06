@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="db_fyp_areebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="db_fyp_areebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -75,6 +75,15 @@
           <Property Name="date_of_birth" Type="date" />
           <Property Name="UserId" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Deceased">
+          <Key>
+            <PropertyRef Name="Deceased_Id" />
+          </Key>
+          <Property Name="Deceased_Id" Type="int" Nullable="false" />
+          <Property Name="DeceasedPerson" Type="varchar" MaxLength="50" />
+          <Property Name="DeceasedCnic" Type="varchar" MaxLength="50" />
+          <Property Name="ReasonOfDeath" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Grave">
           <Key>
             <PropertyRef Name="Id" />
@@ -109,14 +118,11 @@
           <Property Name="GraveDetail_ID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="date" />
           <Property Name="OrderDate" Type="date" />
-          <Property Name="DeceasedPerson" Type="varchar" MaxLength="50" />
-          <Property Name="DeceasedCnic" Type="varchar" MaxLength="50" />
-          <Property Name="ReasonOfDeath" Type="varchar" MaxLength="50" />
-          <Property Name="DateofDeath" Type="date" />
-          <Property Name="DeceasedDateofBirth" Type="date" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="GraveId" Type="int" />
           <Property Name="GraveSizeId" Type="int" />
+          <Property Name="DateofDeath" Type="date" />
+          <Property Name="DeceasedDateofBirth" Type="date" />
         </EntityType>
         <EntityType Name="PaymentCard">
           <Key>
@@ -351,6 +357,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Deceased_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Deceased" Type="Self.Deceased" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="customer_ID" />
+            </Principal>
+            <Dependent Role="Deceased">
+              <PropertyRef Name="Deceased_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GraveDetails_Customer1">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="GraveDetail" Type="Self.GraveDetail" Multiplicity="0..1" />
@@ -495,6 +513,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="db_fyp_areebModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -502,6 +551,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deceased" EntityType="Self.Deceased" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grave" EntityType="Self.Grave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grave_Size" EntityType="Self.Grave_Size" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" Schema="dbo" store:Type="Tables" />
@@ -538,6 +588,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deceased_Customer" Association="Self.FK_Deceased_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Deceased" EntitySet="Deceased" />
           </AssociationSet>
           <AssociationSet Name="FK_GraveDetails_Customer1" Association="Self.FK_GraveDetails_Customer1">
             <End Role="Customer" EntitySet="Customer" />
@@ -588,7 +642,8 @@
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="db_fyp_areebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -667,8 +722,19 @@
           <Property Name="cnic" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="date_of_birth" Type="DateTime" Precision="0" />
           <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Deceased" Relationship="Self.FK_Deceased_Customer" FromRole="Customer" ToRole="Deceased" />
           <NavigationProperty Name="GraveDetail" Relationship="Self.FK_GraveDetails_Customer1" FromRole="Customer" ToRole="GraveDetail" />
-          <NavigationProperty Name="SaleOrders" Relationship="db_fyp_areebModel.FK_SaleOrder_Customer" FromRole="Customer" ToRole="SaleOrder" />
+          <NavigationProperty Name="SaleOrders" Relationship="Self.FK_SaleOrder_Customer" FromRole="Customer" ToRole="SaleOrder" />
+        </EntityType>
+        <EntityType Name="Deceased">
+          <Key>
+            <PropertyRef Name="Deceased_Id" />
+          </Key>
+          <Property Name="Deceased_Id" Type="Int32" Nullable="false" />
+          <Property Name="DeceasedPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeceasedCnic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReasonOfDeath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Deceased_Customer" FromRole="Deceased" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Grave">
           <Key>
@@ -679,7 +745,7 @@
           <Property Name="Grave_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Grave_Status_Id" Type="Int32" />
           <NavigationProperty Name="GraveDetails" Relationship="Self.FK_Customer_Grave" FromRole="Grave" ToRole="GraveDetail" />
-          <NavigationProperty Name="SaleOrders" Relationship="db_fyp_areebModel.FK_SaleOrder_Grave" FromRole="Grave" ToRole="SaleOrder" />
+          <NavigationProperty Name="SaleOrders" Relationship="Self.FK_SaleOrder_Grave" FromRole="Grave" ToRole="SaleOrder" />
         </EntityType>
         <EntityType Name="Grave_Size">
           <Key>
@@ -707,17 +773,26 @@
           <Property Name="GraveDetail_ID" Type="Int32" Nullable="false" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
           <Property Name="OrderDate" Type="DateTime" Precision="0" />
-          <Property Name="DeceasedPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DeceasedCnic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReasonOfDeath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DateofDeath" Type="DateTime" Precision="0" />
-          <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GraveId" Type="Int32" />
           <Property Name="GraveSizeId" Type="Int32" />
+          <Property Name="DateofDeath" Type="DateTime" Precision="0" />
+          <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_GraveDetails_Customer1" FromRole="GraveDetail" ToRole="Customer" />
           <NavigationProperty Name="Grave" Relationship="Self.FK_Customer_Grave" FromRole="GraveDetail" ToRole="Grave" />
           <NavigationProperty Name="Grave_Size" Relationship="Self.FK_Customer_Grave_Size" FromRole="GraveDetail" ToRole="Grave_Size" />
+        </EntityType>
+        <EntityType Name="PaymentCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cvc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -730,7 +805,7 @@
           <NavigationProperty Name="PurchaseDetails" Relationship="Self.FK_PurchaseDetail_Product" FromRole="Product" ToRole="PurchaseDetail" />
           <NavigationProperty Name="PurchaseReturnDetails" Relationship="Self.FK_PurchaseReturnDetail_Product" FromRole="Product" ToRole="PurchaseReturnDetail" />
           <NavigationProperty Name="QuotationDetails" Relationship="Self.FK_QuotationDetail_Product" FromRole="Product" ToRole="QuotationDetail" />
-          <NavigationProperty Name="StockLogs" Relationship="db_fyp_areebModel.FK_StockLog_Product" FromRole="Product" ToRole="StockLog" />
+          <NavigationProperty Name="StockLogs" Relationship="Self.FK_StockLog_Product" FromRole="Product" ToRole="StockLog" />
         </EntityType>
         <EntityType Name="Purchase">
           <Key>
@@ -832,12 +907,43 @@
           <NavigationProperty Name="Product" Relationship="Self.FK_QuotationDetail_Product" FromRole="QuotationDetail" ToRole="Product" />
           <NavigationProperty Name="Quotation" Relationship="Self.FK_QuotationDetail_Quotation" FromRole="QuotationDetail" ToRole="Quotation" />
         </EntityType>
+        <EntityType Name="SaleOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="DeceasedPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DeceasedCnic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReasonOfDeath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateofDeath" Type="DateTime" Precision="0" />
+          <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="GraveId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_SaleOrder_Customer" FromRole="SaleOrder" ToRole="Customer" />
+          <NavigationProperty Name="Grave" Relationship="Self.FK_SaleOrder_Grave" FromRole="SaleOrder" ToRole="Grave" />
+        </EntityType>
         <EntityType Name="Section">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Section1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterailId" Type="Int32" />
+          <Property Name="MaterailName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StockIn" Type="Int32" />
+          <Property Name="StockOut" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_StockLog_Product" FromRole="StockLog" ToRole="Product" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -905,6 +1011,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Deceased_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Deceased" Type="Self.Deceased" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="customer_ID" />
+            </Principal>
+            <Dependent Role="Deceased">
+              <PropertyRef Name="Deceased_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GraveDetails_Customer1">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="GraveDetail" Type="Self.GraveDetail" Multiplicity="0..1" />
@@ -917,6 +1035,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SaleOrder_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="customer_ID" />
+            </Principal>
+            <Dependent Role="SaleOrder">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Customer_Grave">
           <End Role="Grave" Type="Self.Grave" Multiplicity="0..1" />
           <End Role="GraveDetail" Type="Self.GraveDetail" Multiplicity="*" />
@@ -925,6 +1055,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="GraveDetail">
+              <PropertyRef Name="GraveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SaleOrder_Grave">
+          <End Role="Grave" Type="Self.Grave" Multiplicity="0..1" />
+          <End Role="SaleOrder" Type="Self.SaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SaleOrder">
               <PropertyRef Name="GraveId" />
             </Dependent>
           </ReferentialConstraint>
@@ -973,6 +1115,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="QuotationDetail">
+              <PropertyRef Name="MaterailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockLog_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="StockLog" Type="Self.StockLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockLog">
               <PropertyRef Name="MaterailId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1044,10 +1198,12 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Deceaseds" EntityType="Self.Deceased" />
           <EntitySet Name="Graves" EntityType="Self.Grave" />
           <EntitySet Name="Grave_Size" EntityType="Self.Grave_Size" />
           <EntitySet Name="Grave_Status" EntityType="Self.Grave_Status" />
           <EntitySet Name="GraveDetails" EntityType="Self.GraveDetail" />
+          <EntitySet Name="PaymentCards" EntityType="Self.PaymentCard" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Purchases" EntityType="Self.Purchase" />
           <EntitySet Name="PurchaseDetails" EntityType="Self.PurchaseDetail" />
@@ -1055,7 +1211,9 @@
           <EntitySet Name="PurchaseReturnDetails" EntityType="Self.PurchaseReturnDetail" />
           <EntitySet Name="Quotations" EntityType="Self.Quotation" />
           <EntitySet Name="QuotationDetails" EntityType="Self.QuotationDetail" />
+          <EntitySet Name="SaleOrders" EntityType="Self.SaleOrder" />
           <EntitySet Name="Sections" EntityType="Self.Section" />
+          <EntitySet Name="StockLogs" EntityType="Self.StockLog" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -1070,13 +1228,25 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_Deceased_Customer" Association="Self.FK_Deceased_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Deceased" EntitySet="Deceaseds" />
+          </AssociationSet>
           <AssociationSet Name="FK_GraveDetails_Customer1" Association="Self.FK_GraveDetails_Customer1">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="GraveDetail" EntitySet="GraveDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_SaleOrder_Customer" Association="Self.FK_SaleOrder_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="SaleOrder" EntitySet="SaleOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Customer_Grave" Association="Self.FK_Customer_Grave">
             <End Role="Grave" EntitySet="Graves" />
             <End Role="GraveDetail" EntitySet="GraveDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SaleOrder_Grave" Association="Self.FK_SaleOrder_Grave">
+            <End Role="Grave" EntitySet="Graves" />
+            <End Role="SaleOrder" EntitySet="SaleOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_Grave_Size" Association="Self.FK_Customer_Grave_Size">
             <End Role="Grave_Size" EntitySet="Grave_Size" />
@@ -1093,6 +1263,10 @@
           <AssociationSet Name="FK_QuotationDetail_Product" Association="Self.FK_QuotationDetail_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockLog_Product" Association="Self.FK_StockLog_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="StockLog" EntitySet="StockLogs" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseDetail_Purchase" Association="Self.FK_PurchaseDetail_Purchase">
             <End Role="Purchase" EntitySet="Purchases" />
@@ -1114,101 +1288,48 @@
             <End Role="Quotation" EntitySet="Quotations" />
             <End Role="QuotationDetail" EntitySet="QuotationDetails" />
           </AssociationSet>
-          <EntitySet Name="PaymentCards" EntityType="db_fyp_areebModel.PaymentCard" />
-          <EntitySet Name="StockLogs" EntityType="db_fyp_areebModel.StockLog" />
-          <AssociationSet Name="FK_StockLog_Product" Association="db_fyp_areebModel.FK_StockLog_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StockLog" EntitySet="StockLogs" />
-          </AssociationSet>
-          <EntitySet Name="SaleOrders" EntityType="db_fyp_areebModel.SaleOrder" />
-          <AssociationSet Name="FK_SaleOrder_Customer" Association="db_fyp_areebModel.FK_SaleOrder_Customer">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="SaleOrder" EntitySet="SaleOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SaleOrder_Grave" Association="db_fyp_areebModel.FK_SaleOrder_Grave">
-            <End Role="Grave" EntitySet="Graves" />
-            <End Role="SaleOrder" EntitySet="SaleOrders" />
-          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(db_fyp_areebModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(db_fyp_areebModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <EntityType Name="PaymentCard">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Month" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="cvc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="StockLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MaterailId" Type="Int32" />
-          <Property Name="MaterailName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="StockIn" Type="Int32" />
-          <Property Name="StockOut" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="db_fyp_areebModel.FK_StockLog_Product" FromRole="StockLog" ToRole="Product" />
-        </EntityType>
-        <Association Name="FK_StockLog_Product">
-          <End Type="db_fyp_areebModel.Product" Role="Product" Multiplicity="0..1" />
-          <End Type="db_fyp_areebModel.StockLog" Role="StockLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockLog">
-              <PropertyRef Name="MaterailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SaleOrder">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
-          <Property Name="OrderDate" Type="DateTime" Precision="0" />
-          <Property Name="DeceasedPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DeceasedCnic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReasonOfDeath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DateofDeath" Type="DateTime" Precision="0" />
-          <Property Name="DeceasedDateofBirth" Type="DateTime" Precision="0" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerId" Type="Int32" />
-          <Property Name="GraveId" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="db_fyp_areebModel.FK_SaleOrder_Customer" FromRole="SaleOrder" ToRole="Customer" />
-          <NavigationProperty Name="Grave" Relationship="db_fyp_areebModel.FK_SaleOrder_Grave" FromRole="SaleOrder" ToRole="Grave" />
-        </EntityType>
-        <Association Name="FK_SaleOrder_Customer">
-          <End Type="db_fyp_areebModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="db_fyp_areebModel.SaleOrder" Role="SaleOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="customer_ID" />
-            </Principal>
-            <Dependent Role="SaleOrder">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SaleOrder_Grave">
-          <End Type="db_fyp_areebModel.Grave" Role="Grave" Multiplicity="0..1" />
-          <End Type="db_fyp_areebModel.SaleOrder" Role="SaleOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Grave">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SaleOrder">
-              <PropertyRef Name="GraveId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1288,6 +1409,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Deceaseds">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.Deceased">
+              <MappingFragment StoreEntitySet="Deceased">
+                <ScalarProperty Name="Deceased_Id" ColumnName="Deceased_Id" />
+                <ScalarProperty Name="DeceasedPerson" ColumnName="DeceasedPerson" />
+                <ScalarProperty Name="DeceasedCnic" ColumnName="DeceasedCnic" />
+                <ScalarProperty Name="ReasonOfDeath" ColumnName="ReasonOfDeath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Graves">
             <EntityTypeMapping TypeName="db_fyp_areebModel.Grave">
               <MappingFragment StoreEntitySet="Grave">
@@ -1324,14 +1455,24 @@
                 <ScalarProperty Name="GraveDetail_ID" ColumnName="GraveDetail_ID" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="DeceasedPerson" ColumnName="DeceasedPerson" />
-                <ScalarProperty Name="DeceasedCnic" ColumnName="DeceasedCnic" />
-                <ScalarProperty Name="ReasonOfDeath" ColumnName="ReasonOfDeath" />
-                <ScalarProperty Name="DateofDeath" ColumnName="DateofDeath" />
-                <ScalarProperty Name="DeceasedDateofBirth" ColumnName="DeceasedDateofBirth" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="GraveId" ColumnName="GraveId" />
                 <ScalarProperty Name="GraveSizeId" ColumnName="GraveSizeId" />
+                <ScalarProperty Name="DateofDeath" ColumnName="DateofDeath" />
+                <ScalarProperty Name="DeceasedDateofBirth" ColumnName="DeceasedDateofBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentCards">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.PaymentCard">
+              <MappingFragment StoreEntitySet="PaymentCard">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="cvc" ColumnName="cvc" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1440,11 +1581,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SaleOrders">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.SaleOrder">
+              <MappingFragment StoreEntitySet="SaleOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="DeceasedPerson" ColumnName="DeceasedPerson" />
+                <ScalarProperty Name="DeceasedCnic" ColumnName="DeceasedCnic" />
+                <ScalarProperty Name="ReasonOfDeath" ColumnName="ReasonOfDeath" />
+                <ScalarProperty Name="DateofDeath" ColumnName="DateofDeath" />
+                <ScalarProperty Name="DeceasedDateofBirth" ColumnName="DeceasedDateofBirth" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="GraveId" ColumnName="GraveId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Sections">
             <EntityTypeMapping TypeName="db_fyp_areebModel.Section">
               <MappingFragment StoreEntitySet="Section">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Section1" ColumnName="Section" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockLogs">
+            <EntityTypeMapping TypeName="db_fyp_areebModel.StockLog">
+              <MappingFragment StoreEntitySet="StockLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
+                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
+                <ScalarProperty Name="StockIn" ColumnName="StockIn" />
+                <ScalarProperty Name="StockOut" ColumnName="StockOut" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1472,49 +1643,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymentCards">
-            <EntityTypeMapping TypeName="db_fyp_areebModel.PaymentCard">
-              <MappingFragment StoreEntitySet="PaymentCard">
-                <ScalarProperty Name="cvc" ColumnName="cvc" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="db_fyp_areebModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="db_fyp_areebModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="db_fyp_areebModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="db_fyp_areebModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_fyp_areebModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="db_fyp_areebModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_fyp_areebModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="StockLogs">
-            <EntityTypeMapping TypeName="db_fyp_areebModel.StockLog">
-              <MappingFragment StoreEntitySet="StockLog">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="StockOut" ColumnName="StockOut" />
-                <ScalarProperty Name="StockIn" ColumnName="StockIn" />
-                <ScalarProperty Name="MaterailName" ColumnName="MaterailName" />
-                <ScalarProperty Name="MaterailId" ColumnName="MaterailId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SaleOrders">
-            <EntityTypeMapping TypeName="db_fyp_areebModel.SaleOrder">
-              <MappingFragment StoreEntitySet="SaleOrder">
-                <ScalarProperty Name="GraveId" ColumnName="GraveId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DeceasedDateofBirth" ColumnName="DeceasedDateofBirth" />
-                <ScalarProperty Name="DateofDeath" ColumnName="DateofDeath" />
-                <ScalarProperty Name="ReasonOfDeath" ColumnName="ReasonOfDeath" />
-                <ScalarProperty Name="DeceasedCnic" ColumnName="DeceasedCnic" />
-                <ScalarProperty Name="DeceasedPerson" ColumnName="DeceasedPerson" />
-                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="db_fyp_areebModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="db_fyp_areebModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

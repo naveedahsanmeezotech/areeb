@@ -124,9 +124,9 @@ namespace MangoERP.Controllers
                 {
                     if (customer.typedetail == "Booked")
                     {
-                        data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
-                        data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
-                        data.GraveDetail.ReasonOfDeath = customer.ReasonOfDeath;
+                        data.Deceased.DeceasedCnic = customer.DeceasedCnic;
+                        data.Deceased.DeceasedCnic = customer.DeceasedCnic;
+                        data.Deceased.ReasonOfDeath = customer.ReasonOfDeath;
                         data.GraveDetail.Status = "Booked";
 
                         grave.Grave_Status_Id = 2;
@@ -151,9 +151,9 @@ namespace MangoERP.Controllers
                 data.cnic = customer.cnic;
                 data.date_of_birth = customer.date_of_birth;
                 data.Creation_Date = DateTime.Now;
-                data.GraveDetail.DeceasedPerson = customer.DeceasedPerson;
-                data.GraveDetail.DeceasedCnic = customer.DeceasedCnic;
-                data.GraveDetail.ReasonOfDeath = customer.ReasonOfDeath;
+                data.Deceased.DeceasedPerson = customer.DeceasedPerson;
+                data.Deceased.DeceasedCnic = customer.DeceasedCnic;
+                data.Deceased.ReasonOfDeath = customer.ReasonOfDeath;
                 data.GraveDetail.DateofDeath = customer.DateofDeath;
                 data.GraveDetail.DeceasedDateofBirth = customer.DeceasedDateofBirth;
                 data.GraveDetail.Status = customer.Status;
@@ -206,9 +206,7 @@ namespace MangoERP.Controllers
                 {
                     if (customer.typedetail == "Booked")
                     {
-                        gd.DeceasedCnic = customer.DeceasedCnic;
-                        gd.DeceasedCnic = customer.DeceasedCnic;
-                        gd.ReasonOfDeath = customer.ReasonOfDeath;
+                      
                         gd.GraveSizeId = customer.GraveSizeId;
                         gd.GraveId = customer.GraveId;
 
@@ -265,9 +263,9 @@ namespace MangoERP.Controllers
 
                 gd.DeliveryDate = customer.DeliveryDate;
                 gd.OrderDate = DateTime.Now;
-                gd.DeceasedPerson = customer.DeceasedPerson;
-                gd.DeceasedCnic = customer.DeceasedCnic;
-                gd.ReasonOfDeath = customer.ReasonOfDeath;
+           //     gd.Deceased.DeceasedPerson = customer.DeceasedPerson;
+            //    gd.Deceased.DeceasedCnic = customer.DeceasedCnic;
+            //    gd.Deceased.ReasonOfDeath = customer.ReasonOfDeath;
                 gd.DateofDeath = customer.DateofDeath;
                 gd.DeceasedDateofBirth = customer.DeceasedDateofBirth;
              //   gd.GraveSizeId = customer.DeceasedDateofBirth;
@@ -284,6 +282,14 @@ namespace MangoERP.Controllers
                 {
                     if (customer.typedetail == "Booked")
                     {
+
+                        Deceased dec = new Deceased();
+                        dec.Deceased_Id = po.customer_ID;
+                        dec.DeceasedCnic = customer.DeceasedCnic;
+                        dec.DeceasedPerson = customer.DeceasedPerson;
+                        dec.ReasonOfDeath = customer.ReasonOfDeath;
+                        db.Deceaseds.Add(dec);
+                        db.SaveChanges();
 
                         data.Grave_Status_Id = 2;
 
@@ -361,30 +367,57 @@ namespace MangoERP.Controllers
                 }
                 Customer customer = db.Customers.Where(o => o.customer_ID == id).FirstOrDefault();
                 var objec = customer.Contact;
-
-              
-                return Json(new
+                if (customer.GraveDetail.Status == "Reserved")
                 {
-                   first_name = customer.first_name,
-                   last_name = customer.last_name,
-                   Address = customer.Address,
-                   Contact = customer.Contact,
-                   Email = customer.Email,
-                   city = customer.city,
-                   country = customer.country,
-                   cnic = customer.cnic,
-                   date_of_birth = customer.date_of_birth.ToString(),
-                    DeceasedPerson = customer.GraveDetail.DeceasedPerson,
-                    DeceasedCnic = customer.GraveDetail.DeceasedCnic,
-                    ReasonOfDeath = customer.GraveDetail.ReasonOfDeath,
-                    DeliveryDate = customer.GraveDetail.DeliveryDate.ToString(),
-                    DateofDeath = customer.GraveDetail.DateofDeath.ToString(),
-                    DeceasedDateofBirth = customer.GraveDetail.DeceasedDateofBirth.ToString(),
+                    return Json(new
+                    {
+                        first_name = customer.first_name,
+                        last_name = customer.last_name,
+                        Address = customer.Address,
+                        Contact = customer.Contact,
+                        Email = customer.Email,
+                        city = customer.city,
+                        country = customer.country,
+                        cnic = customer.cnic,
+                        date_of_birth = customer.date_of_birth.ToString(),
+                        DeceasedPerson = "",
+                        DeceasedCnic = "",
+                        ReasonOfDeath = "",
+                        DeliveryDate = customer.GraveDetail.DeliveryDate.ToString(),
+                        DateofDeath = customer.GraveDetail.DateofDeath.ToString(),
+                        DeceasedDateofBirth = customer.GraveDetail.DeceasedDateofBirth.ToString(),
 
 
 
 
-                }, JsonRequestBehavior.AllowGet);
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+
+                    return Json(new
+                    {
+                        first_name = customer.first_name,
+                        last_name = customer.last_name,
+                        Address = customer.Address,
+                        Contact = customer.Contact,
+                        Email = customer.Email,
+                        city = customer.city,
+                        country = customer.country,
+                        cnic = customer.cnic,
+                        date_of_birth = customer.date_of_birth.ToString(),
+                        DeceasedPerson = customer.Deceased.DeceasedPerson,
+                        DeceasedCnic = customer.Deceased.DeceasedCnic,
+                        ReasonOfDeath = customer.Deceased.ReasonOfDeath,
+                        DeliveryDate = customer.GraveDetail.DeliveryDate.ToString(),
+                        DateofDeath = customer.GraveDetail.DateofDeath.ToString(),
+                        DeceasedDateofBirth = customer.GraveDetail.DeceasedDateofBirth.ToString(),
+
+
+
+
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception ex)
             {
