@@ -242,6 +242,7 @@ namespace MangoERP.Controllers
                             }
                            
                         }
+
                         gd.Status = "Booked";
                     }
                     else if (customer.typedetail == "Reserved")
