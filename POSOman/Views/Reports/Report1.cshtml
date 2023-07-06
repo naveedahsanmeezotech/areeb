@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MangoERP.Models.GraveDetail>
+﻿@model IEnumerable<MangoERP.Models.Customer>
 
 @{
     ViewBag.Title = "Index";
@@ -35,19 +35,19 @@
                                     {
                                         <tr>
                                             <td>@{
-                                                string data = item.Customer.first_name + " " + item.Customer.last_name;
+                                                string data = item.first_name + " " + item.last_name;
                                             }
                                                @data
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.DeceasedPerson)
+                                                @Html.DisplayFor(modelItem => item.Deceased.DeceasedPerson)
                                             </td>
 
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Grave.Grave_Name)
+                                                @Html.DisplayFor(modelItem => item.GraveDetail.Grave.Grave_Name)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.OrderDate)
+                                                @Html.DisplayFor(modelItem => item.GraveDetail.OrderDate)
                                             </td>
                                             
                                         </tr>

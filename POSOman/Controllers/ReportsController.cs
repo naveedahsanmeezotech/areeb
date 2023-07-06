@@ -18,7 +18,7 @@ namespace MangoERP.Controllers
         }
         public ActionResult Report1()
         {
-            return View(db.GraveDetails.ToList());
+            return View(db.Customers.ToList());
         }
         [HttpPost]
         public JsonResult Grave(string GraveId)
